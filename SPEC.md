@@ -12,8 +12,8 @@
    - [Block declarations](#block-declarations)
      - [`include`](#include)
      - [`block-start`](#block-start)
-     - [Parenting](#parenting)
      - [`block-end`](#block-end)
+     - [Parenting](#parenting)
 
 ### Introduction
 
@@ -239,6 +239,15 @@ snippets._
   <!-- @block-start block-with-two-classes .class1.class2 -->
   ```
 
+##### `block-end`
+
+- To close a block, simply add a meta block with the block-end declaration.\
+  Blocks with this declaration must only contain that declaration and nothing
+  else.
+  ```md
+  <!-- @block-end my-special-block -->
+  ```
+
 ##### Parenting
 
 - To mark a block as a child of another block, (ie, that block will be included
@@ -256,14 +265,9 @@ snippets._
   ```md
   <!-- @block-start child ^parent -->
   ```
-
-##### `block-end`
-
-- To close a block, simply add a meta block with the block-end declaration.\
-  Blocks with this declaration must only contain that declaration and nothing
-  else.\
   Every standard Markdown construct between a`block-start` and a `block-end`
-  declaration will be treated as a child of that block.\
+  declaration will be treated as a child of the block those declarations
+  enclose.\
   Finally, blocks within these boundaries that don't specify the `block-parent`
   declaration will also be treated as a child of this block.
 
