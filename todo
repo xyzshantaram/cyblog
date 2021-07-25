@@ -1,0 +1,8 @@
+MVP:
+First parser implementation
+
+FUTURE:
+
+* Support for templating (inserting current date, time)
+* Syntax highlighting
+* footnotes
