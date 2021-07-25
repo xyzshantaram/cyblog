@@ -20,7 +20,8 @@ cyblog {SOURCEDIR|SOURCEFILE.cyb} [options]
   - `SOURCEFILE-dist.html` (in case of a file)
   - `SOURCEDIR-dist` (in case of a directory)
 - `-s`, `--include-style` The name of a stylesheet to include into the final
-  document that will be built.
+  document that will be built. Functions the same as the `apply-style`
+  declaration.
 
 ### Contributing
 
