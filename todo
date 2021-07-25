@@ -1,6 +1,9 @@
 MVP:
 First parser implementation
 
+SPEC:
+add markdown syntax guide
+
 FUTURE:
 
 * Support for templating (inserting current date, time)
