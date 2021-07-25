@@ -7,6 +7,8 @@ Cybernetically enhanced static site generation.
 Cyblog operates on either single pages or entire directories, converting the
 Cyblog markup into HTML.
 
+[Read the spec](SPEC.md) to learn more about Cyblog markup!
+
 You can invoke Cyblog with:
 
 ```
