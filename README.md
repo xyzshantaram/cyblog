@@ -12,7 +12,7 @@ Cyblog markup into HTML.
 You can invoke Cyblog with:
 
 ```
-cyblog {SOURCEDIR|SOURCEFILE.cyb} [options]
+cyblog {SOURCEDIR|SOURCEFILE.cyblog} [options]
 ```
 
 #### Options:
@@ -21,7 +21,7 @@ cyblog {SOURCEDIR|SOURCEFILE.cyb} [options]
   If this is not supplied, Cyblog will use a name from:
   - `SOURCEFILE-dist.html` (in case of a file)
   - `SOURCEDIR-dist` (in case of a directory)
-- `-s`, `--include-style` The name of a stylesheet to include into the final
+- `-a`, `--apply-style` The name of a stylesheet to include into the final
   document that will be built. Functions the same as the `apply-style`
   declaration.
 

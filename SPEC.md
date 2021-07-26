@@ -204,7 +204,7 @@ A block is a Cyblog object that gets translated to a div.
 
   ```md
   <!-- cyblog-meta
-  @include header.cyb
+  @include header.cyblog
   -->
   ```
 
