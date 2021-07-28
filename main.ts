@@ -254,6 +254,7 @@ async function parse(toParse: string, args: CyblogBuildArgs): Promise<string> {
     let doc = DOCTYPE + HTML_OPEN;
     doc += createElementWithAttrs('head', {});
     doc += createElementWithAttrs('meta', { charset: 'UTF-8' });
+    doc += createElementWithAttrs('meta', { name: 'viewport', content: "width=device-width, initial-scale=1.0" });
     doc += createElementWithAttrs('title', {});
     doc += title + '\n';
     doc += createClosingTag('title');

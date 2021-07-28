@@ -1,0 +1,29 @@
+html {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+body {
+    font-family: sans-serif;
+    line-height: 1.6;
+    overflow: auto;
+}
+
+blockquote {
+    margin-left: 1rem;
+    padding: 0.5rem;
+    background-color: #efefef;
+    border-left: 0.5rem solid rgb(207, 207, 207);
+}
+
+pre {
+    background-color: #eeeeee;
+    padding: 0.5rem;
+    border-radius: 0.25em;
+    overflow: scroll;
+}
+
+::-webkit-scrollbar {
+
+}

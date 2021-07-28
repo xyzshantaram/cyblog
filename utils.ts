@@ -66,5 +66,5 @@ export function createElementWithAttrs(name: string, args: Record<string, unknow
 }
 
 export function createClosingTag(name: string) {
-    return `<${name}/>`
+    return `</${name}>`
 }
