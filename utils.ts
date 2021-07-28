@@ -20,6 +20,14 @@ export function getFileName(name: string, type: string) {
     return name.slice(undefined, name.length - type.length);
 }
 
+export function getExtension(name: string): string | null {
+    const idx = name.lastIndexOf('.');
+    if (idx) {
+        return name.slice(idx);
+    }
+    return null;
+}
+
 export async function getType(path: Path) {
     if ((await Deno.stat(path)).isFile) return PathTypes.File;
     return PathTypes.Directory;
@@ -45,4 +53,17 @@ export function getConfigDir(): string | null {
     }
 
     return null;
+}
+
+export function createElementWithAttrs(name: string, args: Record<string, unknown>) {
+    let tagString = `<${name}`
+    for (const key in args) {
+        tagString += ` ${key}="${args[key]}"`
+    }
+    tagString += '>';
+    return tagString;
+}
+
+export function createClosingTag(name: string) {
+    return `<${name}/>`
 }
