@@ -1,0 +1,79 @@
+<!-- cyblog-meta
+@title A Cyblog demo page
+@html-meta-author shantaram
+@meta-author display:true shantaram
+@unknown-declaration decl
+-->
+
+<!-- a comment that is ignored -->
+
+# A Cyblog demo page
+
+<!-- @include test.html -->
+
+### Cyblog: a simple, markdown-compatible static-site generator
+
+Cyblog syntax is fully compatible with current Markdown implementations.
+Cyblog extends Markdown using comments to store its metadata.
+
+# This is an <h1> tag
+## This is an <h2> tag
+###### This is an <h6> tag
+
+*This text will be italic*
+_This will also be italic_
+
+**This text will be bold**
+__This will also be bold__
+
+
+<!-- @include test.html -->
+
+*You **can** combine them*
+
+\*\*escaped strong**
+\*escaped em*
+**test\*\*
+`monospace`
+
+* Item 1
+* [a hyperlink](https://google.com)
+  * Item 2a
+  * Item 2b
+
+1. ![GitHub Logo](/images/logo.png)
+2. Item 2
+3. Item 3
+  * Item 3a
+  * Item 3b
+
+![GitHub Logo](/images/logo.png)
+[GitHub](http://github.com)
+
+<!-- cyblog-meta
+@block-start quote
+-->
+As Grace Hopper said:
+> I’ve always been more interested
+> in the future than in the past.
+
+<!-- @block-end quote -->
+
+<!-- @block-start code .code-block.js -->
+```
+function test() {
+ console.log("look ma’, no spaces");
+}
+```
+<!-- @block-end code -->
+
+<!-- @block-start table #custom-id -->
+First Header | Second Header
+------------ | -------------
+Content cell 1 | ![GitHub Logo](/images/logo.png)
+Content column 1 | Content column 2
+
+<!-- @block-end table -->
+
+- [x] this is a complete item
+- [ ] this is an incomplete item
