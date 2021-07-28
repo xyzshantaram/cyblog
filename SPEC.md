@@ -4,6 +4,7 @@
 
 1. [Introduction](#introduction)
 2. [Meta blocks](#introduction)
+   - [`title`](#syntax)
 3. [Declarations](#declarations)
    - [Document declarations](#document-declarations)
      - [`apply-style`](#apply-style)
@@ -16,9 +17,6 @@
      - [Parenting](#parenting)
 
 ### Introduction
-
-_**Warning**: This spec is currently quite unstable and prone to syntax changes.
-I wouldn't write any Cyblog markup just yet._
 
 The Cyblog format is intended to be fully compatible with existing Markdown
 implementations (specifically, GitHub-flavoured Markdown), and adds a few extra
@@ -34,7 +32,7 @@ In the future, Cyblog might add support for footnotes, but this is not a goal
 for the first release.
 
 Additionally, Cyblog's first release will not apply syntax highlighting to code
-blocks.
+blocks, or automatically convert links that don't use the link syntax.
 
 ### Meta blocks
 
@@ -198,13 +196,13 @@ A block is a Cyblog object that gets translated to a div.
 
 - To add a common block (such as a nav or a footer) to a document, use the
   `include` declaration. The value of this declaration must be a path to a
-  Cyblog document or a plaintext file containing an HTML snippet. The file's
-  contents will be added to the document in the correct place before it is
-  processed, in a manner similar to copy-pasting.
+  plaintext file containing an HTML snippet. The file's contents will be added
+  to the document in the correct place before it is processed, in a manner
+  similar to copy-pasting.
 
   ```md
   <!-- cyblog-meta
-  @include header.cyblog
+  @include header.html
   -->
   ```
 
@@ -250,25 +248,8 @@ snippets._
 
 ##### Parenting
 
-- To mark a block as a child of another block, (ie, that block will be included
-  as a child of the parent block in the generated HTML) add the `block-parent`
-  declaration with the value equal to an identifier that has been previously
-  declared in the document.
-  ```md
-  <!-- cyblog-meta
-  @block-start child
-  @block-parent parent
-  -->
-  ```
-  You can also accomplish this via the special `^parent` notation in the
-  block-start declaration.
-  ```md
-  <!-- @block-start child ^parent -->
-  ```
-  Every standard Markdown construct between a`block-start` and a `block-end`
+- Every standard Markdown construct between a`block-start` and a `block-end`
   declaration will be treated as a child of the block those declarations
-  enclose.\
-  Finally, blocks within these boundaries that don't specify the `block-parent`
-  declaration will also be treated as a child of this block.
+  enclose.
 
 ---
