@@ -2,6 +2,16 @@
 
 Cybernetically enhanced static site generation.
 
+### Installing
+
+You'll need `deno` installed. Then:
+
+```
+$ git clone https://github.com/shantaram3013/cyblog
+$ cd cyblog
+$ make install
+```
+
 ### Usage
 
 Cyblog operates on either single pages or entire directories, converting the
