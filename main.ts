@@ -280,11 +280,12 @@ async function parse(toParse: string, args: CyblogBuildArgs): Promise<string> {
 async function buildFile(from: Path, args?: CyblogBuildArgs) {
     const src = from.toString();
 
-    const configDir = getConfigDir();
-    if (!configDir) {
+    const userConfigDir = getConfigDir();
+    if (!userConfigDir) {
         throw new Deno.errors.NotFound('Could not find configuration directory. Did you run the cyblog install script?');
     }
-    const configPath = path.join(configDir, 'cyblog-defaults.css');
+    const configPath = path.join(userConfigDir, 'cyblog');
+    const defaultStyleSheet = path.join(configPath, 'cyblog-default.css');
 
     let styles: Path[] = [configPath];
     if (args?.applyStyles instanceof Array) {
