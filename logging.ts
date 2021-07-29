@@ -1,11 +1,18 @@
 import {
     yellow,
     bold,
-    red
+    red,
+    green,
 } from "https://deno.land/std@0.103.0/fmt/colors.ts";
 
 export const warn = (...data: unknown[]) => {
     let string = yellow(bold('WARNING: '))
+    string += Array.from(data).join(' ');
+    console.error(string);
+}
+
+export const info = (...data: unknown[]) => {
+    let string = green(bold('INFO: '))
     string += Array.from(data).join(' ');
     console.log(string);
 }
