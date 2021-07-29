@@ -16,9 +16,9 @@
 Cyblog syntax is fully compatible with current Markdown implementations.
 Cyblog extends Markdown using comments to store its metadata.
 
-# This is an <h1> tag
-## This is an <h2> tag
-###### This is an <h6> tag
+# This is an &lt;h1&gt; tag
+## This is an &lt;h2&gt; tag
+###### This is an &lt;h6&gt; tag
 
 *This text will be italic*
 _This will also be italic_
@@ -27,13 +27,11 @@ _This will also be italic_
 __This will also be bold__
 
 
-<!-- @include test.html -->
-
 *You **can** combine them*
 
 \*\*escaped strong**
+
 \*escaped em*
-**test\*\*
 `monospace`
 
 * Item 1
@@ -41,13 +39,13 @@ __This will also be bold__
   * Item 2a
   * Item 2b
 
-1. ![GitHub Logo](/images/logo.png)
+1. ![An image](/images/image.png)
 2. Item 2
 3. Item 3
   * Item 3a
   * Item 3b
 
-![GitHub Logo](/images/logo.png)
+![An image](/images/image.png)
 [GitHub](http://github.com)
 
 <!-- cyblog-meta
@@ -60,9 +58,10 @@ As Grace Hopper said:
 <!-- @block-end quote -->
 
 <!-- @block-start code .code-block.js -->
+A function that prints stuff:
 ```
 function test() {
- console.log("look ma’, no spaces");
+    console.log("look ma’, no spaces");
 }
 ```
 <!-- @block-end code -->
@@ -70,10 +69,12 @@ function test() {
 <!-- @block-start table #custom-id -->
 First Header | Second Header
 ------------ | -------------
-Content cell 1 | ![GitHub Logo](/images/logo.png)
+Content cell 1 | ![An image](/images/image.png)
 Content column 1 | Content column 2
 
 <!-- @block-end table -->
 
 - [x] this is a complete item
 - [ ] this is an incomplete item
+
+<!-- @include test.html -->

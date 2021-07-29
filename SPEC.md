@@ -4,17 +4,17 @@
 
 1. [Introduction](#introduction)
 2. [Meta blocks](#introduction)
-   - [`title`](#syntax)
+  - [`title`](#syntax)
 3. [Declarations](#declarations)
-   - [Document declarations](#document-declarations)
-     - [`apply-style`](#apply-style)
-     - [`template`](#template)
-     - [Metadata declarations](#metadata-declarations)
-   - [Block declarations](#block-declarations)
-     - [`include`](#include)
-     - [`block-start`](#block-start)
-     - [`block-end`](#block-end)
-     - [Parenting](#parenting)
+  - [Document declarations](#document-declarations)
+  - [`apply-style`](#apply-style)
+  - [`template`](#template)
+  - [Metadata declarations](#metadata-declarations)
+  - [Block declarations](#block-declarations)
+    - [`include`](#include)
+    - [`block-start`](#block-start)
+    - [`block-end`](#block-end)
+    - [Parenting](#parenting)
 
 ### Introduction
 
@@ -46,7 +46,7 @@ specific format designed to be convenient to parse and human-readable.
 Every Cyblog document must contain at least the following meta block at the
 beginning of the file:
 
-```md
+```
 <!-- cyblog-meta
 @title Document Title
 -->
@@ -55,11 +55,12 @@ beginning of the file:
 The first line of the comment indicates to Cyblog that this is a meta block. The
 first line of every meta block must follow the format:
 
-```md
+```
 <!--<SPACE>cyblog-meta<NEWLINE>
 ```
 
-Where SPACE is a single space character.\
+Where SPACE is a single space character.
+
 Additionally, the closing `-->` of a meta block must appear on a line by itself,
 with no other whitespace.
 
@@ -67,7 +68,8 @@ Meta blocks can appear anywhere in a document, but the first one is special -
 Cyblog looks at it to determine the title of your page. This first meta block is
 called the document meta block.
 
-Each line in a Cyblog meta block is known as a declaration.\
+Each line in a Cyblog meta block is known as a declaration.
+
 Declarations must adhere to the following format:
 
 ```
@@ -75,11 +77,12 @@ Declarations must adhere to the following format:
 ```
 
 where `<WHITESPACE>` is either a number of SPACE characters or a single Tab
-character.\
+character.
+
 The rest of the line is considered the value for that declaration. Declaration
 names must match the following regex:
 
-```re
+```
 [a-z][a-z\-]+[a-z]
 ```
 
@@ -93,7 +96,8 @@ If Cyblog does not understand a declaration, a warning is generated.
 #### Single-line declaration syntax
 
 For convenience reasons, Cyblog has a special syntax for meta blocks that only
-contain a single declaration.\
+contain a single declaration.
+
 `<!--<SPACE>@<DECLARATION NAME><WHITESPACE><VALUE><SPACE>-->`
 
 ### Declarations
@@ -107,7 +111,7 @@ contain a single declaration.\
   (either relative or absolute) to a CSS file. You can have as many
   `apply-style` declarations as you like.
 
-  ```md
+  ```
   <!-- cyblog-meta
   @apply-style style.css
   -->
@@ -119,7 +123,7 @@ _**Note**: Cyblog **DOES NOT** perform any linting of CSS files._
 
 - To apply a specific style from Cyblog's list of built-in styles, use the
   `template` declaration in the document meta block.
-  ```md
+  ```
   <!-- cyblog-meta
   @title Page Title
   @template article
@@ -137,7 +141,8 @@ values you see fit.
 
 - To add a `meta` tag to the `head` of the generated HTML document, add a
   `html-meta-*` declaration to the document meta block. The value of the
-  declaration is substituted for the meta tag's content attribute.\
+  declaration is substituted for the meta tag's content attribute.
+
   For example:
   ```md
   <!-- cyblog-meta
@@ -152,7 +157,8 @@ values you see fit.
   ```
 - `meta-*` declarations are are parsed dynamically and if they have the
   `display:true` directive they are turned into `span` elements with the class
-  `.cyb-meta-*` applied to them, so you can style them as you like.\
+  `.cyb-meta-*` applied to them, so you can style them as you like.
+
   They are placed below the first heading found in the document.
 
   The block
@@ -167,7 +173,8 @@ values you see fit.
 
   # Welcome to my page!
   ```
-  gets transformed into the following:\
+  gets transformed into the following:
+  
   _(Contents unrelated to `meta-*` declarations may change in the future)_
   ```html
   <!DOCTYPE html>
@@ -239,7 +246,8 @@ snippets._
 
 ##### `block-end`
 
-- To close a block, simply add a meta block with the block-end declaration.\
+- To close a block, simply add a meta block with the block-end declaration.
+
   Blocks with this declaration must only contain that declaration and nothing
   else.
   ```md
