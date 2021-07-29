@@ -8,17 +8,13 @@ INSTALL_OPTIONS = -f
 # set DENO_MAKE_EXTRA_OPTIONS in environment to supply extra build options.
 OPTIONS = $(MAKE_OPTIONS) $(DENO_MAKE_EXTRA_OPTIONS)
 
+default: install
+
 run:
 	deno run $(PERMS) $(OPTIONS) $(ENTRYPOINT) $(DENO_RUN_OPTIONS)
 
-dev:
-	deno run $(PERMS) $(OPTIONS) --watch $(ENTRYPOINT) $(DENO_RUN_OPTIONS)
-
 bundle:
 	deno bundle $(OPTIONS) $(ENTRYPOINT) $(DENO_NAME).js
-
-compile:
-	deno compile $(PERMS) $(OPTIONS) $(ENTRYPOINT)
 
 install: bundle
 	deno run $(PERMS) $(OPTIONS) install.ts
