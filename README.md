@@ -34,6 +34,7 @@ cyblog {SOURCEDIR|SOURCEFILE.cyblog} [options]
 - `-a`, `--apply-style` The name of a stylesheet to include into the final
   document that will be built. Functions the same as the `apply-style`
   declaration.
+- `-f`, `--force` Overwrites the destination path if it exists.
 
 ### Contributing
 
