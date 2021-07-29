@@ -113,6 +113,9 @@ async function parse(toParse: string, args: CyblogBuildArgs): Promise<string> {
                     if (matches) await processDecl(matches[1], matches[3]);
                 }
             }
+            else {
+                final.push(line);
+            }
         }
         else if (/<h[1-6].*>(.*)<\/h[1-6]>/gi.test(line)) {
             final.push(line);
@@ -299,18 +302,37 @@ async function buildDir(from: Path, args?: CyblogBuildArgs) {
     info(`Built ${dest} successfully!`)
 }
 
+function showHelp() {
+    console.log(`USAGE:\n\tcyblog <sourcefile|sourcedir> [-f] [-a additionalStyle.css] [-o output]`);
+    console.log(`
+    -o, --output: The name of the output directory or file.
+    -a, --apply-style: The name of a stylesheet to include, same as @apply-style
+    -f, --force: overwrite destination path if it exists.`)
+}
+
 async function main() {
     const args: flags.Args = flags.parse(Deno.args, {
         string: ['--apply-style', '-a', '--output', '-o'],
-        boolean: ['--force', '-f'],
+        boolean: ['--force', '-f', '--help', '-h'],
         alias: {
             a: 'apply-style',
             o: 'output',
-            f: 'force'
+            f: 'force',
+            h: 'help'
         }
     });
 
     const positional: string[] = args._.map((itm) => itm.toString());
+
+    if (positional.length == 0) {
+        args.help = true;
+    }
+
+    if (args.help) {
+        showHelp();
+        Deno.exit(0);
+    }
+
     if (positional.length === 0) {
         scream(1, 'You must provide the source path');
     }
@@ -343,5 +365,5 @@ async function main() {
 }
 
 if (import.meta.main) {
-    main();
+    await main();
 }
