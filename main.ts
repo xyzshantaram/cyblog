@@ -110,7 +110,7 @@ async function parse(toParse: string, args: CyblogBuildArgs): Promise<string> {
         else if (/<h[1-6].*>(.*)<\/h[1-6]>/gi.test(line)) {
             final.push(line);
             headerCount += 1;
-            const content = line.replace(/<h[1-6]>(.*)<\/h[1-6]>/, '$1');
+            const content = line.replace(/<h[1-6].*>(.*)<\/h[1-6]>/, '$1');
             if (headerCount == 1) {
                 title = content;
                 final.push('<div class="cyblog-metadata">');
