@@ -2,7 +2,6 @@ CURRENT:
 * fix relative urls between links
 
 FUTURE:
-* Support for templating (inserting current date, time)
 * Syntax highlighting
 * footnotes
 * Extend marked renderer properly
