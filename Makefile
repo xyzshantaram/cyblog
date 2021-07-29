@@ -8,8 +8,6 @@ INSTALL_OPTIONS = -f
 # set DENO_MAKE_EXTRA_OPTIONS in environment to supply extra build options.
 OPTIONS = $(MAKE_OPTIONS) $(DENO_MAKE_EXTRA_OPTIONS)
 
-default: compile
-
 run:
 	deno run $(PERMS) $(OPTIONS) $(ENTRYPOINT) $(DENO_RUN_OPTIONS)
 
