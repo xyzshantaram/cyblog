@@ -4,8 +4,24 @@ html {
     align-items: center;
 }
 
+.cyblog-metadata {
+    margin-bottom: 1rem;
+    color: grey;
+    display: flex;
+    overflow: auto;
+}
+
+span[class^='cyb-meta'] {
+    margin-left: 0.5rem;
+    color: #888;
+    padding: 0.3rem;
+    border-radius: 0.25rem;
+}
+
 h1 {
     font-size: 2rem;
+    margin-top: 1rem;
+    margin-bottom: 0.3rem;
 }
 
 h2 {
@@ -56,9 +72,38 @@ pre {
 @media screen and (max-aspect-ratio: 1/1) {
     body {
         max-width: 90vw;
+        line-height: 1.4;
     }
     pre {
         margin: 0.1rem;
         max-width: 100%;
     }
+}
+
+@media screen and not (hover: none) {
+    a:hover {
+        color: #3c5ecc;
+    }
+    a:visited:hover {
+        color: #3c5ecc;
+    }
+}
+
+@media screen {
+    body {
+        color: #202020;
+    }
+}
+
+a:visited {
+    color: #4a76fd;
+}
+
+a {
+    color: #4a76fd;
+    transition-duration: 0.4s;
+}
+
+a:active {
+    color: navy;
 }
