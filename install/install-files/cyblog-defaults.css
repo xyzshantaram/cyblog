@@ -1,0 +1,118 @@
+html {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cyblog-metadata {
+    margin-bottom: 1rem;
+    color: grey;
+    display: flex;
+    overflow: auto;
+}
+
+span[class^='cyb-meta'] {
+    margin-left: 0.5rem;
+    color: #888;
+    padding: 0.3rem;
+    border-radius: 0.25rem;
+}
+
+h1 {
+    font-size: 2rem;
+    margin-top: 1rem;
+    margin-bottom: 0.3rem;
+}
+
+h2 {
+    font-size: 1.7rem;
+}
+
+h3 {
+    font-size: 1.4rem;
+}
+
+h4 {
+    font-size: 1.2rem;
+}
+
+h5 {
+    font-size: 1rem;
+}
+
+h6 {
+    font-size: 0.7rem;
+}
+
+body {
+    font-family: sans-serif;
+    line-height: 1.6;
+    overflow: auto;
+    max-width: 60vw;
+}
+
+blockquote {
+    margin-left: 1rem;
+    padding: 0.5rem;
+    background-color: #efefef;
+    border-left: 0.5rem solid rgb(207, 207, 207);
+    border-radius: 0.25em;
+}
+
+pre {
+    background-color: #eeeeee;
+    padding: 0.5rem;
+    margin-left: 1rem;
+    border-radius: 0.25em;
+    overflow-x: scroll;
+    max-width: 100%;
+    font-size: 1rem;
+}
+
+@media screen and (max-aspect-ratio: 1/1) {
+    body {
+        max-width: 90vw;
+        line-height: 1.4;
+    }
+    pre {
+        margin: 0.1rem;
+        max-width: 100%;
+    }
+}
+
+@media not all and (hover: none) {
+    a:hover {
+        color: #2049c7;
+    }
+    a:visited:hover {
+        color: #2049c7;
+    }
+}
+
+@media screen {
+    body {
+        color: #202020;
+    }
+}
+
+@media print {
+    body {
+        max-width: 90vw;
+    }
+    p, h1, h2, h3, h4, h5, h6, pre, blockquote, strong, em {
+        page-break-inside: avoid;
+    }
+}
+
+a:visited {
+    color: #235aff;
+}
+
+a {
+    color: #235aff;
+    transition-duration: 0.2s;
+}
+
+a:active {
+    color: navy;
+}
