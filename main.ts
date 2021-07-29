@@ -217,7 +217,13 @@ async function buildFile(from: Path, args?: CyblogBuildArgs) {
     }
 
     if (await fs.exists(dest)) {
-        scream(1, `Destination path ${dest} exists!`,);
+        if (args?.overwrite) {
+            info(`Path ${dest} exists, removing because of --force...`);
+            await Deno.remove(dest, {recursive: true});
+        }
+        else {
+            scream(1, `Destination path ${dest} exists!`);
+        }
     }
 
     info('Building file', from);
@@ -234,27 +240,33 @@ async function buildFile(from: Path, args?: CyblogBuildArgs) {
 }
 
 async function buildDir(from: Path, args?: CyblogBuildArgs) {
-    let destPath = args?.to?.toString();
+    let dest = args?.to?.toString();
     const srcPath = path.normalize(from.toString());
 
     info('Building directory', srcPath);
 
-    if (!destPath) {
-        destPath = path.basename(srcPath) + '-dist';
+    if (!dest) {
+        dest = path.basename(srcPath) + '-dist';
     }
 
-    destPath = path.normalize(destPath);
+    dest = path.normalize(dest);
 
-    if (await fs.exists(destPath)) {
-        scream(1, `Destination path ${destPath} exists!`);
+    if (await fs.exists(dest)) {
+        if (args?.overwrite) {
+            info(`Path ${dest} exists, removing because of --force...`);
+            await Deno.remove(dest, {recursive: true});
+        }
+        else {
+            scream(1, `Destination path ${dest} exists!`);
+        }
     }
 
-    Deno.mkdir(destPath);
+    Deno.mkdir(dest);
 
     for await (const entry of fs.walk(srcPath)) {
         if (srcPath === entry.path) continue;
         const relative = path.relative(srcPath, entry.path);
-        let dir = path.join(destPath, relative);
+        let dir = path.join(dest, relative);
         if (entry.isDirectory) {
             Deno.mkdir(dir);
             info(`Created directory ${dir}.`)
@@ -274,15 +286,17 @@ async function buildDir(from: Path, args?: CyblogBuildArgs) {
             }
         }
     }
-    info(`Built ${destPath} successfully!`)
+    info(`Built ${dest} successfully!`)
 }
 
 async function main() {
     const args: flags.Args = flags.parse(Deno.args, {
         string: ['--apply-style', '-a', '--output', '-o'],
+        boolean: ['--force', '-f']
         alias: {
             a: 'apply-style',
-            o: 'output'
+            o: 'output',
+            f: 'force'
         }
     });
 
@@ -304,13 +318,15 @@ async function main() {
     if (type == PathTypes.Directory) {
         buildDir(path, {
             to: args.output,
-            applyStyles: args['apply-style']
+            applyStyles: args['apply-style'],
+            overwrite: args.force
         });
     }
     else {
         buildFile(path, {
             to: args.output,
-            applyStyles: args['apply-style']
+            applyStyles: args['apply-style'],
+            overwrite: args.force
         });
     }
 }

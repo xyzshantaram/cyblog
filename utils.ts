@@ -10,7 +10,8 @@ export enum PathTypes {
 export interface CyblogBuildArgs {
     to?: Path;
     applyStyles?: Path | Path[];
-    cyblog?: boolean
+    cyblog?: boolean,
+    overwrite?: boolean
 }
 
 export function scream(code: number, ...data: unknown[]) {
