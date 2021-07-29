@@ -48,35 +48,36 @@ body {
     font-family: sans-serif;
     line-height: 1.6;
     overflow: auto;
-    max-width: 60vw;
+    width: 60vw;
 }
 
 blockquote {
-    margin-left: 1rem;
-    padding: 0.5rem;
-    background-color: #efefef;
-    border-left: 0.5rem solid rgb(207, 207, 207);
-    border-radius: 0.25em;
+    margin-left: 2rem;
+    padding: 0.1rem;
+    padding-left: 1rem;
+    border-left: 0.2rem solid rgb(207, 207, 207);
+}
+
+blockquote p {
+    margin: 0.1rem;
 }
 
 pre {
     background-color: #eeeeee;
     padding: 0.5rem;
-    margin-left: 1rem;
+    margin-left: 1.2rem;
     border-radius: 0.25em;
     overflow-x: scroll;
-    max-width: 100%;
     font-size: 1rem;
 }
 
 @media screen and (max-aspect-ratio: 1/1) {
     body {
-        max-width: 90vw;
+        width: 90vw;
         line-height: 1.4;
     }
     pre {
         margin: 0.1rem;
-        max-width: 100%;
     }
 }
 
@@ -97,7 +98,7 @@ pre {
 
 @media print {
     body {
-        max-width: 90vw;
+        width: 90vw;
     }
     p, h1, h2, h3, h4, h5, h6, pre, blockquote, strong, em {
         page-break-inside: avoid;
