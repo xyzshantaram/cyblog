@@ -17,7 +17,7 @@ async function buildStyleElement(styles: (Path | undefined)[]) {
                 warn(`Stylesheet ${x} not found, continuing`);
             }
             else {
-                console.error(e);
+                error(e);
             }
         }
     }
@@ -76,7 +76,8 @@ async function parse(toParse: string, args: CyblogBuildArgs): Promise<string> {
             final.push(...contents.split('\n'));
         }
         else if (declName === 'block-end') {
-            closedBlocks.push(declValue);
+            const parts = declValue.split(' ');
+            closedBlocks.push(parts[0]);
             final.push('</div>');
         }
         else if (declName === 'apply-style') {
@@ -157,7 +158,8 @@ async function parse(toParse: string, args: CyblogBuildArgs): Promise<string> {
         }
     }
 
-    if (closedBlocks.length !== openedBlocks.length) {
+
+    if (args.cyblog && closedBlocks.length !== openedBlocks.length) {
         scream(1, `Unclosed blocks present!\nUnclosed blocks:\n * ${openedBlocks.filter(elem => !closedBlocks.includes(elem)).join('\n * ')}`)
     }
 
