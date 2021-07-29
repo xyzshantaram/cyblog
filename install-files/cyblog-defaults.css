@@ -80,7 +80,7 @@ pre {
     }
 }
 
-@media screen and not (hover: none) {
+@media not all and (hover: none) {
     a:hover {
         color: #3c5ecc;
     }
