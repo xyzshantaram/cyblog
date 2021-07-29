@@ -71,7 +71,6 @@ async function parse(toParse: string, args: CyblogBuildArgs): Promise<string> {
                 }
             }
             final.push(`<div id="${id.trim()}" class="${classes.join(' ').trim()}">`)
-            console.log(final[final.length - 1]);
         }
         else if (declName === 'include') {
             const contents = await Deno.readTextFile(declValue);
