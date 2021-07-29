@@ -1,7 +1,7 @@
 import { flags, path, fs, Marked } from './deps.ts';
 import { Path, PathTypes, CyblogBuildArgs, getType, scream, getFileName, getExtension, getConfigDir, createElementWithAttrs, createClosingTag } from './utils.ts';
 import { CYBLOG_VALID_SUFFIXES, CYBLOG_KNOWN_DECLS, DOCTYPE, HTML_OPEN, HTML_CLOSE } from './constants.ts';
-import { warn, error } from './logging.ts';
+import { warn, error, info } from './logging.ts';
 
 async function buildStyleElement(styles: (Path | undefined)[]) {
     let ret = `<style>\n`;
@@ -206,7 +206,7 @@ async function buildFile(from: Path, args?: CyblogBuildArgs) {
     const extn = getExtension(src);
 
     if (!extn || !CYBLOG_VALID_SUFFIXES.includes(extn)) {
-        throw new Error(`supplied file ${src} is not of a type supported by Cyblog. Cyblog supports the types '.md' and '.cyblog.'`)
+        throw new Error(`Supplied file ${src} is not of a type supported by Cyblog. Cyblog supports the types '.md' and '.cyblog.'`)
     }
 
     let dest = getFileName(src, extn);
@@ -217,21 +217,64 @@ async function buildFile(from: Path, args?: CyblogBuildArgs) {
     }
 
     if (await fs.exists(dest)) {
-        scream(1, `Error: Destination path ${dest} exists!`,);
+        scream(1, `Destination path ${dest} exists!`,);
     }
+
+    info('Building file', from);
     const contents = await Deno.readTextFile(from);
 
     const final = await parse(contents, {
         cyblog: extn === '.cyblog',
         applyStyles: styles
     });
-    const encoder = new TextEncoder();
 
-    await Deno.writeFile(dest, encoder.encode(final));
+    await Deno.writeTextFile(dest, final);
+
+    info(`Built ${dest} successfully!`)
 }
 
-// deno-lint-ignore no-unused-vars
 async function buildDir(from: Path, args?: CyblogBuildArgs) {
+    let destPath = args?.to?.toString();
+    const srcPath = path.normalize(from.toString());
+
+    info('Building directory', srcPath);
+
+    if (!destPath) {
+        destPath = path.basename(srcPath) + '-dist';
+    }
+
+    destPath = path.normalize(destPath);
+
+    if (await fs.exists(destPath)) {
+        scream(1, `Destination path ${destPath} exists!`);
+    }
+
+    Deno.mkdir(destPath);
+
+    for await (const entry of fs.walk(srcPath)) {
+        if (srcPath === entry.path) continue;
+        const relative = path.relative(srcPath, entry.path);
+        let dir = path.join(destPath, relative);
+        if (entry.isDirectory) {
+            Deno.mkdir(dir);
+            info(`Created directory ${dir}.`)
+        }
+        else if (entry.isFile) {
+            const extn = getExtension(entry.name);
+            if (extn && CYBLOG_VALID_SUFFIXES.includes(extn)) {
+                dir = dir.replace(extn, '.html');
+                buildFile(entry.path, {
+                    to: dir,
+                    applyStyles: args?.applyStyles
+                })
+            }
+            else {
+                warn("Found file with unknown type, left it alone.")
+                Deno.copyFile(entry.path, dir);
+            }
+        }
+    }
+    info(`Built ${destPath} successfully!`)
 }
 
 async function main() {
@@ -245,7 +288,7 @@ async function main() {
 
     const positional: string[] = args._.map((itm) => itm.toString());
     if (positional.length === 0) {
-        scream(1, 'ERROR: you must provide the source path');
+        scream(1, 'You must provide the source path');
     }
 
     const path = positional[0];
@@ -254,15 +297,21 @@ async function main() {
         type = await getType(path);
     }
     catch (e) {
-        if (e instanceof Deno.errors.NotFound) scream(2, 'ERROR: File not found: ', path);
+        if (e instanceof Deno.errors.NotFound) scream(2, 'File or directory not found:', path);
         else scream(1, e);
     }
 
     if (type == PathTypes.Directory) {
-        buildDir(path);
+        buildDir(path, {
+            to: args.output,
+            applyStyles: args['apply-style']
+        });
     }
     else {
-        buildFile(path);
+        buildFile(path, {
+            to: args.output,
+            applyStyles: args['apply-style']
+        });
     }
 }
 
