@@ -100,8 +100,8 @@ contain a single declaration.
 
 `<!--<SPACE>@<DECLARATION NAME><WHITESPACE><VALUE><SPACE>-->`
 
-_Note_: Due to the nature of the parser used in Cyblog, single-line declarations
- must be preceded by a blank line.
+_Note_: Due to the nature of the parser used in Cyblog, declarations
+ must be preceded and followed by blank lines.
 
 ### Declarations
 
