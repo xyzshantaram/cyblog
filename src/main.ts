@@ -20,17 +20,22 @@ async function buildStyleElement(styles: (Path | undefined)[]) {
                 error(e);
             }
         }
+        ret += '\n';
     }
-    ret += `</style>\n`;
+    ret += `\n</style>\n`;
 
     return ret;
 }
+
+const mustache = (string: string, data: Record<string, string | number> = {}) =>
+    Object.entries(data).reduce((res, [key, value]) => res.replace(
+        new RegExp(`(?<!\\\\){{\\s*${key}\\s*}}`, "g"), value.toString()), string);
 
 async function parse(toParse: string, args: CyblogBuildArgs): Promise<string> {
     if (args.cyblog && !toParse.startsWith('<!-- cyblog-meta')) {
         warn('Cyblog document with no document meta block. Falling back to title detection');
     }
-    Marked.setOptions ({
+    Marked.setOptions({
         gfm: true,
         tables: true,
         smartLists: true,
@@ -47,6 +52,9 @@ async function parse(toParse: string, args: CyblogBuildArgs): Promise<string> {
     const final: string[] = [];
 
     const cyblogDeclarations: Record<string, string> = {}
+
+    let headerString: string | null = null;
+    let footerString: string | null = null;
 
     const processDecl = async (declName: string, declValue: string) => {
         if (!CYBLOG_KNOWN_DECLS.includes(declName) && !declName.includes('meta')) {
@@ -82,6 +90,35 @@ async function parse(toParse: string, args: CyblogBuildArgs): Promise<string> {
         }
         else if (declName === 'apply-style') {
             applyStyles.push(declValue);
+        }
+        else if (declName === 'template') {
+            if (headerString || footerString) {
+                warn(`Extra template declaration ${declValue} found`);
+                return;
+            }
+            const userConfigDir = getConfigDir();
+            if (!userConfigDir || !await fs.exists(userConfigDir)) {
+                scream(1, `Could not find configuration directory while looking for template ${declValue} Did you run the cyblog install script?`);
+            }
+            else {
+                const templatePath = path.join(userConfigDir, 'cyblog', 'templates', declValue);
+                if (await fs.exists(templatePath)) {
+                    const headerPath = path.join(templatePath, 'header.html');
+                    const footerPath = path.join(templatePath, 'footer.html');
+                    if (await fs.exists(headerPath) && await fs.exists(footerPath)) {
+                        headerString = await Deno.readTextFile(headerPath);
+                        footerString = await Deno.readTextFile(footerPath);
+                    }
+                    else {
+                        error(`Incomplete template ${declValue}`);
+                    }
+
+                    applyStyles.push(path.join(templatePath, `prefab-${declValue}.css`));
+                }
+                else {
+                    warn(`Skipping nonexistent template ${declValue}`);
+                }
+            }
         }
         else {
             cyblogDeclarations[declName] = declValue;
@@ -175,6 +212,19 @@ async function parse(toParse: string, args: CyblogBuildArgs): Promise<string> {
         }
     }
 
+    const templatingData: Record<string, string | number> = {}
+
+    Object.keys(cyblogDeclarations).filter((elem) => /^meta-(.+)/.test(elem)).forEach((elem) => {
+        const name = elem.replace(/^meta-(.*)/, '$1');
+        const split = cyblogDeclarations[elem].split(' ');
+        if (split[0] == 'display:true') return;
+
+        if (split.length < 2) {
+            warn(`Invalid value for ${elem}: ${cyblogDeclarations[elem]}`)
+        }
+        templatingData[name] = split.slice(1).join(' ');
+    });
+
     let doc = DOCTYPE + HTML_OPEN;
     doc += createElementWithAttrs('head', {});
     doc += createElementWithAttrs('meta', { charset: 'UTF-8' });
@@ -195,7 +245,9 @@ async function parse(toParse: string, args: CyblogBuildArgs): Promise<string> {
     doc += await buildStyleElement(applyStyles);
     doc += createClosingTag('head');
     doc += createElementWithAttrs('body', {});
-    doc += final.join('\n');
+    if (headerString) doc += mustache(headerString, templatingData);
+    doc += '\n' + final.join('\n') + '\n';
+    if (footerString) doc += mustache(footerString, templatingData);
     doc += createClosingTag('body');
     doc += HTML_CLOSE;
 
@@ -206,7 +258,7 @@ async function buildFile(from: Path, args?: CyblogBuildArgs) {
     const src = from.toString();
 
     const userConfigDir = getConfigDir();
-    if (!userConfigDir) {
+    if (!userConfigDir || !await fs.exists(userConfigDir)) {
         throw new Deno.errors.NotFound('Could not find configuration directory. Did you run the cyblog install script?');
     }
     const configPath = path.join(userConfigDir, 'cyblog');
@@ -214,7 +266,7 @@ async function buildFile(from: Path, args?: CyblogBuildArgs) {
 
     const styles: Path[] = [defaultStyleSheet];
     if (args?.applyStyles) styles.push(...args.applyStyles);
-    
+
 
     const extn = getExtension(src);
 
@@ -232,7 +284,7 @@ async function buildFile(from: Path, args?: CyblogBuildArgs) {
     if (await fs.exists(dest)) {
         if (args?.overwrite) {
             info(`Path ${dest} exists, removing because of --force...`);
-            await Deno.remove(dest, {recursive: true});
+            await Deno.remove(dest, { recursive: true });
         }
         else {
             scream(1, `Destination path ${dest} exists!`);
@@ -267,7 +319,7 @@ async function buildDir(from: Path, args?: CyblogBuildArgs) {
     if (await fs.exists(dest)) {
         if (args?.overwrite) {
             info(`Path ${dest} exists, removing because of --force...`);
-            await Deno.remove(dest, {recursive: true});
+            await Deno.remove(dest, { recursive: true });
         }
         else {
             scream(1, `Destination path ${dest} exists!`);
