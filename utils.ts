@@ -1,3 +1,5 @@
+import {error} from './logging.ts';
+
 export type Path = string | URL;
 
 export enum PathTypes {
@@ -13,7 +15,7 @@ export interface CyblogBuildArgs {
 
 export function scream(code: number, ...data: unknown[]) {
     if (code == 0) console.log(...data);
-    else console.error(...data);
+    else error(...data);
     Deno.exit(code);
 }
 
