@@ -28,15 +28,14 @@ async function buildStyleElement(styles: (Path | undefined)[]) {
 
 async function parse(toParse: string, args: CyblogBuildArgs): Promise<string> {
     if (args.cyblog && !toParse.startsWith('<!-- cyblog-meta')) {
-        warn('Cyblog document with no document meta block');
+        warn('Cyblog document with no document meta block. Falling back to title detection');
     }
-    Marked.setOptions
-        ({
-            gfm: true,
-            tables: true,
-            smartLists: true,
-            smartypants: false
-        });
+    Marked.setOptions ({
+        gfm: true,
+        tables: true,
+        smartLists: true,
+        smartypants: false
+    });
 
     const applyStyles = args?.applyStyles instanceof Array ? args?.applyStyles : [args?.applyStyles] || [];
     const markup = Marked.parse(toParse);
@@ -108,11 +107,32 @@ async function parse(toParse: string, args: CyblogBuildArgs): Promise<string> {
                 }
             }
         }
-        else if (/<h[1-6]>(.*)<\/h[1-6]>/gi.test(line)) {
+        else if (/<h[1-6].*>(.*)<\/h[1-6]>/gi.test(line)) {
             final.push(line);
             headerCount += 1;
+            const content = line.replace(/<h[1-6]>(.*)<\/h[1-6]>/, '$1');
             if (headerCount == 1) {
-                title = line.replace(/<h[1-6]>(.*)<\/h[1-6]>/, '$1');
+                title = content;
+                final.push('<div class="cyblog-metadata">');
+                keyLoop:
+                for (const key in cyblogDeclarations) {
+                    if (key.startsWith('meta-')) {
+                        const split = key.split('-');
+                        if (split.length < 2) {
+                            warn(`Invalid meta declaration ${key}`);
+                            continue keyLoop;
+                        }
+                        const values = cyblogDeclarations[key].replace(/\s+/, ' ').split(' ');
+                        if (values.length < 2) {
+                            warn(`Invalid value for meta declaration ${key}: ${cyblogDeclarations[key]}`);
+                            continue keyLoop;
+                        }
+                        if (values[0] == 'display:true') {
+                            final.push(createElementWithAttrs('span', { class: 'cyb-' + key }) + split[1] + ': ' + values.slice(1).join(' ') + '</span>');
+                        }
+                    }
+                }
+                final.push('</div class="cyblog-metadata">');
             }
         }
         else if (line.startsWith('<pre><code>')) {
