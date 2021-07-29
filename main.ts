@@ -91,6 +91,12 @@ async function parse(toParse: string, args: CyblogBuildArgs): Promise<string> {
     let title = 'Cyblog Document';
     let headerCount = 0;
 
+    const addCheckBox = (str: string) => {
+        if (/\[.?\]/.test(str)) {
+            return str.replace(/\[ ?\]/, '<input type="checkbox">').replace(/\[[^ ]\]/, '<input type="checkbox" checked>')
+        }
+        return str;
+    }
 
     for (let lidx = 0; lidx < lines.length; lidx += 1) {
         const line = lines[lidx];
@@ -134,6 +140,9 @@ async function parse(toParse: string, args: CyblogBuildArgs): Promise<string> {
                 }
                 final.push('</div class="cyblog-metadata">');
             }
+        }
+        else if (line.includes('<li>')) {
+            final.push(addCheckBox(line));
         }
         else if (line.startsWith('<pre><code>')) {
             final.push(line);
