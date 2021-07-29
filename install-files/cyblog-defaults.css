@@ -99,6 +99,9 @@ pre {
     body {
         max-width: 90vw;
     }
+    p, h1, h2, h3, h4, h5, h6, pre, blockquote, strong, em {
+        page-break-inside: avoid;
+    }
 }
 
 a:visited {
