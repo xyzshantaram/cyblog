@@ -9,7 +9,7 @@ export enum PathTypes {
 
 export interface CyblogBuildArgs {
     to?: Path;
-    applyStyles?: Path | Path[];
+    applyStyles?: Path[];
     cyblog?: boolean,
     overwrite?: boolean
 }

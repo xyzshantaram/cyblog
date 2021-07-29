@@ -37,7 +37,7 @@ async function parse(toParse: string, args: CyblogBuildArgs): Promise<string> {
         smartypants: false
     });
 
-    const applyStyles = args?.applyStyles instanceof Array ? args?.applyStyles : [args?.applyStyles] || [];
+    const applyStyles = args?.applyStyles || [];
     const markup = Marked.parse(toParse);
     const builtHTML = markup.content;
     const lines = builtHTML.split('\n');
@@ -207,10 +207,9 @@ async function buildFile(from: Path, args?: CyblogBuildArgs) {
     const configPath = path.join(userConfigDir, 'cyblog');
     const defaultStyleSheet = path.join(configPath, 'cyblog-defaults.css');
 
-    let styles: Path[] = [defaultStyleSheet];
-    if (args?.applyStyles instanceof Array) {
-        styles = [...styles, ...args?.applyStyles];
-    }
+    const styles: Path[] = [defaultStyleSheet];
+    if (args?.applyStyles) styles.push(...args.applyStyles);
+    
 
     const extn = getExtension(src);
 
@@ -323,18 +322,19 @@ async function main() {
         if (e instanceof Deno.errors.NotFound) scream(2, 'File or directory not found:', path);
         else scream(1, e);
     }
+    const styles: Path[] = typeof args['apply-style'] == 'string' ? [args['apply-style']] : args['apply-style'];
 
     if (type == PathTypes.Directory) {
         buildDir(path, {
             to: args.output,
-            applyStyles: args['apply-style'],
+            applyStyles: styles,
             overwrite: args.force
         });
     }
     else {
         buildFile(path, {
             to: args.output,
-            applyStyles: args['apply-style'],
+            applyStyles: styles,
             overwrite: args.force
         });
     }
