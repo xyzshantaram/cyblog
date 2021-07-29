@@ -95,6 +95,12 @@ pre {
     }
 }
 
+@media print {
+    body {
+        max-width: 90vw;
+    }
+}
+
 a:visited {
     color: #235aff;
 }

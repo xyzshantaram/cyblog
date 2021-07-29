@@ -138,7 +138,7 @@ async function parse(toParse: string, args: CyblogBuildArgs): Promise<string> {
                         }
                     }
                 }
-                final.push('</div class="cyblog-metadata">');
+                final.push('</div>');
             }
         }
         else if (line.includes('<li>')) {
