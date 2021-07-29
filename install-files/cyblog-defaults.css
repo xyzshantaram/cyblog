@@ -4,10 +4,35 @@ html {
     align-items: center;
 }
 
+h1 {
+    font-size: 2rem;
+}
+
+h2 {
+    font-size: 1.7rem;
+}
+
+h3 {
+    font-size: 1.4rem;
+}
+
+h4 {
+    font-size: 1.2rem;
+}
+
+h5 {
+    font-size: 1rem;
+}
+
+h6 {
+    font-size: 0.7rem;
+}
+
 body {
     font-family: sans-serif;
     line-height: 1.6;
     overflow: auto;
+    max-width: 60vw;
 }
 
 blockquote {
@@ -15,15 +40,25 @@ blockquote {
     padding: 0.5rem;
     background-color: #efefef;
     border-left: 0.5rem solid rgb(207, 207, 207);
+    border-radius: 0.25em;
 }
 
 pre {
     background-color: #eeeeee;
     padding: 0.5rem;
+    margin-left: 1rem;
     border-radius: 0.25em;
-    overflow: scroll;
+    overflow-x: scroll;
+    max-width: 100%;
+    font-size: 1rem;
 }
 
-::-webkit-scrollbar {
-
+@media screen and (max-aspect-ratio: 1/1) {
+    body {
+        max-width: 90vw;
+    }
+    pre {
+        margin: 0.1rem;
+        max-width: 100%;
+    }
 }
