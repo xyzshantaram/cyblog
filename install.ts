@@ -24,11 +24,12 @@ if (import.meta.main) {
             }
             try {
                 console.log(entry.path, '->', destPath);
-                await fs.copy(entry.path, destPath);
+                await fs.copy(entry.path, destPath, { overwrite: true });
             }
             catch (e) {
                 if (e.toString().includes('already exists')) {
-                    continue;
+                    await Deno.remove(destPath);
+                    await fs.copy(entry.path, destPath, { overwrite: true });
                 }
                 else {
                     console.error("e");
