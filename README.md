@@ -9,8 +9,20 @@ You'll need `deno` installed. Then:
 ```
 $ git clone https://github.com/shantaram3013/cyblog
 $ cd cyblog
-$ make install
+$ make
 ```
+Cyblog uses `deno install` to install itself. Therefore, it's installed
+to one of the following locations in order of preference:
+
+* DENO_INSTALL_ROOT environment variable
+* $HOME/.deno
+
+Thus, to change where Cyblog is installed, set the DENO_INSTALL_ROOT variable.
+
+Cyblog also copies its config files to one of `$XDG_DATA_HOME`,
+`${home}/.local/share`, `${home}/Library/Application Support`, or
+`FOLDERID_RoamingAppData`, depending on your platform. This cannot be changed
+at the moment.
 
 ### Usage
 
