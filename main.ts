@@ -292,7 +292,7 @@ async function buildDir(from: Path, args?: CyblogBuildArgs) {
 async function main() {
     const args: flags.Args = flags.parse(Deno.args, {
         string: ['--apply-style', '-a', '--output', '-o'],
-        boolean: ['--force', '-f']
+        boolean: ['--force', '-f'],
         alias: {
             a: 'apply-style',
             o: 'output',
