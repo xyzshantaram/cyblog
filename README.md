@@ -29,7 +29,7 @@ at the moment.
 Cyblog operates on either single pages or entire directories, converting the
 Cyblog markup into HTML.
 
-[Read the spec](doc/SPEC.md) to learn more about Cyblog markup!
+[Read the docs](doc/) to learn more about Cyblog!
 
 You can invoke Cyblog with:
 
