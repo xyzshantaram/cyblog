@@ -1,11 +1,8 @@
-MVP:
-First parser implementation
-
-SPEC:
-add markdown syntax guide
+CURRENT:
+* fix relative urls between links
 
 FUTURE:
-
 * Support for templating (inserting current date, time)
 * Syntax highlighting
 * footnotes
+* Extend marked renderer properly
