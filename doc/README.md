@@ -3,7 +3,7 @@
 ### Index
 1. [The spec](SPEC.md) - Read the spec and familiarise yourself with Cyblog!
 2. [Templates](templates.md) - Read about templates.
-3. [Basics of Cyblog](basics-of-cyblog) - A basic intro to Cyblog.
+3. [Basics of Cyblog](#basics-of-cyblog) - A basic intro to Cyblog.
 
 ### Basics of Cyblog
 1) Install Cyblog using the instructions in the README.
