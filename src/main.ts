@@ -80,7 +80,6 @@ async function buildDir(from: Path, args?: CyblogBuildArgs) {
     Deno.mkdir(dest);
     const edirs = args?.['exclude-dirs']?.map((elem) => path.resolve(path.join(srcPath, elem))) || [];
     const epaths = args?.['exclude-files']?.map((elem) => path.resolve(path.join(srcPath, elem))) || [];
-
     dirloop:
     for await (const entry of fs.walk(srcPath)) {
         if (srcPath === entry.path) continue;
