@@ -4,6 +4,19 @@ import { CYBLOG_VALID_SUFFIXES } from './constants.ts';
 import { parse } from './parser.ts';
 import { help, info } from './logging.ts';
 
+const getDest = (launch: string | undefined, dest: string): string => {
+    let destLoc = '.';
+
+    const resolvedDestPath = path.resolve(dest);
+    if (resolvedDestPath.startsWith(Deno.cwd())) {
+        destLoc = path.join(path.resolve(launch || Deno.cwd()), dest);
+    }
+    else {
+        destLoc = resolvedDestPath;
+    }
+    return destLoc;
+}
+
 async function buildFile(from: Path, args?: CyblogBuildArgs) {
     const src = from.toString();
 
@@ -17,27 +30,48 @@ async function buildFile(from: Path, args?: CyblogBuildArgs) {
     const styles: Path[] = [defaultStyleSheet];
     if (args?.applyStyles) styles.push(...args.applyStyles);
 
-
     const extn = getExtension(src);
 
     if (!extn || !CYBLOG_VALID_SUFFIXES.includes(extn)) {
         throw new Error(`Supplied file ${src} is not of a type supported by Cyblog. Cyblog supports the types '.md' and '.cyblog.'`)
     }
 
-    let dest = getFileName(src, extn);
-    dest += '-dist.html';
+    const name = getFileName(src, extn) + '-dist.html';
+    let dest = name;
+
+    let destLoc = '.';
 
     if (args?.to) {
         dest = args.to.toString();
     }
 
-    if (await fs.exists(dest)) {
-        if (args?.overwrite) {
-            info(`Path ${dest} exists, removing because of --force...`);
-            await Deno.remove(dest, { recursive: true });
+    if (!path.isAbsolute(dest)) {
+        const resolvedDestPath = path.resolve(dest);
+        if (resolvedDestPath.startsWith(Deno.cwd())) {
+            destLoc = path.join(path.resolve(args?.launchDir || Deno.cwd()), dest);
+            console.log('test');
         }
         else {
-            scream(1, `Destination path ${dest} exists!`);
+            destLoc = resolvedDestPath;
+        }
+    }
+    else {
+        destLoc = dest;
+    }
+
+    if (await fs.exists(destLoc)) {
+        if (args?.overwrite) {
+            info(`Path ${destLoc} exists, removing because of --force...`);
+            await Deno.remove(destLoc, { recursive: true });
+        }
+        else {
+            const info = await Deno.stat(destLoc);
+            if (info.isDirectory) {
+                destLoc += name;
+            }
+            else {
+                scream(1, `Destination path ${destLoc} exists!`);
+            }
         }
     }
 
@@ -50,9 +84,10 @@ async function buildFile(from: Path, args?: CyblogBuildArgs) {
         pwd: args?.pwd
     });
 
-    await Deno.writeTextFile(dest, final);
+    console.log(destLoc);
+    await Deno.writeTextFile(destLoc, final);
 
-    info(`Built ${dest} successfully!`)
+    info(`Built ${destLoc} successfully!`)
 }
 
 async function buildDir(from: Path, args?: CyblogBuildArgs) {
@@ -65,7 +100,7 @@ async function buildDir(from: Path, args?: CyblogBuildArgs) {
         dest = path.basename(srcPath) + '-dist';
     }
 
-    dest = path.normalize(dest);
+    dest = getDest(args?.launchDir, dest);
 
     if (await fs.exists(dest)) {
         if (args?.overwrite) {
@@ -101,7 +136,7 @@ async function buildDir(from: Path, args?: CyblogBuildArgs) {
                 buildFile(entry.path, {
                     to: dir,
                     applyStyles: args?.applyStyles,
-                    pwd: name
+                    pwd: name,
                 })
             }
             else {
@@ -165,22 +200,22 @@ async function main() {
     const efiles: string[] = typeof args['exclude-file'] == 'string' ? [args['exclude-file']] : args['exclude-file'] || [];
     const edirs: string[] = typeof args['exclude-dir'] == 'string' ? [args['exclude-dir']] : args['exclude-dir'] || [];
 
+    const buildArgs: CyblogBuildArgs = {
+        to: args.output,
+        applyStyles: styles,
+        overwrite: args.force,
+        'exclude-dirs': edirs,
+        'exclude-files': efiles,
+        launchDir: Deno.cwd()
+    }
+    
     Deno.chdir(path.dirname(src));
+    const srcName = path.basename(src);
     if (type == PathTypes.Directory) {
-        buildDir(src, {
-            to: args.output,
-            applyStyles: styles,
-            overwrite: args.force,
-            'exclude-dirs': edirs,
-            'exclude-files': efiles
-        });
+        buildDir(srcName, buildArgs);
     }
     else {
-        buildFile(src, {
-            to: args.output,
-            applyStyles: styles,
-            overwrite: args.force,
-        });
+        buildFile(srcName, buildArgs);
     }
 }
 
