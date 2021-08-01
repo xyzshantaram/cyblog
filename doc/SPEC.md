@@ -151,7 +151,7 @@ values you see fit.
   ```md
   <!-- cyblog-meta
   @html-meta name:author, content:John Doe
-  @html-meta name:description content:John Doe's Cyblog
+  @html-meta name:description, content:John Doe's Cyblog
   -->
   ```
   gets transformed into:
