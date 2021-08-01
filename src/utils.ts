@@ -11,7 +11,10 @@ export interface CyblogBuildArgs {
     to?: Path;
     applyStyles?: Path[];
     cyblog?: boolean,
-    overwrite?: boolean
+    overwrite?: boolean,
+    'exclude-files'?: string[],
+    'exclude-dirs'?: string[],
+    pwd?: string
 }
 
 export function scream(code: number, ...data: unknown[]) {

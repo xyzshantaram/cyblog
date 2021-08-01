@@ -2,7 +2,7 @@ import { flags, path, fs } from './deps.ts';
 import { Path, PathTypes, CyblogBuildArgs, getType, scream, getFileName, getExtension, getConfigDir } from './utils.ts';
 import { CYBLOG_VALID_SUFFIXES } from './constants.ts';
 import { parse } from './parser.ts';
-import { warn, info } from './logging.ts';
+import { help, warn, info } from './logging.ts';
 
 async function buildFile(from: Path, args?: CyblogBuildArgs) {
     const src = from.toString();
@@ -46,7 +46,8 @@ async function buildFile(from: Path, args?: CyblogBuildArgs) {
 
     const final = await parse(contents, {
         cyblog: extn === '.cyblog',
-        applyStyles: styles
+        applyStyles: styles,
+        pwd: args?.pwd
     });
 
     await Deno.writeTextFile(dest, final);
@@ -77,9 +78,17 @@ async function buildDir(from: Path, args?: CyblogBuildArgs) {
     }
 
     Deno.mkdir(dest);
+    const edirs = args?.['exclude-dirs']?.map((elem) => path.resolve(path.join(srcPath, elem))) || [];
+    const epaths = args?.['exclude-files']?.map((elem) => path.resolve(path.join(srcPath, elem))) || [];
 
+    dirloop:
     for await (const entry of fs.walk(srcPath)) {
         if (srcPath === entry.path) continue;
+        const name = path.resolve(path.dirname(entry.path));
+        const abs = path.resolve(entry.path);
+        for (const dir of edirs) if (name.startsWith(dir)) continue dirloop;
+        for (const path of epaths) if (abs.endsWith(path)) continue dirloop;
+
         const relative = path.relative(srcPath, entry.path);
         let dir = path.join(dest, relative);
         if (entry.isDirectory) {
@@ -92,11 +101,12 @@ async function buildDir(from: Path, args?: CyblogBuildArgs) {
                 dir = dir.replace(extn, '.html');
                 buildFile(entry.path, {
                     to: dir,
-                    applyStyles: args?.applyStyles
+                    applyStyles: args?.applyStyles,
+                    pwd: name
                 })
             }
             else {
-                warn("Found file with unknown type, left it alone.")
+                // warn(`File ${entry.path} has unknown type, left it alone.`)
                 Deno.copyFile(entry.path, dir);
             }
         }
@@ -105,22 +115,26 @@ async function buildDir(from: Path, args?: CyblogBuildArgs) {
 }
 
 function showHelp() {
-    console.log(`USAGE:\n\tcyblog <sourcefile|sourcedir> [-f] [-a additionalStyle.css] [-o output]`);
-    console.log(`
+    help(`USAGE:\n    cyblog <sourcefile|sourcedir> [-f] [-a additionalStyle.css] [-o output] [-e dirname]`);
+    help(`
     -o, --output: The name of the output directory or file.
-    -a, --apply-style: The name of a stylesheet to include, same as @apply-style
+    -a, --apply-style: The name of a stylesheet to include, same as @apply-style.
+    -e, --exclude-file: Exclude a file from being built.
+    -E, --exclude-dir: Don't process any directories or children of those directories that have the given dirname.
     -f, --force: overwrite destination path if it exists.`)
 }
 
 async function main() {
     const args: flags.Args = flags.parse(Deno.args, {
-        string: ['--apply-style', '-a', '--output', '-o'],
+        string: ['--apply-style', '-a', '--output', '-o', '-e', '-E', '--exclude-file', '--exclude-dir'],
         boolean: ['--force', '-f', '--help', '-h'],
         alias: {
             a: 'apply-style',
             o: 'output',
             f: 'force',
-            h: 'help'
+            h: 'help',
+            e: 'exclude-file',
+            E: 'exclude-dir'
         }
     });
 
@@ -148,23 +162,25 @@ async function main() {
         if (e instanceof Deno.errors.NotFound) scream(2, 'File or directory not found:', src);
         else scream(1, e);
     }
-    const styles: Path[] = typeof args['apply-style'] == 'string' ? [args['apply-style']] : args['apply-style'];
+    const styles: Path[] = typeof args['apply-style'] == 'string' ? [args['apply-style']] : args['apply-style'] || [];
+    const efiles: string[] = typeof args['exclude-file'] == 'string' ? [args['exclude-file']] : args['exclude-file'] || [];
+    const edirs: string[] = typeof args['exclude-dir'] == 'string' ? [args['exclude-dir']] : args['exclude-dir'] || [];
 
     Deno.chdir(path.dirname(src));
-    const base = path.basename(src);
-
     if (type == PathTypes.Directory) {
-        buildDir(base, {
+        buildDir(src, {
             to: args.output,
             applyStyles: styles,
-            overwrite: args.force
+            overwrite: args.force,
+            'exclude-dirs': edirs,
+            'exclude-files': efiles
         });
     }
     else {
-        buildFile(base, {
+        buildFile(src, {
             to: args.output,
             applyStyles: styles,
-            overwrite: args.force
+            overwrite: args.force,
         });
     }
 }
