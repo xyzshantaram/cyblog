@@ -160,7 +160,8 @@ export async function parse(toParse: string, args: CyblogBuildArgs): Promise<str
             final.push('</div>');
         }
         else if (declName === 'apply-style') {
-            applyStyles.push(declValue);
+            const fpath = path.join(args?.pwd || '', declValue);
+            applyStyles.push(fpath);
         }
         else if (declName === 'template') {
             if (headerString || footerString) {
