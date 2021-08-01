@@ -27,7 +27,6 @@ at the moment.
 
 #### Manual install
 ```
-$ make copyconf
 $ make compile
 ```
 
