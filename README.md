@@ -18,11 +18,20 @@ to one of the following locations in order of preference:
 * $HOME/.deno
 
 Thus, to change where Cyblog is installed, set the DENO_INSTALL_ROOT variable.
+If you'd prefer to install an executable to a different paths, see [manual install](#manual-install) below.
 
 Cyblog also copies its config files to one of `$XDG_DATA_HOME`,
 `${home}/.local/share`, `${home}/Library/Application Support`, or
 `FOLDERID_RoamingAppData`, depending on your platform. This cannot be changed
 at the moment.
+
+#### Manual install
+```
+$ make copyconf
+$ make compile
+```
+
+This will leave you with a `cyblog` executable in the current directory.
 
 ### Usage
 

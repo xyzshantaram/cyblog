@@ -16,6 +16,11 @@ run:
 bundle:
 	deno bundle $(OPTIONS) $(ENTRYPOINT) $(DENO_NAME).js
 
-install: bundle
+copyconf:
 	deno run $(PERMS) $(OPTIONS) install/install.ts
+
+compile: bundle copyconf
+	deno compile $(PERMS) $(OPTIONS) $(DENO_NAME).js
+
+install: bundle copyconf
 	deno install $(INSTALL_OPTIONS) $(OPTIONS) $(PERMS) -n $(DENO_NAME) $(DENO_NAME).js
