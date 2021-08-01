@@ -138,6 +138,7 @@ export async function parse(toParse: string, args: CyblogBuildArgs): Promise<str
             if (val.templating === 'on') {
                 templatingCurrentBlock = true;
             }
+            if (openedBlocks.includes(val.name) || closedBlocks.includes(val.name)) scream(1, `Attempt to reopen ${val.name} is not permitted`);
             openedBlocks.push(val.name);
         }
         else if (declName === 'include') {
@@ -154,6 +155,7 @@ export async function parse(toParse: string, args: CyblogBuildArgs): Promise<str
             inBlock = false;
             templatingCurrentBlock = false;
             const parts = declValue.split(' ');
+            if (!openedBlocks.includes(parts[0]) || closedBlocks.includes(parts[0])) scream(1, `Attempt to close block ${parts[0]} is not permitted as it has not been opened yet, or already been closed`);
             closedBlocks.push(parts[0]);
             final.push('</div>');
         }
