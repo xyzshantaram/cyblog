@@ -141,8 +141,14 @@ export async function parse(toParse: string, args: CyblogBuildArgs): Promise<str
             openedBlocks.push(val.name);
         }
         else if (declName === 'include') {
-            const contents = await Deno.readTextFile(declValue);
-            final.push(...contents.split('\n'));
+            try {
+                const fpath = path.join(args?.pwd || '', declValue);
+                const contents = await Deno.readTextFile(fpath);
+                final.push(...contents.split('\n'));
+            }
+            catch (e) {
+                error(`Error reading included file ${declValue}`)
+            }
         }
         else if (declName === 'block-end') {
             inBlock = false;
