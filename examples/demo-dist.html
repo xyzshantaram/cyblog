@@ -140,9 +140,9 @@ Cyblog extends Markdown using comments to store its metadata.</p>
 <h1 id="this-is-an-lt-h1-gt-tag">This is an &lt;h1&gt; tag</h1>
 <h2 id="this-is-an-lt-h2-gt-tag">This is an &lt;h2&gt; tag</h2>
 <h6 id="this-is-an-lt-h6-gt-tag">This is an &lt;h6&gt; tag</h6>
-<p><em>This text will be italic</em>
+<p><em>This text will be italic</em>,
 <em>This will also be italic</em></p>
-<p><strong>This text will be bold</strong>
+<p><strong>This text will be bold</strong>,
 <strong>This will also be bold</strong></p>
 <p><em>You <strong>can</strong> combine them</em></p>
 <p>**escaped strong**</p>
@@ -178,7 +178,7 @@ Cyblog extends Markdown using comments to store its metadata.</p>
 in the future than in the past.</p>
 </blockquote>
 </div>
-<div id="code" class="code-block js">
+<div id="code" class=" code-block js">
 <p>A function that prints stuff:</p>
 
 <pre><code>function test() {
@@ -212,6 +212,17 @@ in the future than in the past.</p>
 <li><input type="checkbox" checked> this is a complete item</li>
 <li><input type="checkbox"> this is an incomplete item</li>
 </ul>
+<div id="templating-demo" class="">
+<p>  Testing templating.</p>
+<p>  This document was written by shantaram</p>
+<p>  The answer to life, the universe, and everything, is 42</p>
+<p>  This is an escaped template and won&#39;t work: {{author}}</p>
+<p>  Unknown template: {{unknown-template}}
+</div>
+<div id="no-templating-demo" class="">
+<p>  Templating won&#39;t work when it&#39;s not explicitly enabled, either: {{author}}
+</div>
+<p>Lastly, emplating outside a block will also not work: {{author}}</p>
 <nav>
     <a href='#'>A</a>
     <a href='#'>sample</a>

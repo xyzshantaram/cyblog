@@ -1,5 +1,8 @@
 CURRENT:
-* fix relative urls between links
+* !!! REFACTOR RENDERER !!!
+* fix relative urls between links (ie, make paths to local files refer to the dir root and convert .md / .cyblog to html)
+* allow including cyblog files
+* add method of excluding certain files
 
 FUTURE:
 * Syntax highlighting

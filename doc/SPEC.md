@@ -137,20 +137,21 @@ _**Note** that template types are **NOT** final yet._
 
 ##### Metadata blocks
 
-(**`html-meta-*`** and **`meta-*`**)
+(**`html-meta`** and **`meta-*`**)
 
 Metadata declarations are parsed dynamically, so you can store and set whatever
 values you see fit.
 
 - To add a `meta` tag to the `head` of the generated HTML document, add a
-  `html-meta-*` declaration to the document meta block. The value of the
-  declaration is substituted for the meta tag's content attribute.
+  `html-meta` declaration to the document meta block. The declaration value
+  must be a comma-separated list of attribute-value pairs joined by colons.
+  An example is given below.
 
   For example:
   ```md
   <!-- cyblog-meta
-  @html-meta-author John Doe
-  @html-meta-description John Doe's Cyblog
+  @html-meta name:author, content:John Doe
+  @html-meta name:description content:John Doe's Cyblog
   -->
   ```
   gets transformed into:
@@ -246,6 +247,30 @@ snippets._
   ```md
   <!-- @block-start block-with-two-classes .class1.class2 -->
   ```
+  Blocks also enable Cyblog's templating features: if you have `template:true`
+  in the block-start declaration, Cyblog will perform mustache replacement on
+  the block contents using the document meta block's `meta-*` declarations.
+
+  You can escape mustaches by prefixing them with double backslashes.
+  ```md
+  <!-- cyblog-meta
+  @title page-title
+  @meta-foo bar
+  @meta-baz quux
+  -->
+  <!-- @block-start block-name .templated-block template:true -->
+  {{ foo }}
+  \\{{ baz }}
+  <!-- @block-end block-name -->
+  ```
+  Is rendered to:
+  ```html
+    <div class='templated-block'>
+    bar
+    {{ baz }}
+    </div>
+  ```
+  See demo.cyblog for more examples.
 
 ##### `block-end`
 
