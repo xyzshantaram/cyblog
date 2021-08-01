@@ -2,7 +2,7 @@ import { flags, path, fs } from './deps.ts';
 import { Path, PathTypes, CyblogBuildArgs, getType, scream, getFileName, getExtension, getConfigDir } from './utils.ts';
 import { CYBLOG_VALID_SUFFIXES } from './constants.ts';
 import { parse } from './parser.ts';
-import { help, warn, info } from './logging.ts';
+import { help, info } from './logging.ts';
 
 async function buildFile(from: Path, args?: CyblogBuildArgs) {
     const src = from.toString();
