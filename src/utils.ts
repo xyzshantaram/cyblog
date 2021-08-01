@@ -14,7 +14,8 @@ export interface CyblogBuildArgs {
     overwrite?: boolean,
     'exclude-files'?: string[],
     'exclude-dirs'?: string[],
-    pwd?: string
+    pwd?: string,
+    launchDir?: string
 }
 
 export function scream(code: number, ...data: unknown[]) {
