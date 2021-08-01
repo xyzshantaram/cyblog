@@ -146,7 +146,7 @@ export async function parse(toParse: string, args: CyblogBuildArgs): Promise<str
                 const contents = await Deno.readTextFile(fpath);
                 final.push(...contents.split('\n'));
             }
-            catch (e) {
+            catch (_e) {
                 error(`Error reading included file ${declValue}`)
             }
         }
