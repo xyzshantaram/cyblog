@@ -116,7 +116,7 @@ async function buildDir(from: Path, args?: CyblogBuildArgs) {
 
 function showHelp() {
     help(`USAGE:\n    cyblog <sourcefile|sourcedir> [-f] [-a additionalStyle.css] [-o output] [-e dirname]`);
-    help(`
+    help(`OPTIONS:
     -o, --output: The name of the output directory or file.
     -a, --apply-style: The name of a stylesheet to include, same as @apply-style.
     -e, --exclude-file: Exclude a file from being built.
