@@ -86,7 +86,7 @@ a:active {
 
 .cyblog-table-wrapper {
     max-width: 100%;
-    overflow-x: scroll;
+    overflow-x: auto;
 }
 
 table {

@@ -199,13 +199,6 @@ export async function parse(toParse: string, args: CyblogBuildArgs): Promise<str
     let title = 'Cyblog Document';
     let headerCount = 0;
 
-    const addCheckBox = (str: string) => {
-        if (/^<li>\s*\[.?\]/.test(str)) {
-            return str.replace(/\[ ?\]/, '<input type="checkbox">').replace(/\[[^ ]\]/, '<input type="checkbox" checked>')
-        }
-        return str;
-    }
-
     const getTemplated = (str: string): string => {
         if (inBlock && !inCodeBlock && templatingCurrentBlock) {
             return mustache(str, templatingData);
@@ -253,9 +246,6 @@ export async function parse(toParse: string, args: CyblogBuildArgs): Promise<str
                 }
                 final.push('</div>');
             }
-        }
-        else if (line.includes('<li>')) {
-            final.push(addCheckBox((getTemplated(line))));
         }
         else if (line.startsWith('<pre><code>')) {
             final.push(getTemplated(line));

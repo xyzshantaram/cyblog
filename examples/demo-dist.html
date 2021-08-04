@@ -75,6 +75,55 @@ pre {
     font-size: 1rem;
 }
 
+a:visited {
+    color: #235aff;
+}
+
+a {
+    color: #235aff;
+    transition-duration: 0.2s;
+}
+
+a:active {
+    color: navy;
+}
+
+.cyblog-table-wrapper {
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    border: 1px solid #999999;
+    border-spacing: 0;
+    border-radius: 0.2rem;
+}
+
+td, th {
+    padding: 0.4rem;
+    border-right: 1px solid #bbbbbb;
+    border-bottom: 1px solid #bbbbbb;
+    margin: 0;
+}
+
+th {
+    border-color: #999999;
+}
+
+td:last-child, th:last-child {
+    border-right: none;
+}
+
+tr:last-child > td {
+    border-bottom: none;
+}
+
+thead {
+    margin: 0;
+    padding: 0;
+}
+
+
 @media screen and (max-aspect-ratio: 1/1) {
     body {
         width: 90vw;
@@ -107,19 +156,6 @@ pre {
     p, h1, h2, h3, h4, h5, h6, pre, blockquote, strong, em {
         page-break-inside: avoid;
     }
-}
-
-a:visited {
-    color: #235aff;
-}
-
-a {
-    color: #235aff;
-    transition-duration: 0.2s;
-}
-
-a:active {
-    color: navy;
 }
 
 </style>
@@ -186,13 +222,14 @@ in the future than in the past.</p>
 </code></pre>
 </div>
 <div id="custom-id" class="">
-
+<div class='cyblog-table-wrapper'>
 <table>
 <thead>
 <tr>
 <th>First Header</th>
 <th>Second Header</th>
 </tr>
+
 </thead>
 <tbody>
 <tr>
@@ -203,8 +240,10 @@ in the future than in the past.</p>
 <td>Content column 1</td>
 <td>Content column 2</td>
 </tr>
+
 </tbody>
 </table>
+</div>
 </div>
 
 <ul>
