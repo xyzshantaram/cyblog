@@ -1,5 +1,11 @@
 <div id='presentation-slide-end' class='presentation-slide default-slide'>
-    <h6>The end.</h6>
+    <h3>The end.</h3>
+</div>
+
+<footer class='prefab-footer'>
+    <div class='presentation-footer'>{{ presentation-footer }}</div>
+</header>
+
 </div>
 
 <script>
@@ -21,16 +27,20 @@
 
         // make the current slide visible.
         function draw() {
-            slides[currIdx].style.display = 'flex';
+            if (slides[currIdx]) slides[currIdx].style.display = 'flex';
         }
 
         function advance() {
             // make the current slide invisible.
-            slides[currIdx].style.display = 'none';
+            if (slides[currIdx]) slides[currIdx].style.display = 'none';
             // advance...
             currIdx += 1;
             // if we're within the slide bounds, draw...
-            if (currIdx < slides.length) draw();
+            if (currIdx < slides.length) {
+                document.querySelector('#presentation-slide-begin').style.display = 'none';
+                document.querySelector('#presentation-slide-end').style.display = 'none';
+                draw();
+            }
             else {
                 // ... or show the default ending slide.
                 currIdx = slides.length;
@@ -40,11 +50,15 @@
 
         function prev() {
             // make the current slide invisible.
-            slides[currIdx].style.display = 'none';
+            if (slides[currIdx]) slides[currIdx].style.display = 'none';
             // go back...
             currIdx -= 1;
             // if we're within the slide bounds, draw...
-            if (currIdx >= 0) draw();
+            if (currIdx >= 0) {
+                document.querySelector('#presentation-slide-begin').style.display = 'none';
+                document.querySelector('#presentation-slide-end').style.display = 'none';
+                draw();
+            }
             else {
                 // ... or show the default beginning slide.
                 currIdx = -1;
@@ -64,11 +78,11 @@
         });
 
         window.addEventListener('keydown', (e) => {
-             // self-explanatory
-            if (e.key == 'ArrowDown' || 'ArrowRight') {
+            // self-explanatory
+            if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
                 advance();
             }
-            else if (e.key == 'ArrowUp' || 'ArrowLeft') {
+            else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
                 prev();
             }
         })

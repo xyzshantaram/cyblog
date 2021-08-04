@@ -1,19 +1,38 @@
-.prefab-header {
+body, html, #cyblog-presentation {
+    height: 100%;
+}
+
+.prefab-header, .prefab-footer {
     margin: 0;
     padding: 1rem;
     display: flex;
+}
+
+.prefab-footer {
+    border-top: 2px solid #c1c1c1;
+}
+
+.prefab-header {
+    border-bottom: 2px solid #c1c1c1;
 }
 
 .prefab-header > div {
     box-sizing: border-box;
 }
 
-.prefab-header > .presenter-name {
-    margin-left: auto;
-}
-
 .presentation-slide {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
+#cyblog-presentation {
+    display: flex;
+    flex-direction: column;
+}
+
+#presentation-slide-begin, #presentation-slide-end {
+    display: none;
 }
