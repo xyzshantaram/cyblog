@@ -1,0 +1,19 @@
+.prefab-header {
+    margin: 0;
+    padding: 1rem;
+    display: flex;
+}
+
+.prefab-header > div {
+    box-sizing: border-box;
+}
+
+.prefab-header > .presenter-name {
+    margin-left: auto;
+}
+
+.presentation-slide {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
