@@ -1,8 +1,9 @@
 CURRENT:
 * !!! REFACTOR RENDERER !!!
-* fix relative urls between links (ie, make paths to local files refer to the dir root and convert .md / .cyblog to html)
 * allow including cyblog files
 * unify path handling
+* add a --template flag
+* add gallery template
 
 FUTURE:
 * Syntax highlighting
