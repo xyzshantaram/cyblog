@@ -2,6 +2,7 @@ import { Marked, fs, path } from './deps.ts';
 import { Path, CyblogBuildArgs, scream, getConfigDir, createElementWithAttrs, createClosingTag } from './utils.ts';
 import { CYBLOG_KNOWN_DECLS, DOCTYPE, HTML_OPEN, HTML_CLOSE } from './constants.ts';
 import { warn, error } from './logging.ts';
+import { CustomRenderer } from './CustomRenderer.ts';
 
 async function buildStyleElement(styles: (Path | undefined)[]) {
     let ret = `<style>\n`;
@@ -47,7 +48,8 @@ export async function parse(toParse: string, args: CyblogBuildArgs): Promise<str
         gfm: true,
         tables: true,
         smartLists: true,
-        smartypants: false
+        smartypants: false,
+        renderer: new CustomRenderer()
     });
 
     const applyStyles = args?.applyStyles || [];
