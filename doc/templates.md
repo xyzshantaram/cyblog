@@ -8,11 +8,12 @@ to change their content.
 ### Contents
 
 1. [The `blog` builtin](#blog)
+1. [The `presentation` builtin](#presentation)
 1. [Adding your own templates](#custom-templates)
 
 ### Blog
 
-To use the blog built-in template:
+To use the `blog` built-in template:
 
 1. Apply the `<!-- @template blog -->` declaration.
 2. Add `@meta-*` declarations for `blogname` and `blog-header`. These should be
@@ -21,6 +22,22 @@ To use the blog built-in template:
    string. This string will be placed in the document footer.
 
 An example is provided in `/examples/templates.cyblog`.
+
+### Presentation
+
+_Warning:_ The `presentation` template uses JavaScript to provide its functionality.
+If you have JavaScript disabled, pages remain readable, but they no longer act as 
+slideshows.
+
+To use the `presentation` built-in template:
+
+1. Apply the `<!-- @template presentation -->` declaration.
+2. Add `@meta-*` declarations called `presentation-header` and `presentation-footer`.
+   These will be filled into the presentation header and footer.
+3. Add your slides by creating Cyblog blocks with the `.presentation-slide` class.
+   Slides support all usual Cyblog features.
+
+See `examples/presentation-demo.cyblog` for an example presentation.
 
 ### Custom templates
 
