@@ -35,7 +35,7 @@ export const mustache = (string: string, data: Record<string, string> = {}) => {
         // this regex is actually (?<!\\){{\s*<key>\s*}} but because of escaping it looks like that...
         const escapeRe = new RegExp(`\\\\({{\\s*${key}\\s*}})`, 'g')
         // the second regex now handles the cases that were skipped in the first case.
-        return res.replace(mainRe, value.toString()).replace(escapeRe, '$1');
+        return res.replace(mainRe, value || "").replace(escapeRe, '$1');
     }, string);
 }
 
