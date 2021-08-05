@@ -49,7 +49,6 @@ async function buildFile(from: Path, args?: CyblogBuildArgs) {
         const resolvedDestPath = path.resolve(dest);
         if (resolvedDestPath.startsWith(Deno.cwd())) {
             destLoc = path.join(path.resolve(args?.launchDir || Deno.cwd()), dest);
-            console.log('test');
         }
         else {
             destLoc = resolvedDestPath;
