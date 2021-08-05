@@ -14,8 +14,8 @@ $ make
 Cyblog uses `deno install` to install itself. Therefore, it's installed
 to one of the following locations in order of preference:
 
-* DENO_INSTALL_ROOT environment variable
-* $HOME/.deno
+* `DENO_INSTALL_ROOT` environment variable
+* `$HOME/.deno`
 
 Thus, to change where Cyblog is installed, set the DENO_INSTALL_ROOT variable.
 If you'd prefer to install an executable to a different paths, see [manual install](#manual-install) below.
