@@ -63,6 +63,12 @@ cyblog {SOURCEDIR|SOURCEFILE.cyblog} [options]
 Feel free to fork the repo and open a PR. Cyblog is written in TypeScript and
 all documentation is written in Markdown.
 
+### Get in touch
+
+You can contact me by e-mailing me at [me@shantaram.xyz](mailto:me@shantaram.xyz).
+
+There's also a Cyblog IRC channel, `#cyblog`, on [libera.chat](https://web.libera.chat/). I post updates there.
+
 ### License
 
 ```
