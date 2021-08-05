@@ -17,9 +17,9 @@ A demo.
 Apply the template with `@template presentation`.
 
 Add the `meta-presentation-header` and `meta-presentation-footer` declarations to 
-your document's meta block. Left-click or use the right- or down- arrow keys to advance, 
-right-click or use the left- or up- arrow keys to go back. Cyblog inserts pre- and 
-post-presentation slides to your document automatically.
+your document's meta block. Click the right half of the screen or use the right- /
+down- arrow keys to advance, click the left half or use the left- / up- arrow keys
+to go back. Cyblog inserts pre- and post-presentation slides to your document automatically.
 You can also swipe between slides.
 
 <!-- @block-end slide1 -->

@@ -29,13 +29,6 @@
             slide.style.display = 'none';
         }
 
-        // disable context menu.
-        window.oncontextmenu = (e) => {
-            e.preventDefault();
-            e.stopImmediatePropagation()
-            return false;
-        }
-
         // make the current slide visible.
         function draw() {
             if (slides[currIdx]) slides[currIdx].style.display = 'flex';
@@ -77,15 +70,20 @@
             }
         }
 
-        document.body.addEventListener('mouseup', (e) => {
-            if (e.button == 0) {
-                // on left click, advance
+        window.addEventListener('click', (e) => {
+            if (!e.button == 0) return;
+            
+            const selection = window.getSelection();
+            if (selection.toString()) return;
+
+            if (e.clientX > window.innerWidth / 2) {
+                // on right-side click, advance
                 advance();
             }
-            else if (e.button == 2) {
-                // on right click, go back
+            else {
                 prev();
             }
+            
         });
 
         window.addEventListener('keydown', (e) => {
