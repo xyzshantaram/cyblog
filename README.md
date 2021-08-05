@@ -58,6 +58,17 @@ cyblog {SOURCEDIR|SOURCEFILE.cyblog} [options]
   - `SOURCEFILE-dist.html` (in case of a file)
   - `SOURCEDIR-dist` (in case of a directory)
 
+### Features
+* Fast - builds this entire repo in 0.2s
+* Fully markdown-compatible, extended via comments - every Markdown file is already a valid Cyblog source file!
+* Simple - Cyblog declarations are designed to be easy to read and remember
+* Mustache templating support
+* Builtin templates  and styles for various purposes (see [templates.md](doc/templates.md) and [the manual](doc/MANUAL.md)).
+  * Presentation template, so you can write slides in markdown and extend them with Cyblog, then build them into a single HTML file when presenting.
+* Allows adding arbitrary styling and HTML through `@apply-style` and `@include`
+* Front matter support via `@meta` declarations
+
+
 ### Contributing
 
 Feel free to fork the repo and open a PR. Cyblog is written in TypeScript and
