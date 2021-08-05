@@ -68,7 +68,6 @@ cyblog {SOURCEDIR|SOURCEFILE.cyblog} [options]
 * Allows adding arbitrary styling and HTML through `@apply-style` and `@include`
 * Front matter support via `@meta` declarations
 
-
 ### Contributing
 
 Feel free to fork the repo and open a PR. Cyblog is written in TypeScript and
