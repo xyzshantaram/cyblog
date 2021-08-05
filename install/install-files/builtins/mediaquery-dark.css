@@ -12,6 +12,10 @@
         color: #1f6dec;
     }
 
+    span[class^='cyb-meta'] {
+        color: #ccc;
+    }
+
     @media not all and (hover: none) {
         a:hover, a:visited:hover {
             filter: brightness(2);

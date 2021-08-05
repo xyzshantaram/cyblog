@@ -8,11 +8,12 @@ async function buildStyleElement(styles: (Path)[]) {
     let ret = `<style>\n`;
     for (const x of styles) {
         const name = x.toString();
+        const basename = path.basename(name);
         let filename = name;
         try {
             if (name) {
-                if (/^@builtin-(.+)/.test(name)) {
-                    const matches = name.match(/^@builtin-(.+)/);
+                if (/^@builtin-(.+)/.test(basename)) {
+                    const matches = basename.match(/^@builtin-(.+)/);
                     if (matches) {
                         const configPath = getConfigDir();
                         if (!configPath) scream(1, "Config path not found!");

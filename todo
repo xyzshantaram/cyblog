@@ -5,7 +5,6 @@ CURRENT:
 * add a --template flag
 * add gallery template
 * flag to convert readmes to index.html?
-* dark mode
 
 FUTURE:
 * Syntax highlighting

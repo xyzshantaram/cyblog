@@ -119,6 +119,18 @@ _Note_: Due to the nature of the parser used in Cyblog, declarations
   @apply-style style.css
   -->
   ```
+- To apply a builtin style, use the @builtin-&lt;name&gt; syntax.
+  Builtin styles are styles that ship with Cyblog and don't require the
+  .css extension while they're being applied.
+
+  ```
+  <!-- @apply-style @builtin-dark -->
+  ```
+
+  Available builtin styles:
+    * `dark` - A dark mode for your site.
+    * `mediaquery-dark` - Uses a media query to apply dark theming only for 
+    users that want it.
 
 _**Note**: Cyblog **DOES NOT** perform any linting of CSS files._
 
