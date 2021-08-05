@@ -1,7 +1,7 @@
 # Cyblog Docs
 
 ### Index
-1. [The spec](SPEC.md) - Read the spec and familiarise yourself with Cyblog!
+1. [The spec](MANUAL.md) - Read the spec and familiarise yourself with Cyblog!
 2. [Templates](templates.md) - Read about templates.
 3. [Basics of Cyblog](#basics-of-cyblog) - A basic intro to Cyblog.
 
@@ -18,7 +18,7 @@
 3) Run Cyblog with `cyblog hello.cyblog`.
 4) Congrats! You just wrote your first Cyblog document. The result should be
 saved as `hello-dist.html`, which you can now open with your favourite browser.
-5) To learn more about Cyblog syntax, read the [SPEC](SPEC.md) and `examples/demo.cyblog`.
+5) To learn more about Cyblog syntax, read the [manual](MANUAL.md) and `examples/demo.cyblog`.
 
 ### Building directories
 1) Run Cyblog with `cyblog dirname` to build an entire directory. Cyblog
