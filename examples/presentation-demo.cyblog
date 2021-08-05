@@ -1,0 +1,33 @@
+<!-- cyblog-meta
+@title Presentation Demo
+@template presentation
+@meta-author display:false shantaram
+@meta-presentation-header display:false A demo of presentations in Cyblog
+@meta-presentation-footer display:false by shantaram, for the cyblog project
+-->
+
+<!-- @block-start slide1 .presentation-slide -->
+
+# Presentations in Cyblog
+
+A demo.
+
+### Usage
+
+Apply the template with `@template presentation`.
+
+Add the `meta-presentation-header` and `meta-presentation-footer` declarations to 
+your document's meta block. Left-click or use the right- or down- arrow keys to advance, 
+right-click or use the left- or up- arrow keys to go back. Cyblog inserts pre- and 
+post-presentation slides to your document automatically.
+
+<!-- @block-end slide1 -->
+
+<!-- @block-start slide2 .presentation-slide -->
+
+# Adding slides
+
+Create slides by adding blocks with the `.presentation-slide` class! It's that simple.
+All cyblog markup is supported.
+
+<!-- @block-end slide2 -->
