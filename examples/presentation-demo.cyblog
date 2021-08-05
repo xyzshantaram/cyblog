@@ -20,6 +20,7 @@ Add the `meta-presentation-header` and `meta-presentation-footer` declarations t
 your document's meta block. Left-click or use the right- or down- arrow keys to advance, 
 right-click or use the left- or up- arrow keys to go back. Cyblog inserts pre- and 
 post-presentation slides to your document automatically.
+You can also swipe between slides.
 
 <!-- @block-end slide1 -->
 

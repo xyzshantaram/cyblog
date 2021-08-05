@@ -4,89 +4,108 @@
 
 <footer class='prefab-footer'>
     <div class='presentation-footer'>{{ presentation-footer }}</div>
-</header>
+    </header>
 
-</div>
+    </div>
 
-<script>
-    window.addEventListener('DOMContentLoaded', (e) => {
-        const slides = document.querySelectorAll('.presentation-slide:not(.default-slide)');
-        let currIdx = 0;
+    <script>
+        /*!
+            * swiped-events.js - v1.1.4
+            * Pure JavaScript swipe events
+            * https://github.com/john-doherty/swiped-events
+            * @inspiration https://stackoverflow.com/questions/16348031/disable-scrolling-when-touch-moving-certain-element
+            * @author John Doherty <www.johndoherty.info>
+            * @license MIT
+        */
+        !function (t, e) { "use strict"; "function" != typeof t.CustomEvent && (t.CustomEvent = function (t, n) { n = n || { bubbles: !1, cancelable: !1, detail: void 0 }; var a = e.createEvent("CustomEvent"); return a.initCustomEvent(t, n.bubbles, n.cancelable, n.detail), a }, t.CustomEvent.prototype = t.Event.prototype), e.addEventListener("touchstart", function (t) { if ("true" === t.target.getAttribute("data-swipe-ignore")) return; s = t.target, r = Date.now(), n = t.touches[0].clientX, a = t.touches[0].clientY, u = 0, i = 0 }, !1), e.addEventListener("touchmove", function (t) { if (!n || !a) return; var e = t.touches[0].clientX, r = t.touches[0].clientY; u = n - e, i = a - r }, !1), e.addEventListener("touchend", function (t) { if (s !== t.target) return; var e = parseInt(l(s, "data-swipe-threshold", "20"), 10), o = parseInt(l(s, "data-swipe-timeout", "500"), 10), c = Date.now() - r, d = "", p = t.changedTouches || t.touches || []; Math.abs(u) > Math.abs(i) ? Math.abs(u) > e && c < o && (d = u > 0 ? "swiped-left" : "swiped-right") : Math.abs(i) > e && c < o && (d = i > 0 ? "swiped-up" : "swiped-down"); if ("" !== d) { var b = { dir: d.replace(/swiped-/, ""), xStart: parseInt(n, 10), xEnd: parseInt((p[0] || {}).clientX || -1, 10), yStart: parseInt(a, 10), yEnd: parseInt((p[0] || {}).clientY || -1, 10) }; s.dispatchEvent(new CustomEvent("swiped", { bubbles: !0, cancelable: !0, detail: b })), s.dispatchEvent(new CustomEvent(d, { bubbles: !0, cancelable: !0, detail: b })) } n = null, a = null, r = null }, !1); var n = null, a = null, u = null, i = null, r = null, s = null; function l(t, n, a) { for (; t && t !== e.documentElement;) { var u = t.getAttribute(n); if (u) return u; t = t.parentNode } return a } }(window, document);
 
-        // hide all slides by default.
-        for (const slide of slides) {
-            slide.style.display = 'none';
-        }
 
-        // disable context menu.
-        document.body.oncontextmenu = (e) => {
-            e.preventDefault();
-            e.stopImmediatePropagation()
-            return false;
-        }
+        window.addEventListener('DOMContentLoaded', (e) => {
+            const slides = document.querySelectorAll('.presentation-slide:not(.default-slide)');
+            let currIdx = 0;
 
-        // make the current slide visible.
-        function draw() {
-            if (slides[currIdx]) slides[currIdx].style.display = 'flex';
-        }
-
-        function advance() {
-            // make the current slide invisible.
-            if (slides[currIdx]) slides[currIdx].style.display = 'none';
-            // advance...
-            currIdx += 1;
-            // if we're within the slide bounds, draw...
-            if (currIdx < slides.length) {
-                document.querySelector('#presentation-slide-begin').style.display = 'none';
-                document.querySelector('#presentation-slide-end').style.display = 'none';
-                draw();
+            // hide all slides by default.
+            for (const slide of slides) {
+                slide.style.display = 'none';
             }
-            else {
-                // ... or show the default ending slide.
-                currIdx = slides.length;
-                document.querySelector('#presentation-slide-end').style.display = 'flex';
-            }
-        }
 
-        function prev() {
-            // make the current slide invisible.
-            if (slides[currIdx]) slides[currIdx].style.display = 'none';
-            // go back...
-            currIdx -= 1;
-            // if we're within the slide bounds, draw...
-            if (currIdx >= 0) {
-                document.querySelector('#presentation-slide-begin').style.display = 'none';
-                document.querySelector('#presentation-slide-end').style.display = 'none';
-                draw();
+            // disable context menu.
+            window.oncontextmenu = (e) => {
+                e.preventDefault();
+                e.stopImmediatePropagation()
+                return false;
             }
-            else {
-                // ... or show the default beginning slide.
-                currIdx = -1;
-                document.querySelector('#presentation-slide-begin').style.display = 'flex';
-            }
-        }
 
-        window.addEventListener('click', (e) => {
-            if (e.button == 0) {
-                // on left click, advance
-                advance();
+            // make the current slide visible.
+            function draw() {
+                if (slides[currIdx]) slides[currIdx].style.display = 'flex';
             }
-            else if (e.button == 2) {
-                // on right click, go back
+
+            function advance() {
+                // make the current slide invisible.
+                if (slides[currIdx]) slides[currIdx].style.display = 'none';
+                // advance...
+                currIdx += 1;
+                // if we're within the slide bounds, draw...
+                if (currIdx < slides.length) {
+                    document.querySelector('#presentation-slide-begin').style.display = 'none';
+                    document.querySelector('#presentation-slide-end').style.display = 'none';
+                    draw();
+                }
+                else {
+                    // ... or show the default ending slide.
+                    currIdx = slides.length;
+                    document.querySelector('#presentation-slide-end').style.display = 'flex';
+                }
+            }
+
+            function prev() {
+                // make the current slide invisible.
+                if (slides[currIdx]) slides[currIdx].style.display = 'none';
+                // go back...
+                currIdx -= 1;
+                // if we're within the slide bounds, draw...
+                if (currIdx >= 0) {
+                    document.querySelector('#presentation-slide-begin').style.display = 'none';
+                    document.querySelector('#presentation-slide-end').style.display = 'none';
+                    draw();
+                }
+                else {
+                    // ... or show the default beginning slide.
+                    currIdx = -1;
+                    document.querySelector('#presentation-slide-begin').style.display = 'flex';
+                }
+            }
+
+            document.body.addEventListener('mouseup', (e) => {
+                if (e.button == 0) {
+                    // on left click, advance
+                    advance();
+                }
+                else if (e.button == 2) {
+                    // on right click, go back
+                    prev();
+                }
+            });
+
+            window.addEventListener('keydown', (e) => {
+                // self-explanatory
+                if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+                    advance();
+                }
+                else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+                    prev();
+                }
+            })
+
+            document.addEventListener('swiped-right', function (e) {
                 prev();
-            }
-        });
+            });
 
-        window.addEventListener('keydown', (e) => {
-            // self-explanatory
-            if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+            document.addEventListener('swiped-left', function (e) {
                 advance();
-            }
-            else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
-                prev();
-            }
+            });
+
+            draw();
         })
-
-        draw();
-    })
-</script>
+    </script>
