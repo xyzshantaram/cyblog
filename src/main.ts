@@ -83,9 +83,7 @@ async function buildFile(from: Path, args?: CyblogBuildArgs) {
         pwd: args?.pwd
     });
 
-    console.log(destLoc);
     await Deno.writeTextFile(destLoc, final);
-
     info(`Built ${destLoc} successfully!`)
 }
 

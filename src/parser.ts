@@ -4,18 +4,28 @@ import { CYBLOG_KNOWN_DECLS, DOCTYPE, HTML_OPEN, HTML_CLOSE } from './constants.
 import { warn, error } from './logging.ts';
 import { CustomRenderer } from './CustomRenderer.ts';
 
-async function buildStyleElement(styles: (Path | undefined)[]) {
+async function buildStyleElement(styles: (Path)[]) {
     let ret = `<style>\n`;
     for (const x of styles) {
+        const name = x.toString();
+        let filename = name;
         try {
-            if (x) {
-                const contents = await Deno.readTextFile(x);
+            if (name) {
+                if (/^@builtin-(.+)/.test(name)) {
+                    const matches = name.match(/^@builtin-(.+)/);
+                    if (matches) {
+                        const configPath = getConfigDir();
+                        if (!configPath) scream(1, "Config path not found!");
+                        else filename = path.join(configPath, 'cyblog', 'builtins', `${matches[1]}.css`);
+                    }
+                }
+                const contents = await Deno.readTextFile(filename);
                 ret += contents;
             }
         }
         catch (e) {
             if (e instanceof Deno.errors.NotFound) {
-                warn(`Stylesheet ${x} not found, continuing`);
+                warn(`Stylesheet ${name} not found, continuing`);
             }
             else {
                 error(e);
