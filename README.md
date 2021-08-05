@@ -109,3 +109,6 @@ MIT license. Copyright © justjavac.
 
 `Marked` markdown parser library from https://github.com/ubersl0th/markdown under
 the MIT license. Copyright © 2020 Eivind Furuberg.
+
+`swiped-events.js` from https://github.com/john-doherty/swiped-events,
+Copyright © 2017 John Doherty. http://www.johndoherty.info.
