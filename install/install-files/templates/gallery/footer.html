@@ -1,0 +1,52 @@
+<footer class='prefab-footer'>
+    <div class='gallery-footer'>{{ gallery-footer }}</div>
+</footer>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        const elems = document.querySelectorAll('#cyblog-gallery > p > img');
+        const mask = document.querySelector("#gallery-mask");
+
+        function hideMask() {
+            mask.innerHTML = '';
+            mask.style.pointerEvents = 'none';
+            mask.style.opacity = '0';
+        }
+
+        function showMask() {
+            mask.style.pointerEvents = 'auto';
+            mask.style.opacity = '1';
+        }
+
+        hideMask();
+
+        mask.onclick = function () {
+            hideMask();
+        }
+
+        window.addEventListener('keyup', (e) => {
+            if (e.key === 'Escape') {
+                hideMask();
+            }
+        })
+
+        for (const elem of elems) {
+            elem.onclick = function () {
+                showMask();
+
+                const clone = elem.cloneNode(true);
+                const width = elem.naturalWidth, height = elem.naturalHeight;
+
+                clone.style[width >= height ? 'maxWidth' : 'maxHeight'] = '80%';
+                clone.style[width >= height ? 'height' : 'width'] = 'auto';
+                clone.style.opacity = '1';
+
+                const desc = document.createElement('div');
+                desc.className = 'gallery-img-desc';
+                desc.innerHTML = elem.getAttribute('alt') || '';
+
+                mask.append(clone, desc);
+            }
+        }
+    });
+</script>
