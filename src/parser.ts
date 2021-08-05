@@ -40,8 +40,8 @@ export const mustache = (string: string, data: Record<string, string> = {}) => {
 }
 
 export async function parse(toParse: string, args: CyblogBuildArgs): Promise<string> {
-    if (args.cyblog && !toParse.startsWith('<!-- cyblog-meta')) {
-        warn('Cyblog document with no document meta block. Falling back to title detection');
+    if (args.cyblog && !(/^<!--\s(@|cyblog-meta)/).test(toParse)) {
+        warn('Cyblog document with no document meta block.');
     }
 
     Marked.setOptions({
