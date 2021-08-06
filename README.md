@@ -64,7 +64,8 @@ cyblog {SOURCEDIR|SOURCEFILE.cyblog} [options]
 * Simple - Cyblog declarations are designed to be easy to read and remember
 * Mustache templating support
 * Builtin templates  and styles for various purposes (see [templates.md](doc/templates.md) and [the manual](doc/MANUAL.md)).
-  * Presentation template, so you can write slides in markdown and extend them with Cyblog, then build them into a single HTML file when presenting.
+  * Presentation template, so you can write slides in markdown and extend them with Cyblog, then build it all into a self-contained HTML file when you need to present.
+  * Responsive image gallery, so no matter whether you're an artist or an engineer, you can build your portfolio with Cyblog.
 * Allows adding arbitrary styling and HTML through `@apply-style` and `@include`
 * Front matter support via `@meta` declarations
 
