@@ -28,7 +28,7 @@ body {
     box-sizing: border-box;
 }
 
-#cyblog-gallery {
+.cyblog-gallery {
     transition-duration: 0.4s;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -37,14 +37,14 @@ body {
     text-align: center;
 }
 
-#cyblog-gallery p {
+.cyblog-gallery p {
     margin: 0;
 	padding: 0;
 	border: 0;
     display: inline;
 }
 
-#cyblog-gallery img {
+.cyblog-gallery img {
     width: 18vw;
     height: 18vw;
     object-fit: cover;
@@ -52,11 +52,11 @@ body {
     transition-duration: 0.4s;
 }
 
-#cyblog-gallery img:first-child {
+.cyblog-gallery img:first-child {
     margin-top: 1rem;
 }
 
-#cyblog-gallery img:last-child {
+.cyblog-gallery img:last-child {
     margin-bottom: 1rem;
 }
 
@@ -85,22 +85,22 @@ body {
 }
 
 @media screen and (max-aspect-ratio: 1/1) {
-    #cyblog-gallery {
+    .cyblog-gallery {
         grid-template-columns: repeat(2, 1fr);
     }
     
-    #cyblog-gallery img {
+    .cyblog-gallery img {
         width: 43vw;
         height: 30vh;
     }
 }
 
 @media screen and (max-aspect-ratio: 7/10) {
-    #cyblog-gallery {
+    .cyblog-gallery {
         grid-template-columns: 1fr;
     }
     
-    #cyblog-gallery img {
+    .cyblog-gallery img {
         width: 80vw;
         height: 25vh;
     }
