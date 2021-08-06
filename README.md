@@ -4,7 +4,7 @@ Cybernetically enhanced static site generation.
 
 ### Installing
 
-You'll need `deno` installed. Then:
+You'll need [`deno`](https://deno.land/#installation) installed. Then:
 
 ```
 $ git clone https://github.com/shantaram3013/cyblog
