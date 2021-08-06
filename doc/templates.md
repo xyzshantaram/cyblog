@@ -9,6 +9,7 @@ to change their content.
 
 1. [The `blog` builtin](#blog)
 1. [The `presentation` builtin](#presentation)
+1. [The `gallery` builtin](#gallery)
 1. [Adding your own templates](#custom-templates)
 
 ### Blog
@@ -39,6 +40,20 @@ To use the `presentation` built-in template:
    Slides support all the usual Cyblog features.
 
 See `examples/presentation-demo.cyblog` for an example presentation.
+
+### Gallery
+
+_Warning:_ The `gallery` template uses JavaScript for some of its functionality.
+It _will_ still function without it enabled, but for best results you should leave it on.
+
+To use the `gallery` built-in template:
+
+1. Apply the `<!-- @template gallery -->` declaration to your document.
+2. Add `@meta-*` declarations for `gallery-header` and `gallery-footer` to add the
+   contents of the page header and footer.
+3. Put a block with the class `.cyblog-gallery` in your document. Inside it, add images
+   and blocks that will get placed into a block. Images expand when you tap them, the
+   image alt text is shown below it as a description.
 
 ### Custom templates
 
