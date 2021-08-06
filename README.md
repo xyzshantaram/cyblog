@@ -4,7 +4,10 @@ Cybernetically enhanced static site generation.
 
 ### Installing
 
-You'll need [`deno`](https://deno.land/#installation) installed. Then:
+You'll need [`deno`](https://deno.land/#installation) installed. Make
+sure it's on your $PATH!
+
+Then:
 
 ```
 $ git clone https://github.com/shantaram3013/cyblog
@@ -50,8 +53,8 @@ cyblog {SOURCEDIR|SOURCEFILE.cyblog} [options]
 - `-a`, `--apply-style` The name of a stylesheet to include into the final
   document that will be built. Functions the same as the `apply-style`
   declaration.
-- `-e`, `--exclude-file`: Exclude a file from being built.
-- `-E`, `--exclude-dir`: Don't process any directories or children of those directories that have the given dirname.
+- `-e`, `--exclude-file`: Exclude a file from being built. Use exclude-file one time for each directory you want to exclude.
+- `-E`, `--exclude-dir`: Don't process any directories or children of those directories that have the given dirname. Use exclude-dir one time for each directory you want to exclude.
 - `-f`, `--force` Overwrites the destination path if it exists.
 - `-o`, `--output` The name of the output directory or file.  
   If this is not supplied, Cyblog will use a name from:

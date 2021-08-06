@@ -157,7 +157,7 @@ function showHelp() {
 
 async function main() {
     const args: flags.Args = flags.parse(Deno.args, {
-        string: ['--apply-style', '-a', '--output', '-o', '-e', '-E', '--exclude-file', '--exclude-dir'],
+        string: ['--apply-style', '-a', '--output', '-o'],
         boolean: ['--force', '-f', '--help', '-h'],
         alias: {
             a: 'apply-style',

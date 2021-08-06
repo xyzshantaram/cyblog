@@ -5,6 +5,8 @@ CURRENT:
 * add a --template flag
 * add gallery template
 * flag to convert readmes to index.html?
+* flag to parse md files as cyblog
+* better windows installer
 
 FUTURE:
 * Syntax highlighting
