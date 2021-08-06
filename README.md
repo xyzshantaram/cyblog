@@ -3,30 +3,7 @@
 Cybernetically enhanced static site generation.
 
 ### Installing
-
-You'll need [`deno`](https://deno.land/#installation) installed. Make
-sure it's on your $PATH!
-
-Then:
-
-```
-$ git clone https://github.com/shantaram3013/cyblog
-$ cd cyblog
-$ make
-```
-Cyblog uses `deno install` to install itself. Therefore, it's installed
-to one of the following locations in order of preference:
-
-* `DENO_INSTALL_ROOT` environment variable
-* `$HOME/.deno`
-
-Thus, to change where Cyblog is installed, set the DENO_INSTALL_ROOT variable.
-If you'd prefer to install an executable to a different paths, see [manual install](#manual-install) below.
-
-Cyblog also copies its config files to one of `$XDG_DATA_HOME`,
-`${home}/.local/share`, `${home}/Library/Application Support`, or
-`FOLDERID_RoamingAppData`, depending on your platform. This cannot be changed
-at the moment.
+See [doc/INSTALL.md](doc/INSTALL.md).
 
 #### Manual install
 ```
@@ -116,3 +93,5 @@ the MIT license. Copyright © 2020 Eivind Furuberg.
 
 `swiped-events.js` from https://github.com/john-doherty/swiped-events,
 Copyright © 2017 John Doherty. http://www.johndoherty.info.
+
+Thanks to @porridgewithraisins for help testing on Windows.
