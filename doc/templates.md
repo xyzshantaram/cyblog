@@ -34,8 +34,9 @@ To use the `presentation` built-in template:
 1. Apply the `<!-- @template presentation -->` declaration to your document.
 2. Add `@meta-*` declarations called `presentation-header` and `presentation-footer`.
    These will be filled into the presentation header and footer.
-3. Add your slides by creating Cyblog blocks with the `.presentation-slide` class.
-   Slides support all usual Cyblog features.
+3. Put a block called `cyblog-presentation` in your document, and add slides to it
+   by creating Cyblog blocks with the `.presentation-slide` class.
+   Slides support all the usual Cyblog features.
 
 See `examples/presentation-demo.cyblog` for an example presentation.
 

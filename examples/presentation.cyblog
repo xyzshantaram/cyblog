@@ -6,6 +6,8 @@
 @meta-presentation-footer display:false by shantaram, for the cyblog project
 -->
 
+<!-- @block-start cyblog-presentation -->
+
 <!-- @block-start slide1 .presentation-slide -->
 
 # Presentations in Cyblog
@@ -32,3 +34,5 @@ Create slides by adding blocks with the `.presentation-slide` class! It's that s
 All cyblog markup is supported.
 
 <!-- @block-end slide2 -->
+
+<!-- @block-end cyblog-presentation -->
