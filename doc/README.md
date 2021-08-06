@@ -6,7 +6,7 @@
 3. [Basics of Cyblog](#basics-of-cyblog) - A basic intro to Cyblog.
 
 ### Basics of Cyblog
-1) Install Cyblog using the instructions in the README.
+1) Install Cyblog using the instructions in the [README](../README.md).
 2) Put the following into a file and save it as `hello.cyblog`.
   ```
   <!-- cyblog-meta
