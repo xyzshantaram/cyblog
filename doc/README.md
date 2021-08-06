@@ -1,6 +1,7 @@
 # Cyblog Docs
 
 ### Index
+0. [Installing Cyblog](INSTALL.md)
 1. [The manual](MANUAL.md) - Read the manual and familiarise yourself with Cyblog!
 2. [Templates](templates.md) - Read about templates.
 3. [Basics of Cyblog](#basics-of-cyblog) - A basic intro to Cyblog.
