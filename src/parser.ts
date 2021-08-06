@@ -134,7 +134,7 @@ export async function parse(toParse: string, args: CyblogBuildArgs): Promise<str
             }
         }
 
-        rval.classes = classes.join(" ");
+        rval.classes = classes.join(" ").trim();
         return rval;
     }
 
