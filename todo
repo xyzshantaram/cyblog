@@ -7,8 +7,13 @@ CURRENT:
 * flag to convert readmes to index.html?
 * flag to parse md files as cyblog
 * better windows installer
+    * better installer in general
+        * options:
+            1) shell script
+            2) deno script with Deno.run
 
 FUTURE:
 * Syntax highlighting
 * footnotes
 * Extend marked renderer properly
+* web frontend?
