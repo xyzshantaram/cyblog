@@ -1,4 +1,5 @@
-import {error} from './logging.ts';
+import { error } from './logging.ts';
+import { path } from './deps.ts';
 
 export type Path = string | URL;
 
@@ -79,6 +80,10 @@ export function getConfigDir(): string | null {
             rval = Deno.env.get("CYBLOG_DATA_DIR") || null;
             break;
         }
+    }
+
+    if (rval && !path.isAbsolute(rval)) {
+        scream(1, "Configuration path isn't absolute!");
     }
 
     return rval;

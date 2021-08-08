@@ -44,6 +44,8 @@ Cyblog also copies its config files to one of `$XDG_DATA_HOME`,
 `${home}/.local/share`, `${home}/Library/Application Support`, or 
 `%APPDATA%`, depending on your platform. This location
 can be changed/overriden by setting the `CYBLOG_DATA_DIR` environment 
-variable, and Cyblog also falls back to it if you're on an operating
-system other than Windows, macOS, or Linux. Note that you'll need to
-set this environment variable every time you run Cyblog.
+variable to the absolute path of the directory you want Cyblog to put its
+files inside, and Cyblog also falls back to it if you're on an operating
+system other than Windows, macOS, or Linux.
+
+Note that you'll need to set this environment variable every time you run Cyblog.
