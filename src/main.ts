@@ -82,7 +82,7 @@ async function buildFile(from: Path, args?: CyblogBuildArgs) {
     const contents = await Deno.readTextFile(from);
 
     const final = await parse(contents, {
-        cyblog: extn === '.cyblog',
+        cyblog: extn === '.cyblog' || args?.forceCyblog,
         applyStyles: styles,
         pwd: args?.pwd,
         convertReadmes: args?.convertReadmes
@@ -139,7 +139,8 @@ async function buildDir(from: Path, args?: CyblogBuildArgs) {
                     to: dir,
                     applyStyles: args?.applyStyles,
                     pwd: name,
-                    convertReadmes: args?.convertReadmes
+                    convertReadmes: args?.convertReadmes,
+                    forceCyblog: args?.forceCyblog
                 })
             }
             else {
@@ -156,6 +157,7 @@ function showHelp() {
     help(`OPTIONS:
     -o, --output: The name of the output directory or file.
     -a, --apply-style: The name of a stylesheet to include, same as @apply-style.
+    -c, --force-cyblog: Forces markdown files to be treated as Cyblog files.
     -e, --exclude-file: Exclude a file from being built.
     -E, --exclude-dir: Don't process any directories or children of those directories that have the given dirname.
     -f, --force: overwrite destination path if it exists.
@@ -165,7 +167,7 @@ function showHelp() {
 async function main() {
     const args: flags.Args = flags.parse(Deno.args, {
         string: ['--apply-style', '-a', '--output', '-o'],
-        boolean: ['--force', '-f', '--help', '-h', '-r', '--convert-readmes'],
+        boolean: ['--force', '-f', '--help', '-h', '-r', '--convert-readmes', '-c', '--force-cyblog'],
         alias: {
             a: 'apply-style',
             o: 'output',
@@ -173,7 +175,8 @@ async function main() {
             h: 'help',
             e: 'exclude-file',
             E: 'exclude-dir',
-            r: 'convert-readmes'
+            r: 'convert-readmes',
+            c: 'force-cyblog'
         }
     });
 
@@ -212,7 +215,8 @@ async function main() {
         'exclude-dirs': edirs,
         'exclude-files': efiles,
         convertReadmes: args['convert-readmes'],
-        launchDir: Deno.cwd()
+        launchDir: Deno.cwd(),
+        forceCyblog: args['force-cyblog']
     }
 
     Deno.chdir(path.dirname(src));
