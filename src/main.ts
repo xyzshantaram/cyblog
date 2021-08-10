@@ -45,6 +45,10 @@ async function buildFile(from: Path, args?: CyblogBuildArgs) {
         dest = args.to.toString();
     }
 
+    if (src.endsWith('README.md') && args?.convertReadmes) {
+        dest = path.join(path.dirname(dest), 'index.html');
+    }
+
     if (!path.isAbsolute(dest)) {
         const resolvedDestPath = path.resolve(dest);
         if (resolvedDestPath.startsWith(Deno.cwd())) {
@@ -80,7 +84,8 @@ async function buildFile(from: Path, args?: CyblogBuildArgs) {
     const final = await parse(contents, {
         cyblog: extn === '.cyblog',
         applyStyles: styles,
-        pwd: args?.pwd
+        pwd: args?.pwd,
+        convertReadmes: args?.convertReadmes
     });
 
     await Deno.writeTextFile(destLoc, final);
@@ -134,6 +139,7 @@ async function buildDir(from: Path, args?: CyblogBuildArgs) {
                     to: dir,
                     applyStyles: args?.applyStyles,
                     pwd: name,
+                    convertReadmes: args?.convertReadmes
                 })
             }
             else {
@@ -152,20 +158,22 @@ function showHelp() {
     -a, --apply-style: The name of a stylesheet to include, same as @apply-style.
     -e, --exclude-file: Exclude a file from being built.
     -E, --exclude-dir: Don't process any directories or children of those directories that have the given dirname.
-    -f, --force: overwrite destination path if it exists.`)
+    -f, --force: overwrite destination path if it exists.
+    -r, --convert-readmes: Convert files named 'README.md' to 'index.html'. Useful for converting GitHub repos.`)
 }
 
 async function main() {
     const args: flags.Args = flags.parse(Deno.args, {
         string: ['--apply-style', '-a', '--output', '-o'],
-        boolean: ['--force', '-f', '--help', '-h'],
+        boolean: ['--force', '-f', '--help', '-h', '-r', '--convert-readmes'],
         alias: {
             a: 'apply-style',
             o: 'output',
             f: 'force',
             h: 'help',
             e: 'exclude-file',
-            E: 'exclude-dir'
+            E: 'exclude-dir',
+            r: 'convert-readmes'
         }
     });
 
@@ -185,7 +193,7 @@ async function main() {
     }
 
     const src = positional[0];
-    let type = null;
+    let type: PathTypes | null = null;
     try {
         type = await getType(src);
     }
@@ -203,9 +211,10 @@ async function main() {
         overwrite: args.force,
         'exclude-dirs': edirs,
         'exclude-files': efiles,
+        convertReadmes: args['convert-readmes'],
         launchDir: Deno.cwd()
     }
-    
+
     Deno.chdir(path.dirname(src));
     const srcName = path.basename(src);
     if (type == PathTypes.Directory) {

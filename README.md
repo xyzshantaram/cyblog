@@ -34,6 +34,7 @@ cyblog {SOURCEDIR|SOURCEFILE.cyblog} [options]
 - `-E`, `--exclude-dir`: Don't process any directories or children of those directories that have the given dirname. Use exclude-dir one time for each directory you want to exclude.
 - `-f`, `--force` Overwrites the destination path if it exists.
 - `-o`, `--output` The name of the output directory or file.  
+- `-r`, `--convert-readmes` Convert files named `README.md` to `index.html`. Useful for converting GitHub repos.
   If this is not supplied, Cyblog will use a name from:
   - `SOURCEFILE-dist.html` (in case of a file)
   - `SOURCEDIR-dist` (in case of a directory)

@@ -60,7 +60,7 @@ export async function parse(toParse: string, args: CyblogBuildArgs): Promise<str
         tables: true,
         smartLists: true,
         smartypants: false,
-        renderer: new CustomRenderer()
+        renderer: new CustomRenderer(args)
     });
 
     const applyStyles = args?.applyStyles || [];
