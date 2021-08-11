@@ -177,24 +177,31 @@ code {
 <li><a href="#basics-of-cyblog" >Basics of Cyblog</a> - A basic intro to Cyblog.</li>
 </ol>
 <h3 id="basics-of-cyblog">Basics of Cyblog</h3>
-<p>1) Install Cyblog using the instructions in the <a href="../index.html" >README</a>.
-2) Put the following into a file and save it as <code>hello.cyblog</code>.</p>
 
-<pre><code>  &lt;!-- cyblog-meta
-  @title Hello, world!
-  --&gt;
+<ol>
+<li>Install Cyblog using the instructions in the <a href="../index.html" >README</a>.</li>
+<li><p>Put the following into a file and save it as <code>hello.cyblog</code>.</p>
 
-  Hello, world!
+<pre><code>&lt;!-- cyblog-meta
+@title Hello, world!
+--&gt;
+
+Hello, world!
 </code></pre>
-<p>3) Run Cyblog with <code>cyblog hello.cyblog</code>.
-4) Congrats! You just wrote your first Cyblog document. The result should be
-saved as <code>hello-dist.html</code>, which you can now open with your favourite browser.
-5) To learn more about Cyblog syntax, read the <a href="MANUAL.html" >manual</a> and <code>examples/demo.cyblog</code>.</p>
+</li>
+<li>Run Cyblog with <code>cyblog hello.cyblog</code>.</li>
+<li>Congrats! You just wrote your first Cyblog document. The result should be
+saved as <code>hello-dist.html</code>, which you can now open with your favourite browser.</li>
+<li>To learn more about Cyblog syntax, read the <a href="MANUAL.html" >manual</a> and <code>examples/demo.cyblog</code>.</li>
+</ol>
 <h3 id="building-directories">Building directories</h3>
-<p>1) Run Cyblog with <code>cyblog dirname</code> to build an entire directory. Cyblog
+
+<ol>
+<li>Run Cyblog with <code>cyblog dirname</code> to build an entire directory. Cyblog
 recursively walks the directory tree and builds all the <code>.md</code> and <code>.cyblog</code>
-files it finds, preserving nested folders, etc.
-2) The result should be stored in <code>dirname-dist</code>. Cyblog will simply copy over
-any files it doesn&#39;t understand.</p>
+files it finds, preserving nested folders, etc.</li>
+<li>The result should be stored in <code>dirname-dist</code>. Cyblog will simply copy over
+any files it doesn&#39;t understand.</li>
+</ol>
 
 </body></html>
