@@ -129,6 +129,17 @@ code {
     border-radius: 0.2rem;
 }
 
+#cyblog-plug-footer {
+    text-align: center;
+    font-size: 0.8rem;
+    color: #999999;
+    font-family: monospace;
+}
+
+#cyblog-plug-footer a {
+    filter: saturate(0.6);
+}
+
 @media screen and (max-aspect-ratio: 1/1) {
     body {
         width: 90vw;
@@ -220,8 +231,11 @@ If this is not supplied, Cyblog will use a name from:
 <li>Front matter support via <code>@meta</code> declarations</li>
 </ul>
 <h3 id="contributing">Contributing</h3>
-<p>Feel free to fork the repo and open a PR. Cyblog is written in TypeScript and
-all documentation is written in Markdown.</p>
+<p>Feel free to fork the <a href="https://github.com/xyzshantaram/cyblog" >repo</a> and open a PR. Cyblog is written in TypeScript and
+all documentation is written in Markdown.
+The Cyblog site is built with Cyblog, through a make target.</p>
+<p>If you&#39;re unable to contribute code, consider supporting Cyblog by advertising it on your website, either through the
+<code>--plug</code> option or by another means you see fit.</p>
 <h3 id="get-in-touch">Get in touch</h3>
 <p>You can contact me by e-mailing me at <a href="mailto:me@shantaram.xyz" >me@shantaram.xyz</a>.</p>
 <p>There&#39;s also a Cyblog IRC channel, <code>#cyblog</code>, on <a href="https://web.libera.chat/" >libera.chat</a>. I post updates there.</p>
@@ -255,4 +269,8 @@ the MIT license. Copyright © 2020 Eivind Furuberg.</p>
 Copyright © 2017 John Doherty. <a href="http://www.johndoherty.info" >http://www.johndoherty.info</a>.</p>
 <p>Thanks to @porridgewithraisins for help testing on Windows.</p>
 
+
+<p id="cyblog-plug-footer">
+    <em>Built with <a href="https://xyzshantaram.github.io/cyblog/">Cyblog</a></em>
+</p>
 </body></html>
