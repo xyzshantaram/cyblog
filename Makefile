@@ -26,4 +26,4 @@ install: bundle copyconf
 	deno install $(INSTALL_OPTIONS) $(OPTIONS) $(PERMS) -n $(DENO_NAME) $(DENO_NAME).js
 
 website:
-	cyblog . -o site --exclude-dir site-dist --exclude-dir .git -f
+	cyblog . -o site --exclude-dir site --exclude-dir .git -f
