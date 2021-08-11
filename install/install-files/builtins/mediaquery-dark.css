@@ -15,6 +15,10 @@
     span[class^='cyb-meta'] {
         color: #ccc;
     }
+    
+    code {
+        background: #404040;
+    }
 
     @media not all and (hover: none) {
         a:hover, a:visited:hover {

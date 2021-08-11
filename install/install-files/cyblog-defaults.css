@@ -119,6 +119,10 @@ thead {
     padding: 0;
 }
 
+pre > code {
+    background: inherit;
+}
+
 code {
     background: #ededed;
     padding: 0.2rem;
