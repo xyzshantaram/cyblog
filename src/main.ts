@@ -114,7 +114,7 @@ async function buildDir(from: Path, args?: CyblogBuildArgs) {
         }
     }
 
-    Deno.mkdir(dest);
+    await Deno.mkdir(dest);
     const edirs = args?.['exclude-dirs']?.map((elem) => path.resolve(path.join(srcPath, elem))) || [];
     const epaths = args?.['exclude-files']?.map((elem) => path.resolve(path.join(srcPath, elem))) || [];
     dirloop:
@@ -127,15 +127,15 @@ async function buildDir(from: Path, args?: CyblogBuildArgs) {
 
         const relative = path.relative(srcPath, entry.path);
         let dir = path.join(dest, relative);
-        if (entry.isDirectory) {
-            Deno.mkdir(dir);
+        if (entry.isDirectory && !edirs.includes(abs)) {
+            await Deno.mkdir(dir);
             info(`Created directory ${dir}.`)
         }
         else if (entry.isFile) {
             const extn = getExtension(entry.name);
             if (extn && CYBLOG_VALID_SUFFIXES.includes(extn)) {
                 dir = dir.replace(extn, '.html');
-                buildFile(entry.path, {
+                await buildFile(entry.path, {
                     to: dir,
                     applyStyles: args?.applyStyles,
                     pwd: name,
@@ -144,12 +144,11 @@ async function buildDir(from: Path, args?: CyblogBuildArgs) {
                 })
             }
             else {
-                // warn(`File ${entry.path} has unknown type, left it alone.`)
-                Deno.copyFile(entry.path, dir);
+                await Deno.copyFile(entry.path, dir);
             }
         }
     }
-    info(`Built ${dest} successfully!`)
+    info(`Built ${dest} successfully!`);
 }
 
 function showHelp() {
@@ -176,7 +175,8 @@ async function main() {
             e: 'exclude-file',
             E: 'exclude-dir',
             r: 'convert-readmes',
-            c: 'force-cyblog'
+            c: 'force-cyblog',
+            x: 'exclude-regex'
         }
     });
 
