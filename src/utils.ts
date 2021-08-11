@@ -18,7 +18,8 @@ export interface CyblogBuildArgs {
     pwd?: string,
     launchDir?: string,
     convertReadmes?: boolean,
-    forceCyblog?: boolean
+    forceCyblog?: boolean,
+    plug?: boolean
 }
 
 export function scream(code: number, ...data: unknown[]) {

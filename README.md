@@ -53,9 +53,12 @@ cyblog {SOURCEDIR|SOURCEFILE.cyblog} [options]
 
 ### Contributing
 
-Feel free to fork the repo and open a PR. Cyblog is written in TypeScript and
+Feel free to fork the [repo](https://github.com/xyzshantaram/cyblog) and open a PR. Cyblog is written in TypeScript and
 all documentation is written in Markdown.
+The Cyblog site is built with Cyblog, through a make target.
 
+If you're unable to contribute code, consider supporting Cyblog by advertising it on your website, either through the
+`--plug` option or by another means you see fit.
 ### Get in touch
 
 You can contact me by e-mailing me at [me@shantaram.xyz](mailto:me@shantaram.xyz).

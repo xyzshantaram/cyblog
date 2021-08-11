@@ -1,6 +1,6 @@
 import { Marked, fs, path } from './deps.ts';
 import { Path, CyblogBuildArgs, scream, getConfigDir, createElementWithAttrs, createClosingTag } from './utils.ts';
-import { CYBLOG_KNOWN_DECLS, DOCTYPE, HTML_OPEN, HTML_CLOSE } from './constants.ts';
+import { CYBLOG_KNOWN_DECLS, DOCTYPE, HTML_OPEN, HTML_CLOSE, CYBLOG_PLUG } from './constants.ts';
 import { warn, error } from './logging.ts';
 import { CustomRenderer } from './CustomRenderer.ts';
 
@@ -50,7 +50,7 @@ export const mustache = (string: string, data: Record<string, string> = {}) => {
     }, string);
 }
 
-export async function parse(toParse: string, args: CyblogBuildArgs): Promise<string> {
+export async function buildDoc(toParse: string, args: CyblogBuildArgs): Promise<string> {
     if (args.cyblog && !(/^<!--\s(@|cyblog-meta)/).test(toParse)) {
         warn('Cyblog document with no document meta block.');
     }
@@ -306,6 +306,10 @@ export async function parse(toParse: string, args: CyblogBuildArgs): Promise<str
     if (headerString) doc += mustache(headerString, templatingData);
     doc += '\n' + final.join('\n') + '\n';
     if (footerString) doc += mustache(footerString, templatingData);
+
+    if (args?.plug) {
+        doc += CYBLOG_PLUG;
+    }
     doc += createClosingTag('body');
 
     doc += HTML_CLOSE;

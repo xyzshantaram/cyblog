@@ -14,3 +14,10 @@ export const HTML_CLOSE = '</html>'
 
 export const CYBLOG_VALID_SUFFIXES = ['.md', '.cyblog'];
 export const CYBLOG_KNOWN_DECLS = ['title', 'apply-style', 'template', 'include', 'block-start', 'block-end'];
+
+export const CYBLOG_PLUG =
+`
+<p id="cyblog-plug-footer">
+    <em>Built with <a href="https://xyzshantaram.github.io/cyblog/">Cyblog</a></em>
+</p>
+`
