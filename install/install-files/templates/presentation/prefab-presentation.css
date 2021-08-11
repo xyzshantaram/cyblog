@@ -9,11 +9,11 @@ body, html, #cyblog-presentation {
 }
 
 .prefab-footer {
-    border-top: 2px solid #c1c1c1;
+    border-top: 2px solid #999999;
 }
 
 .prefab-header {
-    border-bottom: 2px solid #c1c1c1;
+    border-bottom: 2px solid #999999;
 }
 
 .prefab-header > div {
@@ -34,5 +34,9 @@ body, html, #cyblog-presentation {
 }
 
 #presentation-slide-begin, #presentation-slide-end {
+    display: none;
+}
+
+#cyblog-plug-footer {
     display: none;
 }
