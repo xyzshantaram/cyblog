@@ -10,7 +10,7 @@ const addCheckBox = (str: string) => {
 
 export class CustomRenderer extends Renderer {
     args: CyblogBuildArgs;
-    
+
     constructor(args: CyblogBuildArgs) {
         super();
         this.args = args;
@@ -36,8 +36,8 @@ ${body}
             let prot: string;
             if (this.options.unescape) {
                 prot = decodeURIComponent(this.options.unescape(href))
-                .replace(/[^\w:]/g, '')
-                .toLowerCase();
+                    .replace(/[^\w:]/g, '')
+                    .toLowerCase();
             }
             else {
                 return text;
@@ -47,7 +47,7 @@ ${body}
                 return text;
             }
         }
-        
+
         const isAbsolute = new RegExp('^(?:[a-z]+:)?//', 'i');
         if (!isAbsolute.test(href)) {
             if (href.endsWith('README.md') && this.args.convertReadmes) {
@@ -70,5 +70,17 @@ ${body}
 
     listitem(text: string): string {
         return `<li>${addCheckBox(text)}</li>\n`;
+    }
+
+    image(href: string, title: string, text: string): string {
+        let out = `<div class='cyb-img-wrapper'><img src='${href}' alt='${text}'`
+
+        if (title) {
+            out += ` title=${title}`;
+        }
+
+        out += this.options.xhtml ? "/>" : ">";
+        out += '</div>';
+        return out;
     }
 }

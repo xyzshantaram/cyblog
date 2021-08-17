@@ -140,6 +140,15 @@ code {
     filter: saturate(0.6);
 }
 
+.cyb-img-wrapper > img {
+    max-height: 60vh;
+}
+
+.cyb-img-wrapper {
+    width: 100%;
+    text-align: center;
+}
+
 @media screen and (max-aspect-ratio: 1/1) {
     body {
         width: 90vw;
@@ -147,6 +156,13 @@ code {
     }
     pre {
         margin: 0.1rem;
+    }
+    .img-wrapper > img {
+        max-height: unset;
+        height: auto;
+        max-width: 90vw;
+        max-height: 60vh;
+        padding: auto;
     }
 }
 
