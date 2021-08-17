@@ -3,7 +3,6 @@ CURRENT:
 * allow including cyblog files
 * unify path handling
 * add a --template flag
-* add gallery template
 * better windows installer
     * better installer in general
         * options:
@@ -15,3 +14,4 @@ FUTURE:
 * footnotes
 * Extend marked renderer properly
 * web frontend?
+* watch

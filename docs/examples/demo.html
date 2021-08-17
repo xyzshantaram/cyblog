@@ -144,6 +144,15 @@ code {
     filter: saturate(0.6);
 }
 
+.cyb-img-wrapper > img {
+    max-height: 60vh;
+}
+
+.cyb-img-wrapper {
+    width: 100%;
+    text-align: center;
+}
+
 @media screen and (max-aspect-ratio: 1/1) {
     body {
         width: 90vw;
@@ -151,6 +160,13 @@ code {
     }
     pre {
         margin: 0.1rem;
+    }
+    .img-wrapper > img {
+        max-height: unset;
+        height: auto;
+        max-width: 90vw;
+        max-height: 60vh;
+        padding: auto;
     }
 }
 
@@ -243,7 +259,7 @@ Cyblog extends Markdown using comments to store its metadata.</p>
 </ul>
 
 <ol>
-<li><img src="/images/image.png" alt="An image"></li>
+<li><div class='cyb-img-wrapper'><img src='/images/image.png' alt='An image'></div></li>
 <li>Item 2</li>
 <li>Item 3
 <ul>
@@ -252,7 +268,7 @@ Cyblog extends Markdown using comments to store its metadata.</p>
 </ul>
 </li>
 </ol>
-<p><img src="/images/image.png" alt="An image">
+<p><div class='cyb-img-wrapper'><img src='/images/image.png' alt='An image'></div>
 <a href="http://github.com" >GitHub</a></p>
 <div id="quote" class="">
 <p>As Grace Hopper said:</p>
@@ -282,7 +298,7 @@ in the future than in the past.</p>
 <tbody>
 <tr>
 <td>Content cell 1</td>
-<td><img src="/images/image.png" alt="An image"></td>
+<td><div class='cyb-img-wrapper'><img src='/images/image.png' alt='An image'></div></td>
 </tr>
 <tr>
 <td>Content column 1</td>

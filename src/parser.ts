@@ -4,7 +4,7 @@ import { CYBLOG_KNOWN_DECLS, DOCTYPE, HTML_OPEN, HTML_CLOSE, CYBLOG_PLUG } from 
 import { warn, error } from './logging.ts';
 import { CustomRenderer } from './CustomRenderer.ts';
 
-async function buildStyleElement(styles: (Path)[]) {
+async function buildStyleElement(styles: Path[]) {
     let ret = `<style>\n`;
     for (const x of styles) {
         const name = x.toString();
@@ -39,7 +39,7 @@ async function buildStyleElement(styles: (Path)[]) {
     return ret;
 }
 
-export const mustache = (string: string, data: Record<string, string> = {}) => {
+export const mustache = (string: string, data: Record<string, string> = {}): string => {
     return Object.entries(data).reduce((res, [key, value]) => {
         const mainRe = new RegExp(`(?<!\\\\){{\\s*${key}\\s*}}`, 'g')
         // lookbehind expression, only replaces if mustache was not preceded by a backslash
