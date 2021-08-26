@@ -45,8 +45,8 @@ __This will also be bold__
   * Item 3a
   * Item 3b
 
-![An image](/images/image.png)
-[GitHub](http://github.com)
+![An image](https://via.placeholder.com/512)
+[Cyblog](https://xyzshantaram.github.io/cyblog/)
 
 <!-- cyblog-meta
 @block-start quote
@@ -69,7 +69,7 @@ function test() {
 <!-- @block-start table #custom-id -->
 First Header | Second Header
 ------------ | -------------
-Content cell 1 | ![An image](/images/image.png)
+Content cell 1 | ![An image](https://via.placeholder.com/512)
 Content column 1 | Content column 2
 
 <!-- @block-end table -->

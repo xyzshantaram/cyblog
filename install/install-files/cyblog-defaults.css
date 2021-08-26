@@ -110,7 +110,7 @@ td:last-child, th:last-child {
     border-right: none;
 }
 
-tr:last-child > td {
+tr:last-child>td {
     border-bottom: none;
 }
 
@@ -119,7 +119,7 @@ thead {
     padding: 0;
 }
 
-pre > code {
+pre>code {
     background: inherit;
 }
 
@@ -140,8 +140,10 @@ code {
     filter: saturate(0.6);
 }
 
-.cyb-img-wrapper > img {
+.cyb-img-wrapper>img {
     max-height: 60vh;
+    max-width: 100%;
+    object-fit: contain;
 }
 
 .cyb-img-wrapper {
@@ -157,7 +159,7 @@ code {
     pre {
         margin: 0.1rem;
     }
-    .img-wrapper > img {
+    .img-wrapper>img {
         max-height: unset;
         height: auto;
         max-width: 90vw;
