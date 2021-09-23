@@ -115,8 +115,15 @@
         const footer = document.querySelector('.prefab-footer');
 
         window.readyPrint = (e) => {
-            Array.from(slides).forEach(slide => slide.style.display = 'flex');
 
+        }
+
+        window.reversePrint = (e) => {
+
+        }
+
+        window.addEventListener('beforeprint', function (e) {
+            Array.from(slides).forEach(slide => slide.style.display = 'flex');
             window.printContainer = document.createElement('div');
             Array.from(slides).forEach(elem => {
                 const hClone = header.cloneNode(true);
@@ -127,8 +134,8 @@
                 const wrapper = document.createElement('div');
                 wrapper.className = 'print-wrapper';
 
-                hClone.style.width = '100%'
-                fClone.style.width = '100%'
+                hClone.style.width = '100%';
+                fClone.style.width = '100%';
                 wrapper.append(hClone, clone, fClone);
                 window.printContainer.append(wrapper);
             })
@@ -139,9 +146,9 @@
             document.body.style.margin = '0';
 
             document.body.appendChild(window.printContainer);
-        }
+        })
 
-        window.reversePrint = (e) => {
+        window.addEventListener('afterprint', function (e) {
             document.body.removeChild(window.printContainer);
             Array.from(slides).forEach(slide => slide.style.display = 'none');
             draw();
@@ -150,14 +157,6 @@
             footer.style.display = 'block';
             document.body.style.display = 'flex';
             document.body.style.margin = 'initial';
-        }
-
-        window.addEventListener('beforeprint', function (e) {
-            window.readyPrint();
-        })
-
-        window.addEventListener('afterprint', function (e) {
-            window.reversePrint();
         })
     })
 </script>
