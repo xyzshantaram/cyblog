@@ -25,7 +25,7 @@
         const slideContainer = document.querySelector('#cyblog-presentation');
         slideContainer.prepend(createDefaultSlide('presentation-slide-begin', 'Click to begin the presentation.'));
         slideContainer.append(createDefaultSlide('presentation-slide-end', 'The end.'));
-        
+
         const slides = document.querySelectorAll('.presentation-slide:not(.default-slide)');
         let currIdx = 0;
 
@@ -77,7 +77,7 @@
 
         window.addEventListener('click', (e) => {
             if (!e.button == 0) return;
-            
+
             const selection = window.getSelection();
             if (selection.toString()) return;
 
@@ -88,7 +88,7 @@
             else {
                 prev();
             }
-            
+
         });
 
         window.addEventListener('keydown', (e) => {
@@ -110,5 +110,54 @@
         });
 
         draw();
+
+        const header = document.querySelector('.prefab-header');
+        const footer = document.querySelector('.prefab-footer');
+
+        window.readyPrint = (e) => {
+            Array.from(slides).forEach(slide => slide.style.display = 'flex');
+
+            window.printContainer = document.createElement('div');
+            Array.from(slides).forEach(elem => {
+                const hClone = header.cloneNode(true);
+                const clone = elem.cloneNode(true);
+                const fClone = footer.cloneNode(true);
+
+                clone.style.margin = 'auto';
+                const wrapper = document.createElement('div');
+                wrapper.className = 'print-wrapper';
+
+                hClone.style.width = '100%'
+                fClone.style.width = '100%'
+                wrapper.append(hClone, clone, fClone);
+                window.printContainer.append(wrapper);
+            })
+
+            slideContainer.style.display = 'none';
+            header.style.display = 'none';
+            footer.style.display = 'none';
+            document.body.style.margin = '0';
+
+            document.body.appendChild(window.printContainer);
+        }
+
+        window.reversePrint = (e) => {
+            document.body.removeChild(window.printContainer);
+            Array.from(slides).forEach(slide => slide.style.display = 'none');
+            draw();
+            slideContainer.style.display = 'flex';
+            header.style.display = 'block';
+            footer.style.display = 'block';
+            document.body.style.display = 'flex';
+            document.body.style.margin = 'initial';
+        }
+
+        window.addEventListener('beforeprint', function (e) {
+            window.readyPrint();
+        })
+
+        window.addEventListener('afterprint', function (e) {
+            window.reversePrint();
+        })
     })
 </script>
