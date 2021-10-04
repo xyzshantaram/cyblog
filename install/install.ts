@@ -1,5 +1,6 @@
 import { scream, getConfigDir } from '../src/utils.ts';
 import { fs, path } from '../src/deps.ts';
+import { error, warn, info } from '../src/logging.ts';
 
 if (import.meta.main) {
     const dir = getConfigDir();
@@ -10,7 +11,7 @@ if (import.meta.main) {
         const cybConfig = path.join(dir, 'cyblog');
         await Deno.mkdir(cybConfig, { recursive: true });
 
-        console.log('Copying configuration files...');
+        info('Copying configuration files...');
 
         Deno.chdir('install/install-files');
         for await (const entry of fs.walk('.')) {
@@ -19,11 +20,11 @@ if (import.meta.main) {
             const destDir = path.dirname(destPath);
 
             if (!fs.exists(destDir)) {
-                console.log(`Path ${destDir} not found, creating.`);
+                warn(`Path ${destDir} not found, creating.`);
                 await Deno.mkdir(destDir, { recursive: true });
             }
             try {
-                console.log(entry.path, '->', destPath);
+                info(entry.path, '->', destPath);
                 await fs.copy(entry.path, destPath, { overwrite: true });
             }
             catch (e) {
@@ -32,7 +33,7 @@ if (import.meta.main) {
                     await fs.copy(entry.path, destPath, { overwrite: true });
                 }
                 else {
-                    console.error("e");
+                    error(e);
                 }
             }
         }
