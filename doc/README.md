@@ -9,7 +9,7 @@
 ### Basics of Cyblog
 1. Install Cyblog using the instructions in the [README](../README.md).
 2. Put the following into a file and save it as `hello.cyblog`.
-  ```
+  ```html
   <!-- cyblog-meta
   @title Hello, world!
   -->

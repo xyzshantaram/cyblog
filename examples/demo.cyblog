@@ -59,7 +59,7 @@ As Grace Hopper said:
 
 <!-- @block-start code .code-block.js -->
 A function that prints stuff:
-```
+```js
 function test() {
     console.log("look ma’, no spaces");
 }
