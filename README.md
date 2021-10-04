@@ -51,6 +51,7 @@ cyblog {SOURCEDIR|SOURCEFILE.cyblog} [options]
   * Responsive image gallery, so no matter whether you're an artist or an engineer, you can build your portfolio with Cyblog.
 * Allows adding arbitrary styling and HTML through `@apply-style` and `@include`
 * Front matter support via `@meta` declarations
+* Syntax highlighting via [macrolight](https://github.com/xyzshantaram/macrolight/)
 
 ### Contributing
 

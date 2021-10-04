@@ -1,5 +1,6 @@
-import { Renderer } from './deps.ts';
+import { Renderer, highlight} from './deps.ts';
 import { CyblogBuildArgs } from './utils.ts';
+import { HL_KEYWORDS } from './constants.ts';
 
 const addCheckBox = (str: string) => {
     if (/^\s*\[.?\].*$/.test(str)) {
@@ -8,12 +9,66 @@ const addCheckBox = (str: string) => {
     return str;
 }
 
+// Snippet from https://github.com/markedjs/marked/blob/master/src/helpers.js
+const escapeTest = /[&<>"']/;
+const escapeReplace = /[&<>"']/g;
+const escapeTestNoEncode = /[<>"']|&(?!#?\w+;)/;
+const escapeReplaceNoEncode = /[<>"']|&(?!#?\w+;)/g;
+const escapeReplacements: Record<string, string> = {
+  '&': '&amp;',
+  '<': '&lt;',
+  '>': '&gt;',
+  '"': '&quot;',
+  "'": '&#39;'
+};
+const getEscapeReplacement = (ch: string) => escapeReplacements[ch];
+function escape(html: string, encode = false) {
+  if (encode) {
+    if (escapeTest.test(html)) {
+      return html.replace(escapeReplace, getEscapeReplacement);
+    }
+  } else {
+    if (escapeTestNoEncode.test(html)) {
+      return html.replace(escapeReplaceNoEncode, getEscapeReplacement);
+    }
+  }
+
+  return html;
+}
+// ==================================================
+
 export class CustomRenderer extends Renderer {
     args: CyblogBuildArgs;
 
     constructor(args: CyblogBuildArgs) {
         super();
         this.args = args;
+    }
+
+    code(code: string, _lang: string | undefined, escaped: boolean | undefined) {
+        const langMatches = (_lang || '').match(/\S*/);
+        let lang = '';
+        if (langMatches) {
+            lang = langMatches[0];
+        }
+        if (lang) {
+            code = highlight(code, {
+                keywords: HL_KEYWORDS[lang] || []
+            });
+            escaped = true;
+        }
+    
+        code = code.replace(/\n$/, '') + '\n';
+    
+        if (!lang) {
+          return '<pre><code>'
+            + (escaped ? code : escape(code, true))
+            + '</code></pre>\n';
+        }
+    
+        return '<pre><code>'
+          + (escaped ? code : escape(code, true))
+          + '</code></pre>\n';
     }
 
     table(header: string, body: string): string {
