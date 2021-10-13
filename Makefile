@@ -26,4 +26,4 @@ install: bundle copyconf
 	deno install $(INSTALL_OPTIONS) $(OPTIONS) $(PERMS) -n $(DENO_NAME) $(DENO_NAME).js
 
 website:
-	cyblog . -o docs/ --plug --exclude-dir docs --exclude-dir .git -f --exclude-dir src --exclude-dir install --exclude-dir .vscode --exclude-file todo --exclude-file .gitignore --exclude-file LICENSE --exclude-file Makefile --convert-readmes --apply-style '@builtin-mediaquery-dark'
+	cyblog . -o docs/ --plug --exclude-dir docs --exclude-dir .git -f --exclude-dir src --exclude-dir install --exclude-dir .vscode --exclude-file todo --exclude-file .gitignore --exclude-file LICENSE --exclude-file Makefile --exclude-file cyblog.js --convert-readmes --apply-style '@builtin-mediaquery-dark'
