@@ -1,5 +1,5 @@
 import { Marked, fs, path } from './deps.ts';
-import { Path, CyblogBuildArgs, scream, getConfigDir, createElementWithAttrs, createClosingTag } from './utils.ts';
+import { Path, CyblogBuildArgs, scream, getConfigDir, createElementWithAttrs, createTag } from './utils.ts';
 import { CYBLOG_KNOWN_DECLS, DOCTYPE, HTML_OPEN, HTML_CLOSE, CYBLOG_PLUG } from './constants.ts';
 import { warn, error } from './logging.ts';
 import { CustomRenderer } from './CustomRenderer.ts';
@@ -62,7 +62,7 @@ export async function buildDoc(toParse: string, args: CyblogBuildArgs): Promise<
         renderer: new CustomRenderer(args)
     });
 
-    const applyStyles = args?.applyStyles || [];
+    const styleContents = args?.applyStyles || [];
     const markup = Marked.parse(toParse);
     const builtHTML = markup.content;
     const lines = builtHTML.split('\n');
@@ -173,7 +173,7 @@ export async function buildDoc(toParse: string, args: CyblogBuildArgs): Promise<
         }
         else if (declName === 'apply-style') {
             const fpath = path.join(args?.pwd || '', declValue);
-            applyStyles.push(fpath);
+            styleContents.push(fpath);
         }
         else if (declName === 'template') {
             if (headerString || footerString) {
@@ -184,7 +184,7 @@ export async function buildDoc(toParse: string, args: CyblogBuildArgs): Promise<
             if (found) {
                 headerString = found.header;
                 footerString = found.footer;
-                applyStyles.push(found.stylePath);
+                styleContents.push(found.stylePath);
             }
         }
         else if (declName.match(/^meta-[a-z][a-z\-]+[a-z]/)) {
@@ -287,29 +287,26 @@ export async function buildDoc(toParse: string, args: CyblogBuildArgs): Promise<
 
     let doc = DOCTYPE + HTML_OPEN;
 
-    doc += createElementWithAttrs('head', {});
-    doc += createElementWithAttrs('meta', { charset: 'UTF-8' });
-    doc += createElementWithAttrs('meta', { name: 'viewport', content: "width=device-width, initial-scale=1.0" });
+    const styles = await buildStyleElement(styleContents);
+    const metaTags: string = [
+        { name: 'viewport', content: "width=device-width, initial-scale=1.0" },
+        { charset: 'UTF-8' },
+        ...Object.values(htmlMetadata)
+    ].map(elem => createElementWithAttrs('meta', elem)).join('\n');
 
-    doc += createElementWithAttrs('title', {});
-    doc += title + '\n';
-    doc += createClosingTag('title');
+    const headContents = metaTags + createTag('title', title) + styles;
 
-    for (const key in htmlMetadata) doc += createElementWithAttrs('meta', htmlMetadata[key]);
+    doc += createTag('head', headContents);
 
-    doc += await buildStyleElement(applyStyles);
+    const finalBody = final.join('\n');
+    
+    let bodyContents = finalBody;
+    if (headerString) bodyContents = mustache(headerString ?? '', templatingData) + bodyContents;
+    bodyContents += footerString ? mustache(footerString ?? '', templatingData) : '';
 
-    doc += createClosingTag('head');
+    if (args.plug) bodyContents += CYBLOG_PLUG;
 
-    doc += createElementWithAttrs('body', {});
-    if (headerString) doc += mustache(headerString, templatingData);
-    doc += '\n' + final.join('\n') + '\n';
-    if (footerString) doc += mustache(footerString, templatingData);
-
-    if (args?.plug) {
-        doc += CYBLOG_PLUG;
-    }
-    doc += createClosingTag('body');
+    doc += createTag('body', bodyContents);
 
     doc += HTML_CLOSE;
 

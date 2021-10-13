@@ -92,10 +92,10 @@ export function getConfigDir(): string | null {
     return rval;
 }
 
-export function createElementWithAttrs(name: string, args: Record<string, unknown>) {
+export function createElementWithAttrs(name: string, args: Record<string, unknown> = {}) {
     let tagString = `<${name}`
     for (const key in args) {
-        tagString += ` ${key}="${args[key]}"`
+        if (key && args[key]) tagString += ` ${key}="${args[key]}"`
     }
     tagString += '>';
     return tagString;
@@ -103,4 +103,8 @@ export function createElementWithAttrs(name: string, args: Record<string, unknow
 
 export function createClosingTag(name: string) {
     return `</${name}>`
+}
+
+export const createTag = (name: string, contents: string, attrs: Record<string, unknown> = {}): string => {
+    return `\n${createElementWithAttrs(name, attrs)}\n${contents}\n${createClosingTag(name)}\n`;
 }

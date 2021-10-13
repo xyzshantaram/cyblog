@@ -10,7 +10,6 @@ CURRENT:
             2) deno script with Deno.run
 
 FUTURE:
-* Syntax highlighting
 * footnotes
 * Extend marked renderer properly
 * web frontend?

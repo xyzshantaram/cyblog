@@ -5,7 +5,7 @@
 @meta-blog-name display:false Testing Blog
 @meta-blog-header display:false <a href='https://github.com/shantaram3013/cyblog/'>Cyblog Homepage</a>
 @meta-blog-footer-items display:false Copyright © 2021 Siddharth Singh
-@html-meta-author shantaram
+@html-meta name:author,content:shantaram
 -->
 
 # Templates in Cyblog
