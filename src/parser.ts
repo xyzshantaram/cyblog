@@ -51,6 +51,40 @@ export const parseMd = (markup: string, args: CyblogBuildArgs): Parsed => {
 }
 
 export async function buildDoc(toParse: string, args: CyblogBuildArgs): Promise<string> {
+    const parseResult = await parseCyblog(toParse, args);
+    const { template, stylePaths, htmlMetadata, templatingData, title, lines } = parseResult;
+    let doc = DOCTYPE + HTML_OPEN;
+
+    if (template! && template.stylePath) {
+        stylePaths.push(template.stylePath);
+    }
+
+    const styleString = await buildStyleElement(stylePaths);
+    const metaTags: string = [...HEAD_DEFAULT_META, ...Object.values(htmlMetadata)]
+        .map(elem => createElementWithAttrs('meta', elem)).join('\n');
+
+    const headContents = metaTags + createTag('title', title) + styleString;
+
+    doc += createTag('head', headContents);
+
+    const finalBody = lines.join('\n');
+
+    let bodyContents = finalBody;
+
+    if (template!) {
+        if (template.header) bodyContents = mustache(template.header, templatingData) + bodyContents;
+        if (template.footer) bodyContents += mustache(template.footer, templatingData);
+    }
+
+    if (args.plug) bodyContents += CYBLOG_PLUG;
+
+    doc += createTag('body', bodyContents);
+    doc += HTML_CLOSE;
+
+    return doc;
+}
+
+async function parseCyblog(toParse: string, args: CyblogBuildArgs) {
     if (args.cyblog && !(/^<!--\s(@|cyblog-meta)/).test(toParse)) {
         warn('Cyblog document with no document meta block.');
     }
@@ -152,7 +186,6 @@ export async function buildDoc(toParse: string, args: CyblogBuildArgs): Promise<
                     await storeDecl(matches[1], matches[3]);
                 }
                 if (!(DECL_BLOCK_OPEN_RE.test(line))) continue;
-
                 while (!(DECL_BLOCK_CLOSE_RE.test(lines[++lidx]))) {
                     const matches = lines[lidx].match(DECL_PARSE_RE);
                     if (matches) await storeDecl(matches[1], matches[3]);
@@ -173,6 +206,7 @@ export async function buildDoc(toParse: string, args: CyblogBuildArgs): Promise<
                 for (const key in cyblogMetadata) {
                     const val = cyblogMetadata[key];
                     const split = key.split('-');
+                    // split on all whitespace, replacing many subsequent chunks with single spaces.
                     const values = val.replace(/\s+/, ' ').split(' ');
                     if (values.length < 2) {
                         warn(`Invalid value for meta declaration ${key}: ${val}. Missing display attribute.`);
@@ -205,7 +239,8 @@ export async function buildDoc(toParse: string, args: CyblogBuildArgs): Promise<
 
 
     if (args.cyblog && closedBlocks.length !== openedBlocks.length) {
-        scream(1, `Mismatched number of opening (${openedBlocks.length}) and closing (${closedBlocks.length}) blocks!`);//\nOpened blocks:\n * ${openedBlocks.join('\n * ')}\nClosed blocks:\n * ${closedBlocks.join('\n * ')}`)
+        scream(1, `Mismatched number of opening (${openedBlocks.length}) and closing (${closedBlocks.length}) blocks!`
+            + `\nOpened blocks:\n * ${openedBlocks.join('\n * ')}\nClosed blocks:\n * ${closedBlocks.join('\n * ')}`);
     }
 
     if (args.cyblog) {
@@ -217,34 +252,12 @@ export async function buildDoc(toParse: string, args: CyblogBuildArgs): Promise<
         }
     }
 
-    let doc = DOCTYPE + HTML_OPEN;
-
-    if (template! && template.stylePath) {
-        styleList.push(template.stylePath);
-    }
-
-    const styles = await buildStyleElement(styleList);
-    const metaTags: string = [...HEAD_DEFAULT_META, ...Object.values(htmlMetadata)]
-        .map(elem => createElementWithAttrs('meta', elem)).join('\n');
-
-    const headContents = metaTags + createTag('title', title) + styles;
-
-    doc += createTag('head', headContents);
-
-    const finalBody = final.join('\n');
-
-    let bodyContents = finalBody;
-
-    if (template!) {
-        if (template.header) bodyContents = mustache(template.header, templatingData) + bodyContents;
-        if (template.footer) bodyContents += mustache(template.footer, templatingData);
-    }
-
-    if (args.plug) bodyContents += CYBLOG_PLUG;
-
-    doc += createTag('body', bodyContents);
-
-    doc += HTML_CLOSE;
-
-    return doc;
+    return {
+        lines: final,
+        title: title,
+        template: template!,
+        stylePaths: styleList,
+        htmlMetadata: htmlMetadata,
+        templatingData: templatingData
+    };
 }
