@@ -21,6 +21,7 @@ html {
     color: grey;
     display: flex;
     overflow: auto;
+    padding: 0;
 }
 
 span[class^='cyb-meta'] {
@@ -28,6 +29,10 @@ span[class^='cyb-meta'] {
     color: #888;
     padding: 0.3rem;
     border-radius: 0.25rem;
+}
+
+span[class^='cyb-meta']:first-child {
+    margin-left: 0;
 }
 
 h1 {
