@@ -1,5 +1,5 @@
 import { flags, path, fs } from './deps.ts';
-import { Path, PathTypes, CyblogBuildArgs, getType, scream, getFileName, getExtension, getConfigDir } from './utils.ts';
+import { Path, PathTypes, CyblogBuildArgs, getType, scream, getFileName, getExtension, getDataDirOrDie } from './utils.ts';
 import { CYBLOG_VALID_SUFFIXES } from './constants.ts';
 import { buildDoc } from './parser.ts';
 import { help, info } from './logging.ts';
@@ -20,10 +20,7 @@ const getDest = (launch: string | undefined, dest: string): string => {
 async function buildFile(from: Path, args?: CyblogBuildArgs) {
     const src = from.toString();
 
-    const userConfigDir = getConfigDir();
-    if (!userConfigDir || !await fs.exists(userConfigDir)) {
-        throw new Deno.errors.NotFound('Could not find configuration directory. Did you run the cyblog install script?');
-    }
+    const userConfigDir = getDataDirOrDie();
     const configPath = path.join(userConfigDir, 'cyblog');
     const defaultStyleSheet = path.join(configPath, 'cyblog-defaults.css');
 

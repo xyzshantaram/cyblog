@@ -92,7 +92,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ### Acknowledgements
 
-`getConfigDir()` taken from https://github.com/justjavac/deno_data_dir under the
+`getDataDir()` taken from https://github.com/justjavac/deno_data_dir under the
 MIT license. Copyright © justjavac.
 
 `Marked` markdown parser library from https://github.com/ubersl0th/markdown under

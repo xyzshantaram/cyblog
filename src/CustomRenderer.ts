@@ -1,6 +1,7 @@
 import { Renderer, highlight} from './deps.ts';
 import { CyblogBuildArgs } from './utils.ts';
-import { HL_KEYWORDS } from './constants.ts';
+import { CYBLOG_TABLE, HL_KEYWORDS } from './constants.ts';
+import { mustache } from "./parser.ts";
 
 const addCheckBox = (str: string) => {
     if (/^\s*\[.?\].*$/.test(str)) {
@@ -72,18 +73,10 @@ export class CustomRenderer extends Renderer {
     }
 
     table(header: string, body: string): string {
-        return `\
-<div class='cyblog-table-wrapper'>
-<table>
-<thead>
-${header}
-</thead>
-<tbody>
-${body}
-</tbody>
-</table>
-</div>
-`;
+        return mustache(CYBLOG_TABLE, {
+            header: header,
+            body: body
+        });
     }
 
     link(href: string, title: string, text: string): string {

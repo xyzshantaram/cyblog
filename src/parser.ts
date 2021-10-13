@@ -1,42 +1,32 @@
-import { Marked, fs, path } from './deps.ts';
-import { Path, CyblogBuildArgs, scream, getConfigDir, createElementWithAttrs, createTag } from './utils.ts';
-import { CYBLOG_KNOWN_DECLS, DOCTYPE, HTML_OPEN, HTML_CLOSE, CYBLOG_PLUG, HEAD_DEFAULT_META } from './constants.ts';
+import { Marked, Parsed, path } from './deps.ts';
+import { Path, CyblogBuildArgs, scream, createElementWithAttrs, createTag, getDataDirOrDie, Template } from './utils.ts';
+import { DOCTYPE, HTML_OPEN, HTML_CLOSE, CYBLOG_PLUG, HEAD_DEFAULT_META, HEADING_RE, CLEAN_HEADING_RE, HTML_COMMENT_RE, DECL_BLOCK_CLOSE_RE, DECL_BLOCK_OPEN_RE, DECL_ONELINE_RE, DECL_PARSE_RE } from './constants.ts';
+import { parseDecl, DeclState } from './declarations.ts';
 import { warn, error } from './logging.ts';
 import { CustomRenderer } from './CustomRenderer.ts';
 
 async function buildStyleElement(styles: Path[]) {
-    let ret = `<style>\n`;
+    let styleString = '';
     for (const x of styles) {
         const name = x.toString();
-        const basename = path.basename(name);
         let filename = name;
+        const basename = path.basename(name);
+        if (/^@builtin-(.+)/.test(basename)) {
+            const matches = basename.match(/^@builtin-(.+)/);
+            if (!matches) continue;
+
+            const dataDir = getDataDirOrDie();
+            filename = path.join(dataDir, 'cyblog', 'builtins', `${matches[1]}.css`);
+        }
         try {
-            if (name) {
-                if (/^@builtin-(.+)/.test(basename)) {
-                    const matches = basename.match(/^@builtin-(.+)/);
-                    if (matches) {
-                        const configPath = getConfigDir();
-                        if (!configPath) scream(1, "Config path not found!");
-                        else filename = path.join(configPath, 'cyblog', 'builtins', `${matches[1]}.css`);
-                    }
-                }
-                const contents = await Deno.readTextFile(filename);
-                ret += contents;
-            }
+            styleString += `${await Deno.readTextFile(filename)}\n`;
         }
         catch (e) {
-            if (e instanceof Deno.errors.NotFound) {
-                warn(`Stylesheet ${name} not found, continuing`);
-            }
-            else {
-                error(e);
-            }
+            error(`Caught error "${e}" while processing style ${basename}`);
         }
-        ret += '\n';
     }
-    ret += `\n</style>\n`;
 
-    return ret;
+    return createTag('style', styleString);
 }
 
 export const mustache = (string: string, data: Record<string, string> = {}): string => {
@@ -48,12 +38,7 @@ export const mustache = (string: string, data: Record<string, string> = {}): str
     ).replace(escapeExpr, '$1');
 }
 
-
-export async function buildDoc(toParse: string, args: CyblogBuildArgs): Promise<string> {
-    if (args.cyblog && !(/^<!--\s(@|cyblog-meta)/).test(toParse)) {
-        warn('Cyblog document with no document meta block.');
-    }
-
+export const parseMd = (markup: string, args: CyblogBuildArgs): Parsed => {
     Marked.setOptions({
         gfm: true,
         tables: true,
@@ -62,148 +47,31 @@ export async function buildDoc(toParse: string, args: CyblogBuildArgs): Promise<
         renderer: new CustomRenderer(args)
     });
 
-    const styleContents = args?.applyStyles || [];
-    const markup = Marked.parse(toParse);
-    const builtHTML = markup.content;
-    const lines = builtHTML.split('\n');
+    return Marked.parse(markup);
+}
+
+export async function buildDoc(toParse: string, args: CyblogBuildArgs): Promise<string> {
+    if (args.cyblog && !(/^<!--\s(@|cyblog-meta)/).test(toParse)) {
+        warn('Cyblog document with no document meta block.');
+    }
+
+    const styleList = args?.applyStyles || [];
+    const parsed = parseMd(toParse, args);
+    const initialHTML = parsed.content;
+    const lines = initialHTML.split('\n');
     const openedBlocks: string[] = [];
     const closedBlocks: string[] = [];
 
     const final: string[] = [];
 
-    const cyblogDeclarations: Record<string, string> = {}
+    const declarations: Record<string, string> = {}
 
-    let headerString: string | null = null;
-    let footerString: string | null = null;
-
+    let template: Template | null;
     let inBlock = false;
     let templatingCurrentBlock = false;
     const htmlMetadata: Record<string, Record<string, string>> = {};
     const templatingData: Record<string, string> = {};
     const cyblogMetadata: Record<string, string> = {};
-
-    const getValidTemplate = async (value: string): Promise<Record<string, string> | null> => {
-        const userConfigDir = getConfigDir();
-        if (!userConfigDir || !await fs.exists(userConfigDir)) {
-            scream(1, `Could not find configuration directory while looking for template ${value}. Did you run the cyblog install script?`);
-        }
-        else {
-            const templatePath = path.join(userConfigDir, 'cyblog', 'templates', value);
-            if (await fs.exists(templatePath)) {
-                const headerPath = path.join(templatePath, 'header.html');
-                const footerPath = path.join(templatePath, 'footer.html');
-                const stylePath = path.join(templatePath, `prefab-${value}.css`);
-                if (await fs.exists(headerPath) && await fs.exists(footerPath) && await fs.exists(stylePath)) {
-                    return {
-                        header: await Deno.readTextFile(headerPath),
-                        footer: await Deno.readTextFile(footerPath),
-                        stylePath: stylePath
-                    }
-                }
-                else {
-                    error(`Incomplete template ${value}`);
-                }
-            }
-            else {
-                warn(`Skipping nonexistent template ${value}`);
-            }
-        }
-        return null;
-    }
-
-    const processBlockStart = (declValue: string) => {
-        const rval: Record<string, string> = {};
-        let parts = declValue.split(' ');
-        rval.name = parts[0];
-        rval.id = parts[0];
-        parts = parts.slice(1);
-
-        const classes = [];
-
-        for (const x of parts) {
-            if (x.startsWith("#")) {
-                rval.id = x.replace("#", '');
-            }
-            if (x.startsWith(".")) {
-                classes.push(...x.split('.'));
-            }
-
-            if (x.startsWith("template:true")) {
-                rval.templating = 'on';
-            }
-        }
-
-        rval.classes = classes.join(" ").trim();
-        return rval;
-    }
-
-    const processDecl = async (declName: string, declValue: string) => {
-        if (!CYBLOG_KNOWN_DECLS.includes(declName) && !declName.includes('meta')) {
-            warn(`Ignoring unknown declaration ${declName}.`)
-            return;
-        }
-        if (declName === 'block-start') {
-            if (!declValue.match(/^[a-z][a-z\-]+[a-z]/)) scream(1, `Invalid syntax for block name: ${declValue}`);
-            const val = processBlockStart(declValue);
-            inBlock = true;
-            final.push(`<div id="${val.id.trim()}" class="${val.classes}">`)
-            if (val.templating === 'on') {
-                templatingCurrentBlock = true;
-            }
-            if (openedBlocks.includes(val.name) || closedBlocks.includes(val.name)) scream(1, `Attempt to reopen ${val.name} is not permitted`);
-            openedBlocks.push(val.name);
-        }
-        else if (declName === 'include') {
-            try {
-                const fpath = path.join(args?.pwd || '', declValue);
-                const contents = await Deno.readTextFile(fpath);
-                final.push(...contents.split('\n'));
-            }
-            catch (_e) {
-                error(`Error reading included file ${declValue}`)
-            }
-        }
-        else if (declName === 'block-end') {
-            inBlock = false;
-            templatingCurrentBlock = false;
-            const parts = declValue.split(' ');
-            if (!openedBlocks.includes(parts[0]) || closedBlocks.includes(parts[0])) scream(1, `Attempt to close block ${parts[0]} is not permitted as it has not been opened yet, or already been closed`);
-            closedBlocks.push(parts[0]);
-            final.push('</div>');
-        }
-        else if (declName === 'apply-style') {
-            const fpath = path.join(args?.pwd || '', declValue);
-            styleContents.push(fpath);
-        }
-        else if (declName === 'template') {
-            if (headerString || footerString) {
-                warn(`Redundant template declaration ${declValue} found`);
-                return;
-            }
-            const found = await getValidTemplate(declValue);
-            if (found) {
-                headerString = found.header;
-                footerString = found.footer;
-                styleContents.push(found.stylePath);
-            }
-        }
-        else if (declName.match(/^meta-[a-z][a-z\-]+[a-z]/)) {
-            templatingData[declName.replace(/^meta-(.+)/, '$1')] = declValue.split(' ').slice(1).join(' ');
-            cyblogMetadata[declName] = declValue;
-        }
-        else if (declName.match(/^html-meta/)) {
-            const values: Record<string, string> = {};
-            const split = declValue.split(',');
-            for (const value of split) {
-                const singlesplit = value.split(":");
-                values[singlesplit[0]] = singlesplit[1];
-            }
-            htmlMetadata[declName] = values;
-        }
-        else {
-            cyblogDeclarations[declName] = declValue;
-        }
-    }
 
     let inCodeBlock = false;
     let title = 'Cyblog Document';
@@ -216,28 +84,88 @@ export async function buildDoc(toParse: string, args: CyblogBuildArgs): Promise<
         return str;
     }
 
+    const declStoreActions: Record<string, (state: DeclState) => void> = {
+        'closedBlock': (state) => {
+            if (state.closedBlock) closedBlocks.push(state.closedBlock);
+        },
+        'cybMetadata': (state) => {
+            Object.assign(cyblogMetadata, state.cybMetadata)
+        },
+        'declarations': (state) => {
+            Object.assign(declarations, state.declarations);
+        },
+        'divString': (state) => {
+            final.push(state.divString!);
+        },
+        'htmlMetadata': (state) => {
+            Object.assign(htmlMetadata, state.htmlMetadata);
+        },
+        'inBlock': (state) => {
+            console.log(state);
+            inBlock = !!(state.inBlock);
+        },
+        'include': (state) => {
+            final.push(...(state.include || []));
+        },
+        'openedBlock': (state) => {
+            if (state.openedBlock) openedBlocks.push(state.openedBlock);
+        },
+        'pwd': (_) => { },
+        'shouldTemplate': (state) => {
+            templatingCurrentBlock = !!(state.shouldTemplate);
+        },
+        'styles': (state) => {
+            styleList.push(...(state.styles || []));
+        },
+        'template': (state) => {
+            template = state.template || null;
+        },
+        'templatingData': (state) => {
+            Object.assign(templatingData, state.templatingData);
+        }
+    }
+
+    const storeDecl = async (name: string, value: string) => {
+        const currentState: DeclState = {
+            pwd: args?.pwd,
+            styles: styleList,
+            template: template,
+            cybMetadata: cyblogMetadata,
+            htmlMetadata: htmlMetadata,
+            templatingData: templatingData,
+            declarations: declarations
+        };
+
+        const newState = await parseDecl(name, value, currentState);
+        // deno-lint-ignore no-explicit-any
+        Object.entries(newState).forEach(([key, _]: [string, any]) => {
+            declStoreActions[key](newState);
+        })
+    }
+
     for (let lidx = 0; lidx < lines.length; lidx += 1) {
         const line = lines[lidx];
-        if (/^\s*<!--/.test(line) && !inCodeBlock) {
+        if (HTML_COMMENT_RE.test(line) && !inCodeBlock) {
             if (args.cyblog) {
-                const matches = line.match(/<!-- @([a-z][a-z\-]+[a-z])([ ]+|[\t])(.+) -->/);
+                const matches = line.match(DECL_ONELINE_RE);
                 if (matches) {
-                    await processDecl(matches[1], matches[3]);
+                    await storeDecl(matches[1], matches[3]);
                 }
-                if (!(/<!-- cyblog-meta/.test(line))) continue;
-                while (!(/^-->$/.test(lines[++lidx]))) {
-                    const matches = lines[lidx].match(/^@([a-z][a-z\-]+[a-z])([ ]+|[\t])(.+)$/);
-                    if (matches) await processDecl(matches[1], matches[3]);
+                if (!(DECL_BLOCK_OPEN_RE.test(line))) continue;
+
+                while (!(DECL_BLOCK_CLOSE_RE.test(lines[++lidx]))) {
+                    const matches = lines[lidx].match(DECL_PARSE_RE);
+                    if (matches) await storeDecl(matches[1], matches[3]);
                 }
             }
             else {
                 final.push(getTemplated(line));
             }
         }
-        else if (/<h[1-6].*>(.*)<\/h[1-6]>/gi.test(line)) {
+        else if (HEADING_RE.test(line)) {
             final.push(getTemplated(line));
             headerCount += 1;
-            const content = line.replace(/<h[1-6].*>(.*)<\/h[1-6]>/, '$1');
+            const content = line.replace(CLEAN_HEADING_RE, '$1');
             if (headerCount == 1) {
                 title = content;
                 final.push('<div class="cyblog-metadata">');
@@ -251,7 +179,12 @@ export async function buildDoc(toParse: string, args: CyblogBuildArgs): Promise<
                         continue keyLoop;
                     }
                     if (values[0] == 'display:true') {
-                        final.push(createElementWithAttrs('span', { class: 'cyb-' + key }) + split[1] + ': ' + values.slice(1).join(' ') + '</span>');
+                        final.push(createTag(
+                            'span',
+                            // key: value, basically
+                            `${split[1]}: ${values.slice(1).join(' ')}`,
+                            { class: 'cyb-' + key }
+                        ));
                     }
                 }
                 final.push('</div>');
@@ -272,13 +205,12 @@ export async function buildDoc(toParse: string, args: CyblogBuildArgs): Promise<
 
 
     if (args.cyblog && closedBlocks.length !== openedBlocks.length) {
-        scream(1, `Mismatched number of opening and closing blocks!\nOpened blocks:\n * ${openedBlocks.join('\n * ')}\nClosed blocks:\n * ${closedBlocks.join('\n * ')}`)
-
+        scream(1, `Mismatched number of opening (${openedBlocks.length}) and closing (${closedBlocks.length}) blocks!`);//\nOpened blocks:\n * ${openedBlocks.join('\n * ')}\nClosed blocks:\n * ${closedBlocks.join('\n * ')}`)
     }
 
     if (args.cyblog) {
-        if (Object.keys(cyblogDeclarations).includes('title')) {
-            title = cyblogDeclarations['title'];
+        if (Object.keys(declarations).includes('title')) {
+            title = declarations['title'];
         }
         else {
             warn('No @title declaration in Cyblog document - falling back to first header');
@@ -287,7 +219,11 @@ export async function buildDoc(toParse: string, args: CyblogBuildArgs): Promise<
 
     let doc = DOCTYPE + HTML_OPEN;
 
-    const styles = await buildStyleElement(styleContents);
+    if (template! && template.stylePath) {
+        styleList.push(template.stylePath);
+    }
+
+    const styles = await buildStyleElement(styleList);
     const metaTags: string = [...HEAD_DEFAULT_META, ...Object.values(htmlMetadata)]
         .map(elem => createElementWithAttrs('meta', elem)).join('\n');
 
@@ -298,8 +234,11 @@ export async function buildDoc(toParse: string, args: CyblogBuildArgs): Promise<
     const finalBody = final.join('\n');
 
     let bodyContents = finalBody;
-    if (headerString) bodyContents = mustache(headerString ?? '', templatingData) + bodyContents;
-    bodyContents += footerString ? mustache(footerString ?? '', templatingData) : '';
+
+    if (template!) {
+        if (template.header) bodyContents = mustache(template.header, templatingData) + bodyContents;
+        if (template.footer) bodyContents += mustache(template.footer, templatingData);
+    }
 
     if (args.plug) bodyContents += CYBLOG_PLUG;
 

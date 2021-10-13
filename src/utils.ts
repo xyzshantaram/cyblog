@@ -8,6 +8,12 @@ export enum PathTypes {
     Directory
 }
 
+export interface Template {
+    header: string,
+    footer: string,
+    stylePath: string
+}
+
 export interface CyblogBuildArgs {
     to?: Path;
     applyStyles?: Path[];

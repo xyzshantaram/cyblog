@@ -9,6 +9,7 @@
 <title>
 A Cyblog demo page
 </title>
+
 <style>
 html {
     display: flex;
@@ -239,7 +240,11 @@ code {
 <body>
 <h1 id="a-cyblog-demo-page">A Cyblog demo page</h1>
 <div class="cyblog-metadata">
-<span class="cyb-meta-author">author: shantaram</span>
+
+<span class="cyb-meta-author">
+author: shantaram
+</span>
+
 </div>
 <nav>
     <a href='#'>A</a>
@@ -283,7 +288,7 @@ Cyblog extends Markdown using comments to store its metadata.</p>
 </ol>
 <p><div class='cyb-img-wrapper'><img src='https://via.placeholder.com/512' alt='An image'></div>
 <a href="https://xyzshantaram.github.io/cyblog/" >Cyblog</a></p>
-<div id="quote" class="">
+<div id="quote">
 <p>As Grace Hopper said:</p>
 <blockquote>
 <p>I’ve always been more interested
@@ -297,7 +302,7 @@ in the future than in the past.</p>
 </span><span style="color: gray" class='macrolight-punctuation'>}</span>
 </code></pre>
 </div>
-<div id="custom-id" class="">
+<div id="custom-id">
 <div class='cyblog-table-wrapper'>
 <table>
 <thead>
@@ -326,14 +331,14 @@ in the future than in the past.</p>
 <li><input type="checkbox" checked> this is a complete item</li>
 <li><input type="checkbox"> this is an incomplete item</li>
 </ul>
-<div id="templating-demo" class="">
+<div id="templating-demo">
 <p>  Testing templating.</p>
 <p>  This document was written by shantaram</p>
 <p>  The answer to life, the universe, and everything, is 42</p>
 <p>  This is an escaped template and won&#39;t work: {{author}}</p>
 <p>  Unknown template: {{unknown-template}}
 </div>
-<div id="no-templating-demo" class="">
+<div id="no-templating-demo">
 <p>  Templating won&#39;t work when it&#39;s not explicitly enabled, either: {{author}}
 </div>
 <p>Lastly, templating outside a block will not work: {{author}}</p>
