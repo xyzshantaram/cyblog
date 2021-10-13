@@ -1,6 +1,6 @@
 import { Marked, fs, path } from './deps.ts';
 import { Path, CyblogBuildArgs, scream, getConfigDir, createElementWithAttrs, createTag } from './utils.ts';
-import { CYBLOG_KNOWN_DECLS, DOCTYPE, HTML_OPEN, HTML_CLOSE, CYBLOG_PLUG } from './constants.ts';
+import { CYBLOG_KNOWN_DECLS, DOCTYPE, HTML_OPEN, HTML_CLOSE, CYBLOG_PLUG, HEAD_DEFAULT_META } from './constants.ts';
 import { warn, error } from './logging.ts';
 import { CustomRenderer } from './CustomRenderer.ts';
 
@@ -288,18 +288,15 @@ export async function buildDoc(toParse: string, args: CyblogBuildArgs): Promise<
     let doc = DOCTYPE + HTML_OPEN;
 
     const styles = await buildStyleElement(styleContents);
-    const metaTags: string = [
-        { name: 'viewport', content: "width=device-width, initial-scale=1.0" },
-        { charset: 'UTF-8' },
-        ...Object.values(htmlMetadata)
-    ].map(elem => createElementWithAttrs('meta', elem)).join('\n');
+    const metaTags: string = [...HEAD_DEFAULT_META, ...Object.values(htmlMetadata)]
+        .map(elem => createElementWithAttrs('meta', elem)).join('\n');
 
     const headContents = metaTags + createTag('title', title) + styles;
 
     doc += createTag('head', headContents);
 
     const finalBody = final.join('\n');
-    
+
     let bodyContents = finalBody;
     if (headerString) bodyContents = mustache(headerString ?? '', templatingData) + bodyContents;
     bodyContents += footerString ? mustache(footerString ?? '', templatingData) : '';
