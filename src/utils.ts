@@ -1,7 +1,7 @@
 import { error } from './logging.ts';
 import { path } from './deps.ts';
 
-export type Path = string | URL;
+export type Path = string;
 
 export enum PathTypes {
     File = 0,
@@ -45,7 +45,7 @@ export async function getType(path: Path) {
     return PathTypes.Directory;
 }
 
-export function getConfigDir(): string | null {
+export function getDataDir(): string | null {
     let rval: string | null = null;
     
     rval = Deno.env.get("CYBLOG_DATA_DIR") || null; // respect CYBLOG_DATA_DIR env setting
@@ -90,6 +90,12 @@ export function getConfigDir(): string | null {
     }
 
     return rval;
+}
+
+export const getDataDirOrDie = (): string => {
+    const path = getDataDir();
+    if (!path) scream(1, "Unable to get data directory!");
+    return <string>path;
 }
 
 export function createElementWithAttrs(name: string, args: Record<string, unknown> = {}) {
