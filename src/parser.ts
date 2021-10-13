@@ -40,15 +40,14 @@ async function buildStyleElement(styles: Path[]) {
 }
 
 export const mustache = (string: string, data: Record<string, string> = {}): string => {
-    return Object.entries(data).reduce((res, [key, value]) => {
-        const mainRe = new RegExp(`(?<!\\\\){{\\s*${key}\\s*}}`, 'g')
-        // lookbehind expression, only replaces if mustache was not preceded by a backslash
-        // this regex is actually (?<!\\){{\s*<key>\s*}} but because of escaping it looks like that...
-        const escapeRe = new RegExp(`\\\\({{\\s*${key}\\s*}})`, 'g')
-        // the second regex now handles the cases that were skipped in the first case.
-        return res.replace(mainRe, value || "").replace(escapeRe, '$1');
-    }, string);
+    const escapeExpr = new RegExp("\\\\({{\\s*" + Object.keys(data).join("|") + "\\s*}})", "gi");
+    new RegExp(Object.keys(data).join("|"), "gi");
+    return string.replace(
+        new RegExp("(^|[^\\\\]){{\\s*(" + Object.keys(data).join("|") + ")\\s*}}", "gi"),
+        (_matched, p1, p2) => `${p1 || ""}${data[p2]}`
+    ).replace(escapeExpr, '$1');
 }
+
 
 export async function buildDoc(toParse: string, args: CyblogBuildArgs): Promise<string> {
     if (args.cyblog && !(/^<!--\s(@|cyblog-meta)/).test(toParse)) {
@@ -291,7 +290,7 @@ export async function buildDoc(toParse: string, args: CyblogBuildArgs): Promise<
     doc += createElementWithAttrs('head', {});
     doc += createElementWithAttrs('meta', { charset: 'UTF-8' });
     doc += createElementWithAttrs('meta', { name: 'viewport', content: "width=device-width, initial-scale=1.0" });
-    
+
     doc += createElementWithAttrs('title', {});
     doc += title + '\n';
     doc += createClosingTag('title');
