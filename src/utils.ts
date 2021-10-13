@@ -120,3 +120,9 @@ export function createClosingTag(name: string) {
 export const createTag = (name: string, contents: string, attrs: Record<string, unknown> = {}): string => {
     return `\n${createElementWithAttrs(name, attrs)}\n${contents}\n${createClosingTag(name)}\n`;
 }
+
+export const matchOrDie = (str: string, pattern: RegExp, msg: string) => {
+    const matches = str.match(pattern);
+    if (!matches) scream(1, msg);
+    return matches!;
+}

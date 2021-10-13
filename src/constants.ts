@@ -51,3 +51,5 @@ export const DECL_ONELINE_RE = /<!-- @([a-z][a-z\-]+[a-z])([ ]+|[\t])(.+) -->/;
 export const DECL_BLOCK_OPEN_RE = /<!-- cyblog-meta/;
 export const DECL_BLOCK_CLOSE_RE = /^-->$/;
 export const DECL_PARSE_RE = /^@([a-z][a-z\-]+[a-z])([ ]+|[\t])(.+)$/;
+export const DECL_KEY_PARSE_RE = /meta-(.+)/;
+export const DECL_VAL_PARSE_RE = /display:(\w{4,5})\s+(.+)/;

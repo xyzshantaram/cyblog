@@ -1,6 +1,6 @@
 import { Marked, Parsed, path } from './deps.ts';
-import { Path, CyblogBuildArgs, scream, createElementWithAttrs, createTag, getDataDirOrDie, Template } from './utils.ts';
-import { DOCTYPE, HTML_OPEN, HTML_CLOSE, CYBLOG_PLUG, HEAD_DEFAULT_META, HEADING_RE, CLEAN_HEADING_RE, HTML_COMMENT_RE, DECL_BLOCK_CLOSE_RE, DECL_BLOCK_OPEN_RE, DECL_ONELINE_RE, DECL_PARSE_RE } from './constants.ts';
+import { Path, CyblogBuildArgs, scream, createElementWithAttrs, createTag, getDataDirOrDie, Template, matchOrDie } from './utils.ts';
+import { DOCTYPE, HTML_OPEN, HTML_CLOSE, CYBLOG_PLUG, HEAD_DEFAULT_META, HEADING_RE, CLEAN_HEADING_RE, HTML_COMMENT_RE, DECL_BLOCK_CLOSE_RE, DECL_BLOCK_OPEN_RE, DECL_ONELINE_RE, DECL_PARSE_RE, DECL_KEY_PARSE_RE, DECL_VAL_PARSE_RE } from './constants.ts';
 import { parseDecl, DeclState } from './declarations.ts';
 import { warn, error } from './logging.ts';
 import { CustomRenderer } from './CustomRenderer.ts';
@@ -135,7 +135,6 @@ async function parseCyblog(toParse: string, args: CyblogBuildArgs) {
             Object.assign(htmlMetadata, state.htmlMetadata);
         },
         'inBlock': (state) => {
-            console.log(state);
             inBlock = !!(state.inBlock);
         },
         'include': (state) => {
@@ -199,30 +198,21 @@ async function parseCyblog(toParse: string, args: CyblogBuildArgs) {
             final.push(getTemplated(line));
             headerCount += 1;
             const content = line.replace(CLEAN_HEADING_RE, '$1');
-            if (headerCount == 1) {
-                title = content;
-                final.push('<div class="cyblog-metadata">');
-                keyLoop:
-                for (const key in cyblogMetadata) {
-                    const val = cyblogMetadata[key];
-                    const split = key.split('-');
-                    // split on all whitespace, replacing many subsequent chunks with single spaces.
-                    const values = val.replace(/\s+/, ' ').split(' ');
-                    if (values.length < 2) {
-                        warn(`Invalid value for meta declaration ${key}: ${val}. Missing display attribute.`);
-                        continue keyLoop;
-                    }
-                    if (values[0] == 'display:true') {
-                        final.push(createTag(
-                            'span',
-                            // key: value, basically
-                            `${split[1]}: ${values.slice(1).join(' ')}`,
-                            { class: 'cyb-' + key }
-                        ));
-                    }
-                }
-                final.push('</div>');
-            }
+            if (headerCount != 1) continue;
+            
+            title = content;
+            const outputMetadata = Object.entries(cyblogMetadata).map(([k, v]: [string, string]) => {
+                if (!k.startsWith('meta-')) return '';
+                // group #1 will be the key with `meta-` removed.
+                const [_, key] = matchOrDie(k, DECL_KEY_PARSE_RE, `Invalid format for cyblog metadata key ${k}`);
+
+                // group #1 will be display:true or display:false, and #2 will be the rest of the val
+                const [__, display, val] = matchOrDie(v.trim(), DECL_VAL_PARSE_RE, `Invalid value ${v} for key ${key}`);
+                if (display === 'true') return createTag('span', `${key}: ${val}`, { class: `cyb-meta-${key}` });
+
+                return '';
+            }).filter(elem => elem.trim() !== '').join('');
+            if (outputMetadata.trim() !== '') final.push(createTag('div', outputMetadata, { class: 'cyblog-metadata' }))
         }
         else if (line.startsWith('<pre><code>')) {
             final.push(getTemplated(line));
