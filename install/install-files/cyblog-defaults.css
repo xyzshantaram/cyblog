@@ -11,7 +11,7 @@ html {
     overflow: auto;
 }
 
-span[class^='cyb-meta'] {
+span[class^='cyb-meta']:not(:first-child) {
     margin-left: 0.5rem;
     color: #888;
     padding: 0.3rem;
