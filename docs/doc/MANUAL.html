@@ -142,7 +142,6 @@ pre>code {
 
 code {
     background: #ededed;
-    padding: 0.2rem;
     border-radius: 0.2rem;
 }
 
@@ -288,14 +287,14 @@ specific format designed to be convenient to parse and human-readable.</p>
 <h4 id="syntax">Syntax</h4>
 <p>Every Cyblog document must contain at least the following meta block at the
 beginning of the file:</p>
+
 <pre><code>&lt;!-- cyblog-meta
 @title Document Title
---&gt;
-</code></pre>
+--&gt;</code></pre>
 <p>The first line of the comment indicates to Cyblog that this is a meta block. The
 first line of every meta block must follow the format:</p>
-<pre><code>&lt;!--&lt;SPACE&gt;cyblog-meta&lt;NEWLINE&gt;
-</code></pre>
+
+<pre><code>&lt;!--&lt;SPACE&gt;cyblog-meta&lt;NEWLINE&gt;</code></pre>
 <p>Where SPACE is a single space character.</p>
 <p>Additionally, the closing <code>--&gt;</code> of a meta block must appear on a line by itself,
 with no other whitespace.</p>
@@ -304,14 +303,14 @@ Cyblog looks at it to determine the title of your page. This first meta block is
 called the document meta block.</p>
 <p>Each line in a Cyblog meta block is known as a declaration.</p>
 <p>Declarations must adhere to the following format:</p>
-<pre><code>@&lt;DECLARATION NAME&gt;&lt;WHITESPACE&gt;&lt;DECLARATION VALUE&gt;&lt;NEWLINE&gt;
-</code></pre>
+
+<pre><code>@&lt;DECLARATION NAME&gt;&lt;WHITESPACE&gt;&lt;DECLARATION VALUE&gt;&lt;NEWLINE&gt;</code></pre>
 <p>where <code>&lt;WHITESPACE&gt;</code> is either a number of SPACE characters or a single Tab
 character.</p>
 <p>The rest of the line is considered the value for that declaration. Declaration
 names must match the following regex:</p>
-<pre><code>[a-z][a-z\-]+[a-z]
-</code></pre>
+
+<pre><code>[a-z][a-z\-]+[a-z]</code></pre>
 <p>Which is to say, they must be atleast three characters long, begin and end with
 a lowercase letter, and contain only lowercase letters and hyphens. Declaration
 values may, of course, contain any characters in any format, but they may not
@@ -332,16 +331,16 @@ contain a single declaration.</p>
 to the document meta block. The value of this declaration must be a path
 (either relative or absolute) to a CSS file. You can have as many
 <code>apply-style</code> declarations as you like.</p>
+
 <pre><code>&lt;!-- cyblog-meta
 @apply-style style.css
---&gt;
-</code></pre>
+--&gt;</code></pre>
 </li>
 <li><p>To apply a builtin style, use the @builtin-&lt;name&gt; syntax.
 Builtin styles are styles that ship with Cyblog and don&#39;t require the
 .css extension while they&#39;re being applied.</p>
-<pre><code>&lt;!-- @apply-style @builtin-dark --&gt;
-</code></pre>
+
+<pre><code>&lt;!-- @apply-style @builtin-dark --&gt;</code></pre>
 <p>Available builtin styles:</p>
 
 <ul>
@@ -356,11 +355,11 @@ users that want it.</li>
 
 <ul>
 <li>To apply a specific style from Cyblog&#39;s list of built-in styles, use the
-<code>template</code> declaration in the document meta block.<pre><code>&lt;!-- cyblog-meta
+<code>template</code> declaration in the document meta block.
+<pre><code>&lt;!-- cyblog-meta
 @title Page Title
 @template article
---&gt;
-</code></pre>
+--&gt;</code></pre>
 </li>
 </ul>
 <p><em><strong>Note</strong> that template types are <strong>NOT</strong> final yet.</em></p>
@@ -375,21 +374,22 @@ values you see fit.</p>
 must be a comma-separated list of attribute-value pairs joined by colons.
 An example is given below.</p>
 <p>For example:</p>
+
 <pre><code><span style="font-style: italic; color: gray" class='macrolight-comment'>&lt;!-- cyblog-meta</span><span style="color: gray" class='macrolight-punctuation'>
 </span><span style="color: gray" class='macrolight-punctuation'>@</span><span class='macrolight-unformatted'>html</span><span style="color: gray" class='macrolight-punctuation'>-</span><span class='macrolight-unformatted'>meta</span><span style="color: gray" class='macrolight-punctuation'> </span><span class='macrolight-unformatted'>name</span><span style="color: gray" class='macrolight-punctuation'>:</span><span class='macrolight-unformatted'>author</span><span style="color: gray" class='macrolight-punctuation'>,</span><span style="color: gray" class='macrolight-punctuation'> </span><span class='macrolight-unformatted'>content</span><span style="color: gray" class='macrolight-punctuation'>:</span><span class='macrolight-unformatted'>John</span><span style="color: gray" class='macrolight-punctuation'> </span><span class='macrolight-unformatted'>Doe</span><span style="color: gray" class='macrolight-punctuation'>
 </span><span style="color: gray" class='macrolight-punctuation'>@</span><span class='macrolight-unformatted'>html</span><span style="color: gray" class='macrolight-punctuation'>-</span><span class='macrolight-unformatted'>meta</span><span style="color: gray" class='macrolight-punctuation'> </span><span class='macrolight-unformatted'>name</span><span style="color: gray" class='macrolight-punctuation'>:</span><span class='macrolight-unformatted'>description</span><span style="color: gray" class='macrolight-punctuation'>,</span><span style="color: gray" class='macrolight-punctuation'> </span><span class='macrolight-unformatted'>content</span><span style="color: gray" class='macrolight-punctuation'>:</span><span class='macrolight-unformatted'>John</span><span style="color: gray" class='macrolight-punctuation'> </span><span class='macrolight-unformatted'>Doe</span><span style="color: #009bff" class='macrolight-string'>&#39;s Cyblog</span><span style="color: gray" class='macrolight-punctuation'>
-</span><span style="color: gray" class='macrolight-punctuation'>-</span><span style="color: gray" class='macrolight-punctuation'>-</span><span style="color: gray" class='macrolight-punctuation'>&gt;</span>
-</code></pre>
+</span><span style="color: gray" class='macrolight-punctuation'>-</span><span style="color: gray" class='macrolight-punctuation'>-</span><span style="color: gray" class='macrolight-punctuation'>&gt;</span></code></pre>
 <p>gets transformed into:</p>
+
 <pre><code><span style="color: gray" class='macrolight-punctuation'>&lt;</span><span style="font-weight: bold" class='macrolight-keyword'>meta</span><span style="color: gray" class='macrolight-punctuation'> </span><span class='macrolight-unformatted'>name</span><span style="color: gray" class='macrolight-punctuation'>=</span><span style="color: #009bff" class='macrolight-string'>&quot;author&quot;</span><span style="color: gray" class='macrolight-punctuation'> </span><span class='macrolight-unformatted'>content</span><span style="color: gray" class='macrolight-punctuation'>=</span><span style="color: #009bff" class='macrolight-string'>&quot;John Doe&quot;</span><span style="color: gray" class='macrolight-punctuation'>&gt;</span><span style="color: gray" class='macrolight-punctuation'>
-</span><span style="color: gray" class='macrolight-punctuation'>&lt;</span><span style="font-weight: bold" class='macrolight-keyword'>meta</span><span style="color: gray" class='macrolight-punctuation'> </span><span class='macrolight-unformatted'>name</span><span style="color: gray" class='macrolight-punctuation'>=</span><span style="color: #009bff" class='macrolight-string'>&quot;description&quot;</span><span style="color: gray" class='macrolight-punctuation'> </span><span class='macrolight-unformatted'>content</span><span style="color: gray" class='macrolight-punctuation'>=</span><span style="color: #009bff" class='macrolight-string'>&quot;John Doe&#39;s Cyblog&quot;</span><span style="color: gray" class='macrolight-punctuation'>&gt;</span>
-</code></pre>
+</span><span style="color: gray" class='macrolight-punctuation'>&lt;</span><span style="font-weight: bold" class='macrolight-keyword'>meta</span><span style="color: gray" class='macrolight-punctuation'> </span><span class='macrolight-unformatted'>name</span><span style="color: gray" class='macrolight-punctuation'>=</span><span style="color: #009bff" class='macrolight-string'>&quot;description&quot;</span><span style="color: gray" class='macrolight-punctuation'> </span><span class='macrolight-unformatted'>content</span><span style="color: gray" class='macrolight-punctuation'>=</span><span style="color: #009bff" class='macrolight-string'>&quot;John Doe&#39;s Cyblog&quot;</span><span style="color: gray" class='macrolight-punctuation'>&gt;</span></code></pre>
 </li>
 <li><p><code>meta-*</code> declarations are are parsed dynamically and if they have the
 <code>display:true</code> directive they are turned into <code>span</code> elements with the class
 <code>.cyb-meta-*</code> applied to them, so you can style them as you like.</p>
 <p>They are placed below the first heading found in the document.</p>
 <p>The block</p>
+
 <pre><code><span style="font-style: italic; color: gray" class='macrolight-comment'>&lt;!-- cyblog-meta</span><span style="color: gray" class='macrolight-punctuation'>
 </span><span style="color: gray" class='macrolight-punctuation'>@</span><span class='macrolight-unformatted'>title</span><span style="color: gray" class='macrolight-punctuation'> </span><span class='macrolight-unformatted'>John</span><span style="color: gray" class='macrolight-punctuation'> </span><span class='macrolight-unformatted'>Doe</span><span style="color: #009bff" class='macrolight-string'>&#39;s Page</span><span style="color: gray" class='macrolight-punctuation'>
 </span><span style="color: gray" class='macrolight-punctuation'>@</span><span class='macrolight-unformatted'>meta</span><span style="color: gray" class='macrolight-punctuation'>-</span><span class='macrolight-unformatted'>author</span><span style="color: gray" class='macrolight-punctuation'> </span><span class='macrolight-unformatted'>display</span><span style="color: gray" class='macrolight-punctuation'>:</span><span class='macrolight-unformatted'>true</span><span style="color: gray" class='macrolight-punctuation'> </span><span class='macrolight-unformatted'>John</span><span style="color: gray" class='macrolight-punctuation'> </span><span class='macrolight-unformatted'>Doe</span><span style="color: gray" class='macrolight-punctuation'>
@@ -398,10 +398,10 @@ An example is given below.</p>
 </span><span style="color: gray" class='macrolight-punctuation'>@</span><span class='macrolight-unformatted'>meta</span><span style="color: gray" class='macrolight-punctuation'>-</span><span class='macrolight-unformatted'>internal</span><span style="color: gray" class='macrolight-punctuation'> </span><span class='macrolight-unformatted'>display</span><span style="color: gray" class='macrolight-punctuation'>:</span><span class='macrolight-unformatted'>false</span><span style="color: gray" class='macrolight-punctuation'> </span><span class='macrolight-unformatted'>hiddenvalue</span><span style="color: gray" class='macrolight-punctuation'>
 </span><span style="color: gray" class='macrolight-punctuation'>-</span><span style="color: gray" class='macrolight-punctuation'>-</span><span style="color: gray" class='macrolight-punctuation'>&gt;</span><span style="color: gray" class='macrolight-punctuation'>
 </span><span style="color: gray" class='macrolight-punctuation'>
-</span><span style="font-style: italic; color: gray" class='macrolight-comment'># Welcome to my page!</span>
-</code></pre>
+</span><span style="font-style: italic; color: gray" class='macrolight-comment'># Welcome to my page!</span></code></pre>
 <p>gets transformed into the following:</p>
 <p><em>(Contents unrelated to <code>meta-*</code> declarations may change in the future)</em></p>
+
 <pre><code><span style="color: gray" class='macrolight-punctuation'>&lt;</span><span style="color: gray" class='macrolight-punctuation'>!</span><span class='macrolight-unformatted'>DOCTYPE</span><span style="color: gray" class='macrolight-punctuation'> </span><span style="font-weight: bold" class='macrolight-keyword'>html</span><span style="color: gray" class='macrolight-punctuation'>&gt;</span><span style="color: gray" class='macrolight-punctuation'>
 </span><span style="color: gray" class='macrolight-punctuation'>&lt;</span><span style="font-weight: bold" class='macrolight-keyword'>html</span><span style="color: gray" class='macrolight-punctuation'>&gt;</span><span style="color: gray" class='macrolight-punctuation'>
   </span><span style="color: gray" class='macrolight-punctuation'>&lt;</span><span style="font-weight: bold" class='macrolight-keyword'>head</span><span style="color: gray" class='macrolight-punctuation'>&gt;</span><span style="color: gray" class='macrolight-punctuation'>
@@ -417,8 +417,7 @@ An example is given below.</p>
     </span><span style="color: gray" class='macrolight-punctuation'>&lt;</span><span style="font-weight: bold" class='macrolight-keyword'>span</span><span style="color: gray" class='macrolight-punctuation'> </span><span class='macrolight-unformatted'>class</span><span style="color: gray" class='macrolight-punctuation'>=</span><span style="color: #009bff" class='macrolight-string'>&#39;cyblog-meta-tags&#39;</span><span style="color: gray" class='macrolight-punctuation'>&gt;</span><span style="color: gray" class='macrolight-punctuation'> </span><span class='macrolight-unformatted'>abc</span><span style="color: gray" class='macrolight-punctuation'>,</span><span class='macrolight-unformatted'>def</span><span style="color: gray" class='macrolight-punctuation'>,</span><span class='macrolight-unformatted'>ghi</span><span style="color: gray" class='macrolight-punctuation'> </span><span style="color: gray" class='macrolight-punctuation'>&lt;</span><span style="color: gray" class='macrolight-punctuation'>/</span><span style="font-weight: bold" class='macrolight-keyword'>span</span><span style="color: gray" class='macrolight-punctuation'>&gt;</span><span style="color: gray" class='macrolight-punctuation'>
     </span><span style="color: gray" class='macrolight-punctuation'>&lt;</span><span style="font-weight: bold" class='macrolight-keyword'>span</span><span style="color: gray" class='macrolight-punctuation'> </span><span class='macrolight-unformatted'>class</span><span style="color: gray" class='macrolight-punctuation'>=</span><span style="color: #009bff" class='macrolight-string'>&#39;cyblog-meta-category&#39;</span><span style="color: gray" class='macrolight-punctuation'>&gt;</span><span style="color: gray" class='macrolight-punctuation'> </span><span class='macrolight-unformatted'>abc</span><span style="color: gray" class='macrolight-punctuation'>,</span><span class='macrolight-unformatted'>def</span><span style="color: gray" class='macrolight-punctuation'>,</span><span class='macrolight-unformatted'>ghi</span><span style="color: gray" class='macrolight-punctuation'> </span><span style="color: gray" class='macrolight-punctuation'>&lt;</span><span style="color: gray" class='macrolight-punctuation'>/</span><span style="font-weight: bold" class='macrolight-keyword'>span</span><span style="color: gray" class='macrolight-punctuation'>&gt;</span><span style="color: gray" class='macrolight-punctuation'>
   </span><span style="color: gray" class='macrolight-punctuation'>&lt;</span><span style="color: gray" class='macrolight-punctuation'>/</span><span style="font-weight: bold" class='macrolight-keyword'>body</span><span style="color: gray" class='macrolight-punctuation'>&gt;</span><span style="color: gray" class='macrolight-punctuation'>
-</span><span style="color: gray" class='macrolight-punctuation'>&lt;</span><span style="color: gray" class='macrolight-punctuation'>/</span><span style="font-weight: bold" class='macrolight-keyword'>html</span><span style="color: gray" class='macrolight-punctuation'>&gt;</span>
-</code></pre>
+</span><span style="color: gray" class='macrolight-punctuation'>&lt;</span><span style="color: gray" class='macrolight-punctuation'>/</span><span style="font-weight: bold" class='macrolight-keyword'>html</span><span style="color: gray" class='macrolight-punctuation'>&gt;</span></code></pre>
 </li>
 </ul>
 <h4 id="block-declarations">Block declarations</h4>
@@ -431,10 +430,10 @@ An example is given below.</p>
 plaintext file containing an HTML snippet. The file&#39;s contents will be added
 to the document in the correct place before it is processed, in a manner
 similar to copy-pasting.</p>
+
 <pre><code><span style="font-style: italic; color: gray" class='macrolight-comment'>&lt;!-- cyblog-meta</span><span style="color: gray" class='macrolight-punctuation'>
 </span><span style="color: gray" class='macrolight-punctuation'>@</span><span class='macrolight-unformatted'>include</span><span style="color: gray" class='macrolight-punctuation'> </span><span class='macrolight-unformatted'>header</span><span style="color: gray" class='macrolight-punctuation'>.</span><span class='macrolight-unformatted'>html</span><span style="color: gray" class='macrolight-punctuation'>
-</span><span style="color: gray" class='macrolight-punctuation'>-</span><span style="color: gray" class='macrolight-punctuation'>-</span><span style="color: gray" class='macrolight-punctuation'>&gt;</span>
-</code></pre>
+</span><span style="color: gray" class='macrolight-punctuation'>-</span><span style="color: gray" class='macrolight-punctuation'>-</span><span style="color: gray" class='macrolight-punctuation'>&gt;</span></code></pre>
 </li>
 </ul>
 <p><em><strong>Note</strong>: Cyblog <strong>DOES NOT</strong> perform any linting of <code>@include</code>d HTML
@@ -448,21 +447,22 @@ an identifier for that block.</p>
 <p>Block names must follow the same constraints as declaration names, and must
 additionally be unique.</p>
 <p>For example:</p>
+
 <pre><code><span style="font-style: italic; color: gray" class='macrolight-comment'>&lt;!-- cyblog-meta</span><span style="color: gray" class='macrolight-punctuation'>
 </span><span style="color: gray" class='macrolight-punctuation'>@</span><span class='macrolight-unformatted'>block</span><span style="color: gray" class='macrolight-punctuation'>-</span><span class='macrolight-unformatted'>start</span><span style="color: gray" class='macrolight-punctuation'> </span><span class='macrolight-unformatted'>my</span><span style="color: gray" class='macrolight-punctuation'>-</span><span class='macrolight-unformatted'>special</span><span style="color: gray" class='macrolight-punctuation'>-</span><span class='macrolight-unformatted'>block</span><span style="color: gray" class='macrolight-punctuation'>
-</span><span style="color: gray" class='macrolight-punctuation'>-</span><span style="color: gray" class='macrolight-punctuation'>-</span><span style="color: gray" class='macrolight-punctuation'>&gt;</span>
-</code></pre>
+</span><span style="color: gray" class='macrolight-punctuation'>-</span><span style="color: gray" class='macrolight-punctuation'>-</span><span style="color: gray" class='macrolight-punctuation'>&gt;</span></code></pre>
 <p><code>block-start</code> declarations are also used to apply ids and classes to elements.
 This is done in the following way:</p>
-<pre><code><span style="font-style: italic; color: gray" class='macrolight-comment'>&lt;!-- @block-start block-with-id-and-class #id .class --&gt;</span>
-</code></pre>
+
+<pre><code><span style="font-style: italic; color: gray" class='macrolight-comment'>&lt;!-- @block-start block-with-id-and-class #id .class --&gt;</span></code></pre>
 <p>You can apply multiple classes, too.</p>
-<pre><code><span style="font-style: italic; color: gray" class='macrolight-comment'>&lt;!-- @block-start block-with-two-classes .class1.class2 --&gt;</span>
-</code></pre>
+
+<pre><code><span style="font-style: italic; color: gray" class='macrolight-comment'>&lt;!-- @block-start block-with-two-classes .class1.class2 --&gt;</span></code></pre>
 <p>Blocks also enable Cyblog&#39;s templating features: if you have <code>template:true</code>
 in the block-start declaration, Cyblog will perform mustache replacement on
 the block contents using the document meta block&#39;s <code>meta-*</code> declarations.</p>
 <p>You can escape mustaches by prefixing them with double backslashes.</p>
+
 <pre><code><span style="font-style: italic; color: gray" class='macrolight-comment'>&lt;!-- cyblog-meta</span><span style="color: gray" class='macrolight-punctuation'>
 </span><span style="color: gray" class='macrolight-punctuation'>@</span><span class='macrolight-unformatted'>title</span><span style="color: gray" class='macrolight-punctuation'> </span><span class='macrolight-unformatted'>page</span><span style="color: gray" class='macrolight-punctuation'>-</span><span class='macrolight-unformatted'>title</span><span style="color: gray" class='macrolight-punctuation'>
 </span><span style="color: gray" class='macrolight-punctuation'>@</span><span class='macrolight-unformatted'>meta</span><span style="color: gray" class='macrolight-punctuation'>-</span><span class='macrolight-unformatted'>foo</span><span style="color: gray" class='macrolight-punctuation'> </span><span class='macrolight-unformatted'>bar</span><span style="color: gray" class='macrolight-punctuation'>
@@ -471,14 +471,13 @@ the block contents using the document meta block&#39;s <code>meta-*</code> decla
 </span><span style="font-style: italic; color: gray" class='macrolight-comment'>&lt;!-- @block-start block-name .templated-block template:true --&gt;</span><span style="color: gray" class='macrolight-punctuation'>
 </span><span style="color: gray" class='macrolight-punctuation'>{</span><span style="color: gray" class='macrolight-punctuation'>{</span><span style="color: gray" class='macrolight-punctuation'> </span><span class='macrolight-unformatted'>foo</span><span style="color: gray" class='macrolight-punctuation'> </span><span style="color: gray" class='macrolight-punctuation'>}</span><span style="color: gray" class='macrolight-punctuation'>}</span><span style="color: gray" class='macrolight-punctuation'>
 </span><span style="color: gray" class='macrolight-punctuation'>\</span><span style="color: gray" class='macrolight-punctuation'>\</span><span style="color: gray" class='macrolight-punctuation'>{</span><span style="color: gray" class='macrolight-punctuation'>{</span><span style="color: gray" class='macrolight-punctuation'> </span><span class='macrolight-unformatted'>baz</span><span style="color: gray" class='macrolight-punctuation'> </span><span style="color: gray" class='macrolight-punctuation'>}</span><span style="color: gray" class='macrolight-punctuation'>}</span><span style="color: gray" class='macrolight-punctuation'>
-</span><span style="font-style: italic; color: gray" class='macrolight-comment'>&lt;!-- @block-end block-name --&gt;</span>
-</code></pre>
+</span><span style="font-style: italic; color: gray" class='macrolight-comment'>&lt;!-- @block-end block-name --&gt;</span></code></pre>
 <p>Is rendered to:</p>
+
 <pre><code><span style="color: gray" class='macrolight-punctuation'>  </span><span style="color: gray" class='macrolight-punctuation'>&lt;</span><span style="font-weight: bold" class='macrolight-keyword'>div</span><span style="color: gray" class='macrolight-punctuation'> </span><span class='macrolight-unformatted'>class</span><span style="color: gray" class='macrolight-punctuation'>=</span><span style="color: #009bff" class='macrolight-string'>&#39;templated-block&#39;</span><span style="color: gray" class='macrolight-punctuation'>&gt;</span><span style="color: gray" class='macrolight-punctuation'>
   </span><span class='macrolight-unformatted'>bar</span><span style="color: gray" class='macrolight-punctuation'>
   </span><span style="color: gray" class='macrolight-punctuation'>{</span><span style="color: gray" class='macrolight-punctuation'>{</span><span style="color: gray" class='macrolight-punctuation'> </span><span class='macrolight-unformatted'>baz</span><span style="color: gray" class='macrolight-punctuation'> </span><span style="color: gray" class='macrolight-punctuation'>}</span><span style="color: gray" class='macrolight-punctuation'>}</span><span style="color: gray" class='macrolight-punctuation'>
-  </span><span style="color: gray" class='macrolight-punctuation'>&lt;</span><span style="color: gray" class='macrolight-punctuation'>/</span><span style="font-weight: bold" class='macrolight-keyword'>div</span><span style="color: gray" class='macrolight-punctuation'>&gt;</span>
-</code></pre>
+  </span><span style="color: gray" class='macrolight-punctuation'>&lt;</span><span style="color: gray" class='macrolight-punctuation'>/</span><span style="font-weight: bold" class='macrolight-keyword'>div</span><span style="color: gray" class='macrolight-punctuation'>&gt;</span></code></pre>
 <p>See demo.cyblog for more examples.</p>
 </li>
 </ul>
@@ -488,8 +487,8 @@ the block contents using the document meta block&#39;s <code>meta-*</code> decla
 <li><p>To close a block, simply add a meta block with the block-end declaration.</p>
 <p>Blocks with this declaration must only contain that declaration and nothing
 else.</p>
-<pre><code><span style="font-style: italic; color: gray" class='macrolight-comment'>&lt;!-- @block-end my-special-block --&gt;</span>
-</code></pre>
+
+<pre><code><span style="font-style: italic; color: gray" class='macrolight-comment'>&lt;!-- @block-end my-special-block --&gt;</span></code></pre>
 </li>
 </ul>
 <h5 id="parenting">Parenting</h5>

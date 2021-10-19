@@ -227,7 +227,6 @@ async function parseCyblog(toParse: string, args: CyblogBuildArgs) {
         }
     }
 
-
     if (args.cyblog && closedBlocks.length !== openedBlocks.length) {
         scream(1, `Mismatched number of opening (${openedBlocks.length}) and closing (${closedBlocks.length}) blocks!`
             + `\nOpened blocks:\n * ${openedBlocks.join('\n * ')}\nClosed blocks:\n * ${closedBlocks.join('\n * ')}`);

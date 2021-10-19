@@ -58,18 +58,7 @@ export class CustomRenderer extends Renderer {
             });
             escaped = true;
         }
-    
-        code = code.replace(/\n$/, '') + '\n';
-    
-        if (!lang) {
-          return '<pre><code>'
-            + (escaped ? code : escape(code, true))
-            + '</code></pre>\n';
-        }
-    
-        return '<pre><code>'
-          + (escaped ? code : escape(code, true))
-          + '</code></pre>\n';
+        return `\n<pre><code>${(escaped ? code : escape(code, true))}</code></pre>\n`;
     }
 
     table(header: string, body: string): string {

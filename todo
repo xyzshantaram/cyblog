@@ -1,16 +1,18 @@
 CURRENT:
-* !!! REFACTOR RENDERER !!!
 * allow including cyblog files
 * unify path handling
-* add a --template flag
 * better windows installer
     * better installer in general
         * options:
             1) shell script
             2) deno script with Deno.run
+* github action
+* allow for templating included blocks
+* comments using gh issues (MAYBE)
+* config file with default flags, etc
 
 FUTURE:
 * footnotes
 * Extend marked renderer properly
 * web frontend?
-* watch
+* watch dir and rebuild
