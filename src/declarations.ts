@@ -1,7 +1,7 @@
 import { CLEAN_META_RE, HTML_META_RE, META_NAME_RE } from './constants.ts';
 import { fs, path } from "./deps.ts";
-import { warn, error } from "./logging.ts";
-import { getDataDirOrDie } from "./utils.ts";
+import { warn } from "./logging.ts";
+import { getDataDirOrDie, scream } from "./utils.ts";
 import { Template } from './utils.ts';
 
 export const KNOWN_DECLS = ['title', 'apply-style', 'template', 'include', 'block-start', 'block-end'];
@@ -127,8 +127,8 @@ const parsers: Record<string, (value: string, state: DeclState) => Promise<DeclS
             const contents = await Deno.readTextFile(fpath);
             result.include = contents.split('\n');
         }
-        catch (_e) {
-            error(`Error reading included file ${value}`);
+        catch (e) {
+            scream(1, `Error reading included file ${value}: ${e}`);
             result.include = [];
         }
 
