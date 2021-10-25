@@ -83,7 +83,8 @@ async function buildFile(from: Path, args?: CyblogBuildArgs) {
         applyStyles: styles,
         pwd: args?.pwd,
         convertReadmes: args?.convertReadmes,
-        plug: args?.plug
+        plug: args?.plug,
+        customHead: args?.customHead
     });
 
     await Deno.writeTextFile(destLoc, final);
@@ -113,8 +114,8 @@ async function buildDir(from: Path, args?: CyblogBuildArgs) {
     }
 
     await Deno.mkdir(dest);
-    const edirs = args?.['exclude-dirs']?.map((elem) => path.resolve(path.join(srcPath, elem))) || [];
-    const epaths = args?.['exclude-files']?.map((elem) => path.resolve(path.join(srcPath, elem))) || [];
+    const edirs = args?.excludeDirs?.map((elem) => path.resolve(path.join(srcPath, elem))) || [];
+    const epaths = args?.excludeFiles?.map((elem) => path.resolve(path.join(srcPath, elem))) || [];
 
     dirloop:
     for await (const entry of fs.walk(srcPath)) {
@@ -140,7 +141,8 @@ async function buildDir(from: Path, args?: CyblogBuildArgs) {
                     pwd: name,
                     convertReadmes: args?.convertReadmes,
                     forceCyblog: args?.forceCyblog,
-                    plug: args?.plug
+                    plug: args?.plug,
+                    customHead: args?.customHead
                 })
             }
             else {
@@ -152,7 +154,7 @@ async function buildDir(from: Path, args?: CyblogBuildArgs) {
 }
 
 function showHelp() {
-    help(`USAGE:\n    cyblog <sourcefile|sourcedir> [-f] [-a additionalStyle.css] [-o output] [-e filename] [-E dirname]`);
+    help(`USAGE:\n    cyblog <sourcefile|sourcedir> [options]`);
     help(`OPTIONS:
     -o, --output: The name of the output directory or file.
     -a, --apply-style: The name of a stylesheet to include, same as @apply-style.
@@ -161,12 +163,14 @@ function showHelp() {
     -E, --exclude-dir: Don't process any directories or children of those directories that have the given dirname.
     -f, --force: overwrite destination path if it exists.
     -p, --plug: add a link to Cyblog in the footer of the page to show your support. Will always be opt-in.
-    -r, --convert-readmes: Convert files named 'README.md' to 'index.html'. Useful for converting GitHub repos.`)
+    -r, --convert-readmes: Convert files named 'README.md' to 'index.html'. Useful for converting GitHub repos.
+    -d, --custom-head: The absolute path to a file whose contents will be inserted into the <head> tag of 
+        generated HTML, after any <meta> tags and before the <style> tag.`)
 }
 
 async function main() {
     const args: flags.Args = flags.parse(Deno.args, {
-        string: ['--apply-style', '-a', '--output', '-o'],
+        string: ['--apply-style', '-a', '--output', '-o', '--custom-head', '-d'],
         boolean: ['--force', '-f', '--help', '-h', '-r', '--convert-readmes', '-c', '--force-cyblog', '-p', '--plug'],
         alias: {
             a: 'apply-style',
@@ -177,7 +181,8 @@ async function main() {
             E: 'exclude-dir',
             r: 'convert-readmes',
             c: 'force-cyblog',
-            p: 'plug'
+            p: 'plug',
+            d: 'custom-head'
         }
     });
 
@@ -213,22 +218,19 @@ async function main() {
         to: args.output,
         applyStyles: styles,
         overwrite: args.force,
-        'exclude-dirs': edirs,
-        'exclude-files': efiles,
+        excludeDirs: edirs,
+        excludeFiles: efiles,
         convertReadmes: args['convert-readmes'],
         launchDir: Deno.cwd(),
         forceCyblog: args['force-cyblog'],
-        plug: args.plug
+        plug: args.plug,
+        customHead: args['custom-head']
     }
 
     Deno.chdir(path.dirname(src));
     const srcName = path.basename(src);
-    if (type == PathTypes.Directory) {
-        buildDir(srcName, buildArgs);
-    }
-    else {
-        buildFile(srcName, buildArgs);
-    }
+    
+    ((type === PathTypes.Directory) ? buildDir : buildFile)(srcName, buildArgs);
 }
 
 if (import.meta.main) {

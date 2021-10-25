@@ -19,13 +19,14 @@ export interface CyblogBuildArgs {
     applyStyles?: Path[];
     cyblog?: boolean,
     overwrite?: boolean,
-    'exclude-files'?: string[],
-    'exclude-dirs'?: string[],
+    excludeFiles?: string[],
+    excludeDirs?: string[],
     pwd?: string,
     launchDir?: string,
     convertReadmes?: boolean,
     forceCyblog?: boolean,
-    plug?: boolean
+    plug?: boolean,
+    customHead?: string | null
 }
 
 export function scream(code: number, ...data: unknown[]) {
