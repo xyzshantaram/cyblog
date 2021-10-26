@@ -3,9 +3,11 @@
 Cybernetically enhanced static site generation.
 
 ### Installing
+
 See [doc/INSTALL.md](doc/INSTALL.md).
 
 #### Manual install
+
 ```
 $ make compile
 ```
@@ -31,41 +33,60 @@ cyblog {SOURCEDIR|SOURCEFILE.cyblog} [options]
   document that will be built. Functions the same as the `apply-style`
   declaration.
 - `-c`, `--force-cyblog`: Force cyblog to treat Markdown files as Cyblog markup.
-- `-e`, `--exclude-file`: Exclude a file from being built. Use exclude-file one time for each directory you want to exclude.
-- `-E`, `--exclude-dir`: Don't process any directories or children of those directories that have the given dirname. Use exclude-dir one time for each directory you want to exclude.
+- `-e`, `--exclude-file`: Exclude a file from being built. Use exclude-file one
+  time for each directory you want to exclude.
+- `-E`, `--exclude-dir`: Don't process any directories or children of those
+  directories that have the given dirname. Use exclude-dir one time for each
+  directory you want to exclude.
 - `-f`, `--force`: Overwrites the destination path if it exists.
-- `-o`, `--output`: The name of the output directory or file.  
-- `-p`, `--plug`: add a link to Cyblog in the footer of the page to show your support. Will always be opt-in.
-- `-r`, `--convert-readmes`: Convert files named `README.md` to `index.html`. Useful for converting GitHub repos.
-  If this is not supplied, Cyblog will use a name from:
+- `-o`, `--output`: The name of the output directory or file.
+- `-p`, `--plug`: add a link to Cyblog in the footer of the page to show your
+  support. Will always be opt-in.
+- `-r`, `--convert-readmes`: Convert files named `README.md` to `index.html`.
+  Useful for converting GitHub repos. If this is not supplied, Cyblog will use a
+  name from:
   - `SOURCEFILE-dist.html` (in case of a file)
   - `SOURCEDIR-dist` (in case of a directory)
+- `-d`, `--custom-head`: The absolute path to a file whose contents will be
+  inserted into the `<head>` tag of generated HTML, after any `<meta>` tags and
+  before the `<style>` tag.
 
 ### Features
-* Fast - builds this entire repo in 0.2s
-* Fully markdown-compatible, extended via comments - every Markdown file is already a valid Cyblog source file!
-* Simple - Cyblog declarations are designed to be easy to read and remember
-* Mustache templating support
-* Builtin templates  and styles for various purposes (see [templates.md](doc/templates.md) and [the manual](doc/MANUAL.md)).
-  * Presentation template, so you can write slides in markdown and extend them with Cyblog, then build it all into a self-contained HTML file when you need to present.
-  * Responsive image gallery, so no matter whether you're an artist or an engineer, you can build your portfolio with Cyblog.
-* Allows adding arbitrary styling and HTML through `@apply-style` and `@include`
-* Front matter support via `@meta` declarations
-* Syntax highlighting via [macrolight](https://github.com/xyzshantaram/macrolight/)
+
+- Fast - builds this entire repo in 0.2s
+- Fully markdown-compatible, extended via comments - every Markdown file is
+  already a valid Cyblog source file!
+- Simple - Cyblog declarations are designed to be easy to read and remember
+- Mustache templating support
+- Builtin templates and styles for various purposes (see
+  [templates.md](doc/templates.md) and [the manual](doc/MANUAL.md)).
+  - Presentation template, so you can write slides in markdown and extend them
+    with Cyblog, then build it all into a self-contained HTML file when you need
+    to present.
+  - Responsive image gallery, so no matter whether you're an artist or an
+    engineer, you can build your portfolio with Cyblog.
+- Allows adding arbitrary styling and HTML through `@apply-style` and `@include`
+- Front matter support via `@meta` declarations
+- Syntax highlighting via
+  [macrolight](https://github.com/xyzshantaram/macrolight/)
 
 ### Contributing
 
-Feel free to fork the [repo](https://github.com/xyzshantaram/cyblog) and open a PR. Cyblog is written in TypeScript and
-all documentation is written in Markdown.
-The Cyblog site is built with Cyblog, through a make target.
+Feel free to fork the [repo](https://github.com/xyzshantaram/cyblog) and open a
+PR. Cyblog is written in TypeScript and all documentation is written in
+Markdown. The Cyblog site is built with Cyblog, through a make target.
 
-If you're unable to contribute code, consider supporting Cyblog by advertising it on your website, either through the
-`--plug` option or by another means you see fit.
+If you're unable to contribute code, consider supporting Cyblog by advertising
+it on your website, either through the `--plug` option or by another means you
+see fit.
+
 ### Get in touch
 
-You can contact me by e-mailing me at [me@shantaram.xyz](mailto:me@shantaram.xyz).
+You can contact me by e-mailing me at
+[me@shantaram.xyz](mailto:me@shantaram.xyz).
 
-There's also a Cyblog IRC channel, `#cyblog`, on [libera.chat](https://web.libera.chat/). I post updates there.
+There's also a Cyblog IRC channel, `#cyblog`, on
+[libera.chat](https://web.libera.chat/). I post updates there.
 
 ### License
 
@@ -95,10 +116,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 `getDataDir()` taken from https://github.com/justjavac/deno_data_dir under the
 MIT license. Copyright © justjavac.
 
-`Marked` markdown parser library from https://github.com/ubersl0th/markdown under
-the MIT license. Copyright © 2020 Eivind Furuberg.
+`Marked` markdown parser library from https://github.com/ubersl0th/markdown
+under the MIT license. Copyright © 2020 Eivind Furuberg.
 
-`swiped-events.js` from https://github.com/john-doherty/swiped-events,
-Copyright © 2017 John Doherty. http://www.johndoherty.info.
+`swiped-events.js` from https://github.com/john-doherty/swiped-events, Copyright
+© 2017 John Doherty. http://www.johndoherty.info.
 
 Thanks to @porridgewithraisins for help testing on Windows.
