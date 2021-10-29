@@ -124,12 +124,14 @@ thead {
     padding: 0;
 }
 
-pre>code {
+pre code {
     background: inherit;
+    padding: 0;
 }
 
 code {
     background: #ededed;
+    padding: 0.2rem;
     border-radius: 0.2rem;
 }
 
