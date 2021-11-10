@@ -4,13 +4,20 @@ import { CYBLOG_TABLE, HL_KEYWORDS } from './constants.ts';
 import { mustache } from "./parser.ts";
 
 
-const mathsExpression = (expr: string): string | null => {
-    if (expr.match(/^\$\$[\s\S]*\$\$$/)) {
+const mathsExpression = (expr: string, mode: 'block' | 'span'): string | null => {
+    if (expr.match(/^(?<!\\)\$\$[\s\S]*\$\$$/)) {
         expr = expr.substr(2, expr.length - 4);
         return katex.renderToString(expr, { displayMode: true });
-    } else if (expr.match(/^\$[\s\S]*\$$/)) {
+    } else if (expr.match(/^(?<!\\)\$[\s\S]*\$$/)) {
         expr = expr.substr(1, expr.length - 2);
-        return katex.renderToString(expr, { isplayMode: false });
+        return katex.renderToString(expr, { displayMode: false });
+    }
+
+    const tag = mode === 'block' ? '<pre><code>' : '<code>';
+    const closing = mode === 'block' ? '</code></pre>' : '</code>';
+
+    if (expr.match(/^\\\$\$[\s\S]*\$\$$/) || expr.match(/^\\\$[\s\S]*\$$/)) {
+        return tag + expr.substring(1) + closing;
     }
 
     return null;
@@ -73,7 +80,7 @@ export class CustomRenderer extends Renderer {
         }
         else {
             if (this.args.math) {
-                const math = mathsExpression(code);
+                const math = mathsExpression(code, 'block');
                 if (math) {
                     return math;
                 }
@@ -145,7 +152,7 @@ export class CustomRenderer extends Renderer {
     codespan(text: string) {
 
         if (this.args.math) {
-            const math = mathsExpression(text);
+            const math = mathsExpression(text, 'span');
             if (math) return math;
         }
 
