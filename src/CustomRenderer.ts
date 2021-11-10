@@ -1,7 +1,20 @@
-import { Renderer, highlight} from './deps.ts';
+import { Renderer, highlight, katex } from './deps.ts';
 import { CyblogBuildArgs } from './utils.ts';
 import { CYBLOG_TABLE, HL_KEYWORDS } from './constants.ts';
 import { mustache } from "./parser.ts";
+
+
+const mathsExpression = (expr: string): string | null => {
+    if (expr.match(/^\$\$[\s\S]*\$\$$/)) {
+        expr = expr.substr(2, expr.length - 4);
+        return katex.renderToString(expr, { displayMode: true });
+    } else if (expr.match(/^\$[\s\S]*\$$/)) {
+        expr = expr.substr(1, expr.length - 2);
+        return katex.renderToString(expr, { isplayMode: false });
+    }
+
+    return null;
+}
 
 const addCheckBox = (str: string) => {
     if (/^\s*\[.?\].*$/.test(str)) {
@@ -16,25 +29,25 @@ const escapeReplace = /[&<>"']/g;
 const escapeTestNoEncode = /[<>"']|&(?!#?\w+;)/;
 const escapeReplaceNoEncode = /[<>"']|&(?!#?\w+;)/g;
 const escapeReplacements: Record<string, string> = {
-  '&': '&amp;',
-  '<': '&lt;',
-  '>': '&gt;',
-  '"': '&quot;',
-  "'": '&#39;'
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
 };
 const getEscapeReplacement = (ch: string) => escapeReplacements[ch];
 function escape(html: string, encode = false) {
-  if (encode) {
-    if (escapeTest.test(html)) {
-      return html.replace(escapeReplace, getEscapeReplacement);
+    if (encode) {
+        if (escapeTest.test(html)) {
+            return html.replace(escapeReplace, getEscapeReplacement);
+        }
+    } else {
+        if (escapeTestNoEncode.test(html)) {
+            return html.replace(escapeReplaceNoEncode, getEscapeReplacement);
+        }
     }
-  } else {
-    if (escapeTestNoEncode.test(html)) {
-      return html.replace(escapeReplaceNoEncode, getEscapeReplacement);
-    }
-  }
 
-  return html;
+    return html;
 }
 // ==================================================
 
@@ -57,6 +70,14 @@ export class CustomRenderer extends Renderer {
                 keywords: HL_KEYWORDS[lang] || []
             });
             escaped = true;
+        }
+        else {
+            if (this.args.math) {
+                const math = mathsExpression(code);
+                if (math) {
+                    return math;
+                }
+            }
         }
         return `\n<pre><code>${(escaped ? code : escape(code, true))}</code></pre>\n`;
     }
@@ -119,5 +140,15 @@ export class CustomRenderer extends Renderer {
         out += this.options.xhtml ? "/>" : ">";
         out += '</div>';
         return out;
+    }
+
+    codespan(text: string) {
+
+        if (this.args.math) {
+            const math = mathsExpression(text);
+            if (math) return math;
+        }
+
+        return super.codespan(text);
     }
 }

@@ -26,7 +26,8 @@ export interface CyblogBuildArgs {
     convertReadmes?: boolean,
     forceCyblog?: boolean,
     plug?: boolean,
-    customHead?: string | null
+    customHead?: string | null,
+    math?: boolean
 }
 
 export function scream(code: number, ...data: unknown[]) {
@@ -54,7 +55,7 @@ export async function getType(path: Path) {
 
 export function getDataDir(): string | null {
     let rval: string | null = null;
-    
+
     rval = Deno.env.get("CYBLOG_DATA_DIR") || null; // respect CYBLOG_DATA_DIR env setting
     // to override default cyblog data path
 

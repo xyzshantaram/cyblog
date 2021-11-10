@@ -1,6 +1,6 @@
 import { Marked, Parsed, path, fs } from './deps.ts';
 import { Path, CyblogBuildArgs, scream, createElementWithAttrs, createTag, getDataDirOrDie, Template, matchOrDie } from './utils.ts';
-import { DOCTYPE, HTML_OPEN, HTML_CLOSE, CYBLOG_PLUG, HEAD_DEFAULT_META, HEADING_RE, CLEAN_HEADING_RE, HTML_COMMENT_RE, DECL_BLOCK_CLOSE_RE, DECL_BLOCK_OPEN_RE, DECL_ONELINE_RE, DECL_PARSE_RE, DECL_KEY_PARSE_RE, DECL_VAL_PARSE_RE } from './constants.ts';
+import { DOCTYPE, HTML_OPEN, HTML_CLOSE, CYBLOG_PLUG, HEAD_DEFAULT_META, HEADING_RE, CLEAN_HEADING_RE, HTML_COMMENT_RE, DECL_BLOCK_CLOSE_RE, DECL_BLOCK_OPEN_RE, DECL_ONELINE_RE, DECL_PARSE_RE, DECL_KEY_PARSE_RE, DECL_VAL_PARSE_RE, MATH_STYLESHEET } from './constants.ts';
 import { parseDecl, DeclState } from './declarations.ts';
 import { warn, error } from './logging.ts';
 import { CustomRenderer } from './CustomRenderer.ts';
@@ -71,6 +71,7 @@ export async function buildDoc(toParse: string, args: CyblogBuildArgs): Promise<
     }
 
     headContents += styleString;
+    if (args.math) headContents += MATH_STYLESHEET;
     doc += createTag('head', headContents);
     const finalBody = lines.join('\n');
     let bodyContents = finalBody;
