@@ -7,18 +7,20 @@
 
 Cyblog supports math markup. Simply put your expression in a code span / block.
 
-If you put the expression in a code span, it will be rendered inline.
+If you surround the expression with `$` on either side, it will be rendered inline.
 
-For example, `\$\large\frac{4}{5}$` will result in `$\large\frac{4}{5}$`.
+For example, `` `$\large\frac{4}{5}$` `` will result in `$\large\frac{4}{5}$`.
 
-If you put it in a code block, it will be rendered in display mode.
+If you surround it with `\$$` on either side, it will be rendered in display mode.
 
+````
 ```
-\$$
+$$
 \large
 T(n) =  n![{2n \choose n} - {2n \choose n+1}]
 $$
 ```
+````
 
 will become:
 
@@ -29,6 +31,11 @@ T(n) =  n![{2n \choose n} - {2n \choose n+1}]
 $$
 ```
 
-You can escape a math expression by prefixing it with a backslash.
+You can escape a math expression by prefixing it with a backslash. For example:
 
-Cyblog uses the excellent [KaTeX](https://katex.org) library to render math.
+> To make a fraction, use the syntax `\$\frac{numerator}{denominator}$`.
+
+Note how the span wasn't transformed.
+
+Cyblog uses the excellent [KaTeX](https://katex.org) library to render math, 
+which uses Donald Knuth's TeX syntax.
