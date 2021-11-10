@@ -19,7 +19,8 @@ This will leave you with a `cyblog` executable in the current directory.
 Cyblog operates on either single pages or entire directories, converting the
 Cyblog markup into HTML.
 
-[Read the docs](doc/) to learn more about Cyblog!
+[Read the docs](doc/) or check out the [examples](examples/) to learn more about
+Cyblog!
 
 You can invoke Cyblog with:
 
@@ -69,6 +70,7 @@ cyblog {SOURCEDIR|SOURCEFILE.cyblog} [options]
 - Front matter support via `@meta` declarations
 - Syntax highlighting via
   [macrolight](https://github.com/xyzshantaram/macrolight/)
+- Math support via [KaTeX](https://katex.org/)
 
 ### Contributing
 
