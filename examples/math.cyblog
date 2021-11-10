@@ -5,7 +5,7 @@
 
 # Math support in Cyblog
 
-Cyblog supports math markup. Simply put your expression in a code span / block. 
+Cyblog supports math markup. Simply put your expression in a code span / block.
 
 If you put the expression in a code span, it will be rendered inline.
 
@@ -30,3 +30,5 @@ $$
 ```
 
 You can escape a math expression by prefixing it with a backslash.
+
+Cyblog uses the excellent [KaTeX](https://katex.org) library to render math.
