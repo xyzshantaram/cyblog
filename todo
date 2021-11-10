@@ -10,6 +10,7 @@ CURRENT:
 * allow for templating included blocks
 * comments using gh issues (MAYBE)
 * config file with default flags, etc
+* add no-default-styles flag
 
 FUTURE:
 * footnotes

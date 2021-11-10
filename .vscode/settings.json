@@ -4,6 +4,9 @@
     "deno.unstable": true,
     "deno.suggest.imports.hosts": {
         "https://deno.land": true,
-        "https://esm.sh": false
+        "https://esm.sh": false,
+        "https://www.npmjs.com": false,
+        "https://www.esm.sh": false,
+        "https://cdn.jsdelivr.net": false
     }
 }
