@@ -1,0 +1,32 @@
+<!-- cyblog-meta
+@title Cyblog: Math demo
+@meta-author display:false shantaram
+-->
+
+# Math support in Cyblog
+
+Cyblog supports math markup. Simply put your expression in a code span / block. 
+
+If you put the expression in a code span, it will be rendered inline.
+
+For example, `\$\large\frac{4}{5}$` will result in `$\large\frac{4}{5}$`.
+
+If you put it in a code block, it will be rendered in display mode.
+
+```
+\$$
+\large
+T(n) =  n![{2n \choose n} - {2n \choose n+1}]
+$$
+```
+
+will become:
+
+```
+$$
+\large
+T(n) =  n![{2n \choose n} - {2n \choose n+1}]
+$$
+```
+
+You can escape a math expression by prefixing it with a backslash.
