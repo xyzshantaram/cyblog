@@ -1,6 +1,6 @@
 CURRENT:
 * allow including cyblog files
-* unify path handling
+* unify path handling, make relative paths relative to root from where site is being built
 * better windows installer
     * better installer in general
         * options:
@@ -11,6 +11,8 @@ CURRENT:
 * comments using gh issues (MAYBE)
 * config file with default flags, etc
 * add no-default-styles flag
+* table of contents generation
+* index generation
 
 FUTURE:
 * footnotes
