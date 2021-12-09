@@ -1,8 +1,7 @@
-import { Renderer, highlight, katex } from './deps.ts';
+import { Renderer, highlight, HL_KEYWORDS, katex } from './deps.ts';
 import { CyblogBuildArgs } from './utils.ts';
-import { CYBLOG_TABLE, HL_KEYWORDS } from './constants.ts';
+import { CYBLOG_TABLE } from './constants.ts';
 import { mustache } from "./parser.ts";
-
 
 const mathsExpression = (expr: string, mode: 'block' | 'span'): string | null => {
     if (expr.match(/^(?<!\\)\$\$[\s\S]*\$\$$/)) {
