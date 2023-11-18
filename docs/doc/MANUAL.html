@@ -246,22 +246,22 @@ code {
 <body>
 <h1 id="format">Format</h1>
 <h3 id="contents">Contents</h3>
-
 <ol>
 <li><a href="#introduction" >Introduction</a></li>
-<li><a href="#introduction" >Meta blocks</a>
+<li><a href="#introduction" >Meta blocks</a></li>
+</ol>
 <ul>
 <li><a href="#syntax" ><code>title</code></a></li>
 </ul>
-</li>
-<li><a href="#declarations" >Declarations</a>
+<ol start="3">
+<li><a href="#declarations" >Declarations</a></li>
+</ol>
 <ul>
 <li><a href="#document-declarations" >Document declarations</a></li>
 <li><a href="#apply-style" ><code>apply-style</code></a></li>
 <li><a href="#template" ><code>template</code></a></li>
 <li><a href="#metadata-declarations" >Metadata declarations</a></li>
-<li><a href="#block-declarations" >Block declarations</a>
-<ul>
+<li><a href="#block-declarations" >Block declarations</a><ul>
 <li><a href="#include" ><code>include</code></a></li>
 <li><a href="#block-start" ><code>block-start</code></a></li>
 <li><a href="#block-end" ><code>block-end</code></a></li>
@@ -269,8 +269,6 @@ code {
 </ul>
 </li>
 </ul>
-</li>
-</ol>
 <h3 id="introduction">Introduction</h3>
 <p>The Cyblog format is intended to be fully compatible with existing Markdown
 implementations (specifically, GitHub-flavoured Markdown), and adds a few extra
@@ -284,7 +282,7 @@ for the first release.</p>
 <p>Additionally, Cyblog&#39;s first release will not apply syntax highlighting to code
 blocks, or automatically convert links that don&#39;t use the link syntax.</p>
 <h3 id="meta-blocks">Meta blocks</h3>
-<h4 id="introduction">Introduction</h4>
+<h4 id="introduction-1">Introduction</h4>
 <p>Cyblog extends Markdown through <em>meta blocks</em>, which are comments that follow a
 specific format designed to be convenient to parse and human-readable.</p>
 <h4 id="syntax">Syntax</h4>
@@ -327,8 +325,7 @@ contain a single declaration.</p>
  must be preceded and followed by blank lines.</p>
 <h3 id="declarations">Declarations</h3>
 <h4 id="document-declarations">Document declarations</h4>
-<h5 id="-apply-style-"><code>apply-style</code></h5>
-
+<h5 id="apply-style"><code>apply-style</code></h5>
 <ul>
 <li><p>To apply a certain stylesheet to a document, add the <code>apply-style</code> declaration
 to the document meta block. The value of this declaration must be a path
@@ -345,17 +342,15 @@ Builtin styles are styles that ship with Cyblog and don&#39;t require the
 
 <pre><code>&lt;!-- @apply-style @builtin-dark --&gt;</code></pre>
 <p>Available builtin styles:</p>
-
 <ul>
 <li><code>dark</code> - A dark mode for your site.</li>
 <li><code>mediaquery-dark</code> - Uses a media query to apply dark theming only for 
-users that want it.</li>
+  users that want it.</li>
 </ul>
 </li>
 </ul>
 <p><em><strong>Note</strong>: Cyblog <strong>DOES NOT</strong> perform any linting of CSS files.</em></p>
-<h5 id="-template-"><code>template</code></h5>
-
+<h5 id="template"><code>template</code></h5>
 <ul>
 <li>To apply a specific style from Cyblog&#39;s list of built-in styles, use the
 <code>template</code> declaration in the document meta block.
@@ -370,7 +365,6 @@ users that want it.</li>
 <p>(<strong><code>html-meta</code></strong> and <strong><code>meta-*</code></strong>)</p>
 <p>Metadata declarations are parsed dynamically, so you can store and set whatever
 values you see fit.</p>
-
 <ul>
 <li><p>To add a <code>meta</code> tag to the <code>head</code> of the generated HTML document, add a
 <code>html-meta</code> declaration to the document meta block. The declaration value
@@ -425,8 +419,7 @@ An example is given below.</p>
 </ul>
 <h4 id="block-declarations">Block declarations</h4>
 <p>A block is a Cyblog object that gets translated to a div.</p>
-<h5 id="-include-"><code>include</code></h5>
-
+<h5 id="include"><code>include</code></h5>
 <ul>
 <li><p>To add a common block (such as a nav or a footer) to a document, use the
 <code>include</code> declaration. The value of this declaration must be a path to a
@@ -441,8 +434,7 @@ similar to copy-pasting.</p>
 </ul>
 <p><em><strong>Note</strong>: Cyblog <strong>DOES NOT</strong> perform any linting of <code>@include</code>d HTML
 snippets.</em></p>
-<h5 id="-block-start-"><code>block-start</code></h5>
-
+<h5 id="block-start"><code>block-start</code></h5>
 <ul>
 <li><p>To mark a text block as a special block so you can apply styling to it, add a
 meta block before it, with the declaration <code>block-start</code>, with the value being
@@ -484,8 +476,7 @@ the block contents using the document meta block&#39;s <code>meta-*</code> decla
 <p>See demo.cyblog for more examples.</p>
 </li>
 </ul>
-<h5 id="-block-end-"><code>block-end</code></h5>
-
+<h5 id="block-end"><code>block-end</code></h5>
 <ul>
 <li><p>To close a block, simply add a meta block with the block-end declaration.</p>
 <p>Blocks with this declaration must only contain that declaration and nothing
@@ -495,7 +486,6 @@ else.</p>
 </li>
 </ul>
 <h5 id="parenting">Parenting</h5>
-
 <ul>
 <li>Every standard Markdown construct between a<code>block-start</code> and a <code>block-end</code>
 declaration will be treated as a child of the block those declarations

@@ -246,32 +246,30 @@ code {
 <body>
 <h1 id="cyblog-docs">Cyblog Docs</h1>
 <h3 id="index">Index</h3>
-
-<ol>
+<ol start="0">
 <li><a href="INSTALL.html" >Installing Cyblog</a></li>
 <li><a href="MANUAL.html" >The manual</a> - Read the manual and familiarise yourself with Cyblog!</li>
 <li><a href="templates.html" >Templates</a> - Read about templates.</li>
 <li><a href="#basics-of-cyblog" >Basics of Cyblog</a> - A basic intro to Cyblog.</li>
 </ol>
 <h3 id="basics-of-cyblog">Basics of Cyblog</h3>
-
 <ol>
 <li>Install Cyblog using the instructions in the <a href="../index.html" >README</a>.</li>
-<li><p>Put the following into a file and save it as <code>hello.cyblog</code>.</p>
+<li>Put the following into a file and save it as <code>hello.cyblog</code>.</li>
+</ol>
 
 <pre><code><span style="font-style: italic; color: gray" class='macrolight-comment'>&lt;!-- cyblog-meta</span><span style="color: gray" class='macrolight-punctuation'>
 </span><span style="color: gray" class='macrolight-punctuation'>@</span><span style="font-weight: bold" class='macrolight-keyword'>title</span><span style="color: gray" class='macrolight-punctuation'> </span><span class='macrolight-unformatted'>Hello</span><span style="color: gray" class='macrolight-punctuation'>,</span><span style="color: gray" class='macrolight-punctuation'> </span><span class='macrolight-unformatted'>world</span><span style="color: gray" class='macrolight-punctuation'>!</span><span style="color: gray" class='macrolight-punctuation'>
 </span><span style="color: gray" class='macrolight-punctuation'>-</span><span style="color: gray" class='macrolight-punctuation'>-</span><span style="color: gray" class='macrolight-punctuation'>&gt;</span><span style="color: gray" class='macrolight-punctuation'>
 </span><span style="color: gray" class='macrolight-punctuation'>
 </span><span class='macrolight-unformatted'>Hello</span><span style="color: gray" class='macrolight-punctuation'>,</span><span style="color: gray" class='macrolight-punctuation'> </span><span class='macrolight-unformatted'>world</span><span style="color: gray" class='macrolight-punctuation'>!</span></code></pre>
-</li>
+<ol start="3">
 <li>Run Cyblog with <code>cyblog hello.cyblog</code>.</li>
 <li>Congrats! You just wrote your first Cyblog document. The result should be
 saved as <code>hello-dist.html</code>, which you can now open with your favourite browser.</li>
 <li>To learn more about Cyblog syntax, read the <a href="MANUAL.html" >manual</a> and <code>examples/demo.cyblog</code>.</li>
 </ol>
 <h3 id="building-directories">Building directories</h3>
-
 <ol>
 <li>Run Cyblog with <code>cyblog dirname</code> to build an entire directory. Cyblog
 recursively walks the directory tree and builds all the <code>.md</code> and <code>.cyblog</code>

@@ -1,14 +1,14 @@
-import { Renderer, highlight, HL_KEYWORDS, katex } from './deps.ts';
+import { GithubSlugger, highlight, HL_KEYWORDS, katex, marked } from './deps.ts';
 import { CyblogBuildArgs } from './utils.ts';
 import { CYBLOG_TABLE } from './constants.ts';
 import { mustache } from "./parser.ts";
 
 const mathsExpression = (expr: string, mode: 'block' | 'span'): string | null => {
     if (expr.match(/^(?<!\\)\$\$[\s\S]*\$\$$/)) {
-        expr = expr.substr(2, expr.length - 4);
+        expr = expr.substring(2, expr.length - 4);
         return katex.renderToString(expr, { displayMode: true });
     } else if (expr.match(/^(?<!\\)\$[\s\S]*\$$/)) {
-        expr = expr.substr(1, expr.length - 2);
+        expr = expr.substring(1, expr.length - 2);
         return katex.renderToString(expr, { displayMode: false });
     }
 
@@ -57,12 +57,14 @@ function escape(html: string, encode = false) {
 }
 // ==================================================
 
-export class CustomRenderer extends Renderer {
+export class CustomRenderer extends marked.Renderer {
     args: CyblogBuildArgs;
+    slugger: GithubSlugger;
 
     constructor(args: CyblogBuildArgs) {
         super();
         this.args = args;
+        this.slugger = new GithubSlugger();
     }
 
     code(code: string, _lang: string | undefined, escaped: boolean | undefined) {
@@ -95,24 +97,9 @@ export class CustomRenderer extends Renderer {
         });
     }
 
-    link(href: string, title: string, text: string): string {
-        if (this.options.sanitize) {
-            let prot: string;
-            if (this.options.unescape) {
-                prot = decodeURIComponent(this.options.unescape(href))
-                    .replace(/[^\w:]/g, '')
-                    .toLowerCase();
-            }
-            else {
-                return text;
-            }
-
-            if (prot.indexOf('javascript:') === 0 || prot.indexOf('vbscript:') === 0 || prot.indexOf('data:') === 0) {
-                return text;
-            }
-        }
-
+    link(href: string, title: string | null | undefined, text: string): string {
         const isAbsolute = new RegExp('^(?:[a-z]+:)?//', 'i');
+        console.log(href, isAbsolute.test(href));
         if (!isAbsolute.test(href)) {
             if (href.endsWith('README.md') && this.args.convertReadmes) {
                 href = href.replace(/(.*)README\.md$/, '$1index.html');
@@ -136,25 +123,32 @@ export class CustomRenderer extends Renderer {
         return `<li>${addCheckBox(text)}</li>\n`;
     }
 
-    image(href: string, title: string, text: string): string {
+    image(href: string, title: string | null | undefined, text: string): string {
         let out = `<div class='cyb-img-wrapper'><img src='${href}' alt='${text}'`
 
         if (title) {
             out += ` title=${title}`;
         }
 
-        out += this.options.xhtml ? "/>" : ">";
-        out += '</div>';
+        out += '></div>';
         return out;
     }
 
     codespan(text: string) {
-
         if (this.args.math) {
             const math = mathsExpression(text, 'span');
             if (math) return math;
         }
 
         return super.codespan(text);
+    }
+
+    heading(text: string, level: number, raw: string): string {
+        raw = raw
+            .toLowerCase()
+            .trim()
+            .replace(/<[!\/a-z].*?>/gi, '');
+        const id = `${this.slugger.slug(raw)}`;
+        return `<h${level} id="${id}">${text}</h${level}>\n`;
     }
 }

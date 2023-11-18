@@ -1,4 +1,4 @@
-import { Marked, Parsed, path, fs } from './deps.ts';
+import { path, fs, marked } from './deps.ts';
 import { Path, CyblogBuildArgs, scream, createElementWithAttrs, createTag, getDataDirOrDie, Template, matchOrDie } from './utils.ts';
 import { DOCTYPE, HTML_OPEN, HTML_CLOSE, CYBLOG_PLUG, HEAD_DEFAULT_META, HEADING_RE, CLEAN_HEADING_RE, HTML_COMMENT_RE, DECL_BLOCK_CLOSE_RE, DECL_BLOCK_OPEN_RE, DECL_ONELINE_RE, DECL_PARSE_RE, DECL_KEY_PARSE_RE, DECL_VAL_PARSE_RE, MATH_STYLESHEET } from './constants.ts';
 import { parseDecl, DeclState } from './declarations.ts';
@@ -38,16 +38,11 @@ export const mustache = (string: string, data: Record<string, string> = {}): str
     ).replace(escapeExpr, '$1');
 }
 
-export const parseMd = (markup: string, args: CyblogBuildArgs): Parsed => {
-    Marked.setOptions({
+export const parseMd = (markup: string, args: CyblogBuildArgs) => {
+    return marked.parse(markup, {
         gfm: true,
-        tables: true,
-        smartLists: true,
-        smartypants: false,
         renderer: new CustomRenderer(args)
     });
-
-    return Marked.parse(markup);
 }
 
 export async function buildDoc(toParse: string, args: CyblogBuildArgs): Promise<string> {
@@ -95,9 +90,8 @@ async function parseCyblog(toParse: string, args: CyblogBuildArgs) {
     }
 
     const styleList = args?.applyStyles || [];
-    const parsed = parseMd(toParse, args);
-    const initialHTML = parsed.content;
-    const lines = initialHTML.split('\n');
+    const parsed = await parseMd(toParse, args);
+    const lines = parsed.split('\n');
     const openedBlocks: string[] = [];
     const closedBlocks: string[] = [];
 
@@ -200,6 +194,7 @@ async function parseCyblog(toParse: string, args: CyblogBuildArgs) {
             }
         }
         else if (HEADING_RE.test(line)) {
+            console.log(line);
             final.push(getTemplated(line));
             headerCount += 1;
             const content = line.replace(CLEAN_HEADING_RE, '$1');

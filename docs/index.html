@@ -260,8 +260,7 @@ Cyblog!</p>
 <p>You can invoke Cyblog with:</p>
 
 <pre><code>cyblog {SOURCEDIR|SOURCEFILE.cyblog} [options]</code></pre>
-<h4 id="options-">Options:</h4>
-
+<h4 id="options">Options:</h4>
 <ul>
 <li><code>-a</code>, <code>--apply-style</code> The name of a stylesheet to include into the final
 document that will be built. Functions the same as the <code>apply-style</code>
@@ -278,8 +277,7 @@ directory you want to exclude.</li>
 support. Will always be opt-in.</li>
 <li><code>-r</code>, <code>--convert-readmes</code>: Convert files named <code>README.md</code> to <code>index.html</code>.
 Useful for converting GitHub repos. If this is not supplied, Cyblog will use a
-name from:
-<ul>
+name from:<ul>
 <li><code>SOURCEFILE-dist.html</code> (in case of a file)</li>
 <li><code>SOURCEDIR-dist</code> (in case of a directory)</li>
 </ul>
@@ -289,7 +287,6 @@ inserted into the <code>&lt;head&gt;</code> tag of generated HTML, after any <co
 before the <code>&lt;style&gt;</code> tag.</li>
 </ul>
 <h3 id="features">Features</h3>
-
 <ul>
 <li>Fast - builds this entire repo in 0.2s</li>
 <li>Fully markdown-compatible, extended via comments - every Markdown file is
@@ -297,8 +294,7 @@ already a valid Cyblog source file!</li>
 <li>Simple - Cyblog declarations are designed to be easy to read and remember</li>
 <li>Mustache templating support</li>
 <li>Builtin templates and styles for various purposes (see
-<a href="doc/templates.html" >templates.md</a> and <a href="doc/MANUAL.html" >the manual</a>).
-<ul>
+<a href="doc/templates.html" >templates.md</a> and <a href="doc/MANUAL.html" >the manual</a>).<ul>
 <li>Presentation template, so you can write slides in markdown and extend them
 with Cyblog, then build it all into a self-contained HTML file when you need
 to present.</li>

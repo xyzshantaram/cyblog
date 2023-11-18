@@ -245,6 +245,8 @@ code {
 </head>
 
 <body>
+
+
 <h1 id="a-cyblog-demo-page">A Cyblog demo page</h1>
 
 <div class="cyblog-metadata">
@@ -260,12 +262,13 @@ author: shantaram
     <a href='#'>sample</a>
     <a href='#'>nav</a>
 </nav>
+
 <h3 id="cyblog-a-simple-markdown-compatible-static-site-generator">Cyblog: a simple, markdown-compatible static-site generator</h3>
 <p>Cyblog syntax is fully compatible with current Markdown implementations.
 Cyblog extends Markdown using comments to store its metadata.</p>
-<h1 id="this-is-an-lt-h1-gt-tag">This is an &lt;h1&gt; tag</h1>
-<h2 id="this-is-an-lt-h2-gt-tag">This is an &lt;h2&gt; tag</h2>
-<h6 id="this-is-an-lt-h6-gt-tag">This is an &lt;h6&gt; tag</h6>
+<h1 id="this-is-an-h1-tag">This is an &lt;h1&gt; tag</h1>
+<h2 id="this-is-an-h2-tag">This is an &lt;h2&gt; tag</h2>
+<h6 id="this-is-an-h6-tag">This is an &lt;h6&gt; tag</h6>
 <p><em>This text will be italic</em>,
 <em>This will also be italic</em></p>
 <p><strong>This text will be bold</strong>,
@@ -274,27 +277,23 @@ Cyblog extends Markdown using comments to store its metadata.</p>
 <p>**escaped strong**</p>
 <p>*escaped em*
 <code>monospace</code></p>
-
 <ul>
 <li>Item 1</li>
-<li><a href="https://google.com" >a hyperlink</a>
-<ul>
+<li><a href="https://google.com" >a hyperlink</a><ul>
 <li>Item 2a</li>
 <li>Item 2b</li>
 </ul>
 </li>
 </ul>
-
 <ol>
 <li><div class='cyb-img-wrapper'><img src='/images/image.png' alt='An image'></div></li>
 <li>Item 2</li>
-<li>Item 3
+<li>Item 3</li>
+</ol>
 <ul>
 <li>Item 3a</li>
 <li>Item 3b</li>
 </ul>
-</li>
-</ol>
 <p><div class='cyb-img-wrapper'><img src='https://via.placeholder.com/512' alt='An image'></div>
 <a href="https://xyzshantaram.github.io/cyblog/" >Cyblog</a></p>
 <div id="quote">
@@ -304,6 +303,7 @@ Cyblog extends Markdown using comments to store its metadata.</p>
 in the future than in the past.</p>
 </blockquote>
 </div>
+
 <div id="code" class="code-block js">
 <p>A function that prints stuff:</p>
 
@@ -311,6 +311,7 @@ in the future than in the past.</p>
     </span><span class='macrolight-unformatted'>console</span><span style="color: gray" class='macrolight-punctuation'>.</span><span class='macrolight-unformatted'>log</span><span style="color: gray" class='macrolight-punctuation'>(</span><span style="color: #009bff" class='macrolight-string'>&quot;look ma’, no spaces&quot;</span><span style="color: gray" class='macrolight-punctuation'>)</span><span style="color: gray" class='macrolight-punctuation'>;</span><span style="color: gray" class='macrolight-punctuation'>
 </span><span style="color: gray" class='macrolight-punctuation'>}</span></code></pre>
 </div>
+
 <div id="custom-id">
 <div class='cyblog-table-wrapper'>
 <table>
@@ -337,19 +338,21 @@ in the future than in the past.</p>
 </div>
 
 <ul>
-<li><input type="checkbox" checked> this is a complete item</li>
-<li><input type="checkbox"> this is an incomplete item</li>
+<li><input checked="" disabled="" type="checkbox"> this is a complete item</li>
+<li><input disabled="" type="checkbox"> this is an incomplete item</li>
 </ul>
 <div id="templating-demo">
 <p>  Testing templating.</p>
 <p>  This document was written by shantaram</p>
 <p>  The answer to life, the universe, and everything, is 42</p>
 <p>  This is an escaped template and won&#39;t work: {{author}}</p>
-<p>  Unknown template: {{unknown-template}}
+<p>  Unknown template: {{unknown-template}}</p>
 </div>
+
 <div id="no-templating-demo">
-<p>  Templating won&#39;t work when it&#39;s not explicitly enabled, either: {{author}}
+<p>  Templating won&#39;t work when it&#39;s not explicitly enabled, either: {{author}}</p>
 </div>
+
 <p>Lastly, templating outside a block will not work: {{author}}</p>
 <nav>
     <a href='#'>A</a>

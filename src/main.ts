@@ -75,7 +75,7 @@ async function buildFile(from: Path, args?: CyblogBuildArgs) {
         }
     }
 
-    info('Building file', from);
+    info('Building file', from, '...');
     const contents = await Deno.readTextFile(from);
 
     const final = await buildDoc(contents, {
@@ -85,7 +85,7 @@ async function buildFile(from: Path, args?: CyblogBuildArgs) {
     });
 
     await Deno.writeTextFile(destLoc, final);
-    info(`Built ${destLoc} successfully!`)
+    info(`Done.`);
 }
 
 async function buildDir(from: Path, args?: CyblogBuildArgs) {
@@ -143,7 +143,7 @@ async function buildDir(from: Path, args?: CyblogBuildArgs) {
             }
         }
     }
-    info(`Built ${dest} successfully!`);
+    info(`Built ${dest}!`);
 }
 
 function showHelp() {

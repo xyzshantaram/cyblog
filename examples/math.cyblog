@@ -9,7 +9,7 @@ Cyblog supports math markup. Simply put your expression in a code span / block.
 
 If you surround the expression with `$` on either side, it will be rendered inline.
 
-For example, `` `$\large\frac{4}{5}$` `` will result in `$\large\frac{4}{5}$`.
+For example, `` `$ \large\frac{4}{5} $` `` will result in `$ \large\frac{4}{5} $`.
 
 If you surround it with `\$$` on either side, it will be rendered in display mode.
 
