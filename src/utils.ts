@@ -1,4 +1,4 @@
-import { error } from './logging.ts';
+import { error, info } from './logging.ts';
 import { path } from './deps.ts';
 
 export type Path = string;
@@ -31,7 +31,7 @@ export interface CyblogBuildArgs {
 }
 
 export function scream(code: number, ...data: unknown[]) {
-    if (code == 0) console.log(...data);
+    if (code == 0) info(...data);
     else error(...data);
     Deno.exit(code);
 }

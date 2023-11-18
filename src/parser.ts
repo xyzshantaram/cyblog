@@ -194,7 +194,6 @@ async function parseCyblog(toParse: string, args: CyblogBuildArgs) {
             }
         }
         else if (HEADING_RE.test(line)) {
-            console.log(line);
             final.push(getTemplated(line));
             headerCount += 1;
             const content = line.replace(CLEAN_HEADING_RE, '$1');

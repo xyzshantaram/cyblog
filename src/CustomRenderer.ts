@@ -99,7 +99,6 @@ export class CustomRenderer extends marked.Renderer {
 
     link(href: string, title: string | null | undefined, text: string): string {
         const isAbsolute = new RegExp('^(?:[a-z]+:)?//', 'i');
-        console.log(href, isAbsolute.test(href));
         if (!isAbsolute.test(href)) {
             if (href.endsWith('README.md') && this.args.convertReadmes) {
                 href = href.replace(/(.*)README\.md$/, '$1index.html');
