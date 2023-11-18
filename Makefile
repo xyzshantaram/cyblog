@@ -14,7 +14,7 @@ run:
 	deno run $(PERMS) $(OPTIONS) $(ENTRYPOINT) $(DENO_RUN_OPTIONS)
 
 bundle:
-	deno bundle $(OPTIONS) $(ENTRYPOINT) $(DENO_NAME).js
+	deno run $(MAKE_OPTIONS) $(PERMS) build.ts
 
 copyconf:
 	deno run $(PERMS) $(OPTIONS) install/install.ts
