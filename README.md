@@ -6,6 +6,6 @@ This is the `next` branch of Cyblog, which is a reimagining of Cyblog as a CMS f
 
 Here there be dragons.
 
-## LICENSE
+## License
 
-Copyright &copy; 2023&ndash; Siddharth Singh, under the terms of the MIT License.
+Copyright &copy; 2023&ndash; Siddharth Singh, under the terms of the [MIT License](LICENSE).
