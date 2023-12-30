@@ -2,7 +2,7 @@
   "build": {
     "beforeBuildCommand": "node esbuild.build.mjs",
     "beforeDevCommand": "node esbuild.dev.mjs",
-    "devPath": "http://127.0.0.1:5500/public",
+    "devPath": "http://127.0.0.1:5500/public/",
     "distDir": "./public"
   },
   "package": {
@@ -11,7 +11,9 @@
   },
   "tauri": {
     "allowlist": {
-      "all": false
+      "dialog": {
+        "all": true
+      }
     },
     "bundle": {
       "active": true,
