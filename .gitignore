@@ -1,2 +1,4 @@
 *-dist/
 cyblog.js
+node_modules/
+*/target/**
