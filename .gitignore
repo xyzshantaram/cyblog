@@ -1,4 +1,6 @@
 *-dist/
 cyblog.js
 node_modules/
-*/target/**
+bundle.js
+src-tauri/target/
+src-tauri/target/**
