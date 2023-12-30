@@ -1,7 +1,9 @@
 {
   "dependencies": {
-    "campfire.js": "^3.0.1",
+    "@tauri-apps/api": "^1.5.3",
+    "campfire.js": "^4.0.0-alpha1",
     "cf-alert": "^0.4.1",
-    "esbuild": "^0.19.11"
+    "esbuild": "^0.19.11",
+    "tauri-plugin-store-api": "github:tauri-apps/tauri-plugin-store#v1"
   }
 }
