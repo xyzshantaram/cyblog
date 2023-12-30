@@ -1,5 +1,7 @@
 {
   "dependencies": {
+    "campfire.js": "^3.0.1",
+    "cf-alert": "^0.4.1",
     "esbuild": "^0.19.11"
   }
 }
