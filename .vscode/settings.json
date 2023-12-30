@@ -1,12 +1,6 @@
 {
-    "deno.enable": true,
-    "deno.lint": true,
-    "deno.unstable": true,
-    "deno.suggest.imports.hosts": {
-        "https://deno.land": true,
-        "https://esm.sh": false,
-        "https://www.npmjs.com": false,
-        "https://www.esm.sh": false,
-        "https://cdn.jsdelivr.net": false
-    }
+    "fiveServer.ignore": [
+        "src-tauri/target/**"
+    ],
+    "fiveServer.port": 5500
 }
