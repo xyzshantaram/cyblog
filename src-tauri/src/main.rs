@@ -7,13 +7,28 @@ use std::io::Write;
 use std::path::PathBuf;
 
 #[tauri::command]
-fn ensure_parent_dir(path: PathBuf) {
-    if path.is_dir() {
-        return;
-    }
+fn parent_dir(path: PathBuf) -> Result<std::path::PathBuf, ()> {
     if let Some(parent) = path.parent() {
-        std::fs::create_dir_all(parent)
-            .unwrap_or_else(|e| panic!("Error trying to create dir {}: {:#?}", path.display(), e));
+        return if parent.as_os_str() != "" {
+            Ok(parent.to_owned())
+        } else {
+            Err(())
+        };
+    }
+    Err(())
+}
+
+#[tauri::command]
+fn ensure_dir(path: PathBuf) -> Result<(), &'static str> {
+    let exists = path.exists();
+    if exists && path.is_dir() {
+        Ok(())
+    } else if exists && path.is_file() {
+        Err("Path exists and is a file. Bailing.")
+    } else {
+        std::fs::create_dir_all(path)
+            .map(|_| ())
+            .map_err(|_| "Could not create dir.")
     }
 }
 
@@ -65,7 +80,11 @@ fn atomic_write(target: String, contents: String) -> Result<(), String> {
 
 fn main() {
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![ensure_parent_dir, atomic_write])
+        .invoke_handler(tauri::generate_handler![
+            parent_dir,
+            ensure_dir,
+            atomic_write
+        ])
         .plugin(tauri_plugin_store::Builder::default().build())
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
