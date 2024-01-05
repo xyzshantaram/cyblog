@@ -16,6 +16,10 @@
       },
       "path": {
         "all": true
+      },
+      "all": true,
+      "fs": {
+        "scope": ["**"]
       }
     },
     "bundle": {
