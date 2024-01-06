@@ -77,13 +77,14 @@ const createWatcher = async (workspace: string, posts: ListStore<string>) => {
             posts.push(filename);
         }
         else if (e.type.remove) {
+            console.warn('TODO: warn that file was deleted instead of unceremoniously deleting it');
             let idx = posts.value.indexOf(filename);
             if (idx >= 0) {
                 posts.remove(idx);
             }
         }
         else if (e.type.modify?.kind === 'data') {
-            console.warn('todo: figure out what happens when data modified');
+            console.warn('TODO: figure out what happens when data modified');
         }
         else if (e.type.modify?.kind === 'rename') {
             if (e.type.modify.mode === 'from') {
@@ -134,7 +135,12 @@ const Workspace = async (config: CyblogConfig) => {
         if (store.value.length === 1) list.innerHTML = '';
         list.append(cf.nu('div.post-item', {
             c: cf.html`${e.value}`,
-            a: { 'data-idx': e.idx }
+            a: { 'data-idx': e.idx },
+            on: {
+                'click': () => {
+                    console.log(e.value);
+                }
+            }
         })[0]);
     })
 
