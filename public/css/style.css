@@ -78,16 +78,35 @@ button.icon {
 }
 
 .post-list {
-    width: 30ch;
+    padding: 1rem;
+    height: calc(100% - 2rem);
+    width: calc(30ch - 2rem);
+    background-color: #f6f6f6;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    color: gray;
+    gap: 0.6rem;
+}
+
+.post-list .post-item {
+    width: calc(100% - 1rem);
+    color: #303030;
     background-color: #fafafa;
+    border-radius: 0.4rem;
+    padding: 0.8rem;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.post-list .post-item:hover {
+    transform: scale(1.05);
+    color: black;
+    background-color: white;
 }
 
 .editor {
     width: calc(100% - 30ch);
-}
-
-.post-list,
-.editor {
     height: 100%;
 }
 
