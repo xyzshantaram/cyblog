@@ -25,10 +25,6 @@ export interface RawFsEventExpanded {
         create?: {
             kind: RawEventTypeKind
         }
-        rename?: {
-            kind: RawEventTypeKind
-            mode: "from" | "to" | "both"
-        }
         remove?: {
             kind: RawEventTypeKind
         }
