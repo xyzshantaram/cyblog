@@ -35,7 +35,8 @@
 }
 
 #alert-footer {
-    text-align: right;
+    display: flex;
+    align-items: flex-end;
 }
 
 #alert-header {

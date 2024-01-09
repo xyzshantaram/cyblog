@@ -15,6 +15,11 @@ Here there be dragons.
 - github token steps:
   - create token with repo, read:user perms
 
+## Development setup
+
+- npm install
+- cargo tauri dev
+
 ## License
 
 Copyright &copy; 2023&ndash; Siddharth Singh, under the terms of the
