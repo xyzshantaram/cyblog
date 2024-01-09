@@ -3,7 +3,7 @@
     "beforeBuildCommand": "node esbuild.build.mjs",
     "beforeDevCommand": "node esbuild.dev.mjs",
     "devPath": "http://127.0.0.1:5500/public/",
-    "distDir": "./public"
+    "distDir": "../public"
   },
   "package": {
     "productName": "cyblog",
