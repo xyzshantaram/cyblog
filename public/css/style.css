@@ -50,6 +50,7 @@ button {
     cursor: pointer;
     margin: 0;
     transition-duration: 0.2s;
+    font-family: inherit !important;
 }
 
 button:not(.icon):hover {
