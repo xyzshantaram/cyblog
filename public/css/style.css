@@ -107,7 +107,7 @@ button.icon {
     background-color: white;
 }
 
-.editor {
+.editor-root {
     width: calc(100% - 30ch);
     height: 100%;
 }
@@ -130,6 +130,11 @@ button.icon {
     font-weight: bold;
     overflow: hidden;
     background-color: white;
+    z-index: 10;
+}
+
+button.ink-button.ink-button:not(:disabled) {
+    background-color: #fafafa;
 }
 
 #landscape-warning p {
