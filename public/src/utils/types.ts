@@ -2,7 +2,7 @@ export interface CyblogConfig {
     pat: string | null;
     useGithub: boolean;
     workspace: string;
-    toNamespaced: (str: string) => string;
+    namespaced: (str: string) => string;
 }
 
 export type RawEventTypeKind = "metadata" | "file" | "data" | "kind" | "close";

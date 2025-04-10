@@ -1,11 +1,17 @@
 import { path, tauri } from "@tauri-apps/api";
-import { readDir } from "@tauri-apps/api/fs";
+import { readDir, readTextFile } from "@tauri-apps/api/fs";
 import { basename } from "@tauri-apps/api/path";
 import { ListStore } from "campfire.js";
 import { watchImmediate, RawEvent as RawFsEvent } from "tauri-plugin-fs-watch-api";
 import { icon } from "./utils/methods";
 import { RawFsEventExpanded, CyblogConfig } from "./utils/types";
 import cf from "campfire.js";
+import { confirm } from "cf-alert";
+import { InkEditor } from "ink-editor";
+
+interface PostEntry {
+    title: string;
+}
 
 const createWatcher = async (workspace: string, posts: ListStore<string>) => {
     const stopWatching = await watchImmediate(workspace, async (x: RawFsEvent) => {
@@ -19,9 +25,11 @@ const createWatcher = async (workspace: string, posts: ListStore<string>) => {
         }
         else if (e.type.remove) {
             console.warn('TODO: warn that file was deleted instead of unceremoniously deleting it');
-            let idx = posts.value.indexOf(filename);
-            if (idx >= 0) {
-                posts.remove(idx);
+            if (await confirm(`The file "${filename}" was deleted from disk. Do you want to remove it or restore it?`, { yes: 'Remove', no: 'Restore' })) {
+                let idx = posts.value.indexOf(filename);
+                if (idx >= 0) {
+                    posts.remove(idx);
+                }
             }
         }
         else if (e.type.modify?.kind === 'data') {
@@ -50,9 +58,9 @@ export const Workspace = async (config: CyblogConfig) => {
     const postsDir = await path.join(config.workspace, '_posts');
     await tauri.invoke<void>('ensure_dir', { path: postsDir });
 
-    const [elt, list] = cf.nu('div#workspace', {
+    const [elt, list, editorRoot] = cf.nu('div#workspace', {
         raw: true,
-        gimme: ['.post-list'],
+        gimme: ['.post-list', '.editor-root'],
         c: cf.html`
         <div class=workspace-header-bar>
             <div id=workspace-title>${await basename(config.workspace)}</div>
@@ -65,25 +73,36 @@ export const Workspace = async (config: CyblogConfig) => {
 
         <div class=work-area>
             <div class=post-list></div>
-            <div class=editor></div>
+            <div class="editor-root compact"></div>
         </div>
         `
     });
 
+    console.log(elt, list, editorRoot);
+
     const store = new cf.ListStore<string>([]);
     const [stopWatching] = await createWatcher(config.workspace, store);
+    const currentPost = new cf.Store<string>('');
 
-    store.on('push', (e) => {
+    const editor = new InkEditor(editorRoot, {
+        defaultContents: '',
+        placeholder: "A new post! How exciting.",
+        height: '100%',
+        width: undefined,
+    })
+
+    store.on('push', async (e) => {
         if (store.value.length === 1) list.innerHTML = '';
-        list.append(cf.nu('div.post-item', {
+        list.append(...cf.nu('div.post-item', {
             c: cf.html`${e.value}`,
             a: { 'data-idx': e.idx },
             on: {
-                'click': () => {
-                    console.log(e.value);
+                'click': async () => {
+                    const contents = await readTextFile(e.value);
+                    editor.setContents(contents);
                 }
             }
-        })[0]);
+        }));
     })
 
     store.on('remove', (e) => {
@@ -102,7 +121,8 @@ export const Workspace = async (config: CyblogConfig) => {
             posts.forEach(post => {
                 if (!post.name) return;
                 if (post.children) return;
-                store.push(post.name);
+                console.log(post);
+                store.push(post.path);
             })
         }
         else {
@@ -114,5 +134,5 @@ export const Workspace = async (config: CyblogConfig) => {
         stopWatching();
     }
 
-    return [elt, close];
+    return { elt, close, currentPost, editor };
 }

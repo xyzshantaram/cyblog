@@ -36,11 +36,11 @@ const init = async () => {
 
     await settings.save();
 
-    const [wrapper, close] = await Workspace({
-        pat, useGithub, workspace, toNamespaced: namespaced
+    const { elt, editor, close, currentPost } = await Workspace({
+        pat, useGithub, workspace, namespaced
     });
 
-    cf.select('#root')?.append(wrapper as HTMLElement);
+    cf.select('#root')?.append(elt as HTMLElement);
 
     initTabs();
 }
