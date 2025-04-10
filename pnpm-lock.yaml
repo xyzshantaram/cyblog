@@ -24,8 +24,8 @@ importers:
         specifier: ^2.2.0
         version: 2.2.0
       campfire.js:
-        specifier: 4.0.0-rc9
-        version: 4.0.0-rc9
+        specifier: 4.0.0-rc10
+        version: 4.0.0-rc10
       cf-alert:
         specifier: ^0.4.1
         version: 0.4.1
@@ -33,8 +33,8 @@ importers:
         specifier: ^4.29.2
         version: 4.29.2
       ink-editor:
-        specifier: ^2.0.1
-        version: 2.0.1
+        specifier: ^2.0.2
+        version: 2.0.2
     devDependencies:
       '@tauri-apps/cli':
         specifier: ^2
@@ -666,8 +666,8 @@ packages:
   campfire.js@2.4.1:
     resolution: {integrity: sha512-xP36HO6zyanz9y2tWCwpCj836p7XpZ6hR/zCy7EnBXDASZbC7CokPRV+D3P0ezdKX2+uNGPeFfm1ttgyzDcVeg==}
 
-  campfire.js@4.0.0-rc9:
-    resolution: {integrity: sha512-a7cMbcqOtBiH5tBBhtA6HAgrateq74GjPm3EOzudBDoqpN+y77IvLZvIIP3UX0K8Zo7RC/qtyUBOtVsvLqFAbw==}
+  campfire.js@4.0.0-rc10:
+    resolution: {integrity: sha512-xrZzf5HwOOMpwnk5+uLNXZXq/144mAYC363RCIllasfLv6QMDQl1FmjI4R4uDfos4rpnUZp9dDnG7IL3Rq17vg==}
 
   cf-alert@0.4.1:
     resolution: {integrity: sha512-BnXG+OGrNS0XCZCavyIzpYuCNYHgZ4zI+a24HOk6RQLzvCGX8DEs6kXA6MCOxirOVGAzsIw0I0uIfVJ1BtANpQ==}
@@ -699,8 +699,8 @@ packages:
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
     os: [darwin]
 
-  ink-editor@2.0.1:
-    resolution: {integrity: sha512-R0XjO1wpHZB5/q09FibqTYyxUTy8Hzf10wEWW6haOfPoZlItYvsE0w2YieeFS37ElJ7fhnAWt0u5zgdFMiEnKA==}
+  ink-editor@2.0.2:
+    resolution: {integrity: sha512-8Gqc4Boc9sb7OZsOKq7fZC8xD2+Xsq9aBVOel5YO5zIOx4EjgN9buf21Qu5n+tPS8oNWzc22lpDdM+jp7f84JQ==}
 
   lucide@0.311.0:
     resolution: {integrity: sha512-mv6B9vJNSVPLhfX9d3w89UeVD+NMDtaPpAzvlbdUsXaaDnXZ/ttrxLyCim2zWh/xc4lYuGgm1ANwV2Hqzq1sLA==}
@@ -1388,7 +1388,7 @@ snapshots:
 
   campfire.js@2.4.1: {}
 
-  campfire.js@4.0.0-rc9: {}
+  campfire.js@4.0.0-rc10: {}
 
   cf-alert@0.4.1:
     dependencies:
@@ -1462,15 +1462,17 @@ snapshots:
   fsevents@2.3.3:
     optional: true
 
-  ink-editor@2.0.1:
+  ink-editor@2.0.2:
     dependencies:
       '@codemirror/commands': 6.8.1
       '@codemirror/lang-markdown': 6.3.2
+      '@codemirror/language': 6.11.0
       '@codemirror/language-data': 6.5.1
       '@codemirror/state': 6.5.2
       '@codemirror/view': 6.36.5
+      '@lezer/highlight': 1.2.1
       '@lezer/markdown': 1.4.2
-      campfire.js: 4.0.0-rc9
+      campfire.js: 4.0.0-rc10
       cf-alert: 0.4.1
       esbuild: 0.17.19
       lucide: 0.311.0
