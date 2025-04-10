@@ -1,11 +1,11 @@
 import { r } from "campfire.js";
 import { message } from "cf-alert";
 import feather from "feather-icons";
-import { Store as TauriStore } from "tauri-plugin-store-api";
-import { dialog as tauriDialog } from "@tauri-apps/api";
+import { Store as TauriStore } from "@tauri-apps/plugin-store";
+import * as dialog from "@tauri-apps/plugin-dialog"
 
 export const getWorkspaceDir = async (settings: TauriStore): Promise<string> => {
-    const selection = await tauriDialog.open({
+    const selection = await dialog.open({
         directory: true,
         multiple: false,
         recursive: true,

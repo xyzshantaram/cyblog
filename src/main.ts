@@ -1,7 +1,7 @@
 import { initTabs } from "./utils/tabs";
 import cf from "campfire.js";
 import { message, confirm, input } from "cf-alert";
-import { Store as TauriStore } from "tauri-plugin-store-api";
+import { Store as TauriStore } from "@tauri-apps/plugin-store";
 import { getWorkspaceDir } from "./utils/methods";
 import { Workspace } from "./Workspace";
 

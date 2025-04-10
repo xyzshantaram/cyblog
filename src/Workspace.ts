@@ -1,8 +1,8 @@
-import { path, tauri } from "@tauri-apps/api";
-import { readDir, readTextFile } from "@tauri-apps/api/fs";
+import { path, core } from "@tauri-apps/api";
+import { readDir, readTextFile } from "@tauri-apps/plugin-fs";
 import { basename } from "@tauri-apps/api/path";
 import { ListStore } from "campfire.js";
-import { watchImmediate, RawEvent as RawFsEvent } from "tauri-plugin-fs-watch-api";
+import { watchImmediate, RawEvent as RawFsEvent } from "@tauri-apps/plugin-fs";
 import { icon } from "./utils/methods";
 import { RawFsEventExpanded, CyblogConfig } from "./utils/types";
 import cf from "campfire.js";
