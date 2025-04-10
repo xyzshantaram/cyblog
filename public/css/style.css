@@ -6,7 +6,7 @@ body,
     margin: 0;
     padding: 0;
     background: #e0e0e0;
-    font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-family: -apple-system, Inter, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
 #workspace {
