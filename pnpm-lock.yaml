@@ -24,8 +24,8 @@ importers:
         specifier: ^2.2.0
         version: 2.2.0
       campfire.js:
-        specifier: 4.0.0-rc10
-        version: 4.0.0-rc10
+        specifier: 4.0.0-rc13
+        version: 4.0.0-rc13
       cf-alert:
         specifier: ^0.4.1
         version: 0.4.1
@@ -668,6 +668,9 @@ packages:
 
   campfire.js@4.0.0-rc10:
     resolution: {integrity: sha512-xrZzf5HwOOMpwnk5+uLNXZXq/144mAYC363RCIllasfLv6QMDQl1FmjI4R4uDfos4rpnUZp9dDnG7IL3Rq17vg==}
+
+  campfire.js@4.0.0-rc13:
+    resolution: {integrity: sha512-9J8EPpiTuPanNYw9BTLvA+LyqTxPTP44QAmU8KjPxZRil8Nn8HgV//UcFSfmn+P1bl511iFNmydFvCzwpRh/zg==}
 
   cf-alert@0.4.1:
     resolution: {integrity: sha512-BnXG+OGrNS0XCZCavyIzpYuCNYHgZ4zI+a24HOk6RQLzvCGX8DEs6kXA6MCOxirOVGAzsIw0I0uIfVJ1BtANpQ==}
@@ -1389,6 +1392,8 @@ snapshots:
   campfire.js@2.4.1: {}
 
   campfire.js@4.0.0-rc10: {}
+
+  campfire.js@4.0.0-rc13: {}
 
   cf-alert@0.4.1:
     dependencies:
