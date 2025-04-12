@@ -155,6 +155,11 @@ button.ink-button.ink-button:not(:disabled) {
     background-color: #fafafa;
 }
 
+.post-list .post-item.selected {
+    border: 2px solid black;
+    font-weight: bold;
+}
+
 #landscape-warning p {
     margin: 2rem;
 }

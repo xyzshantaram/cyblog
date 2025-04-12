@@ -1,10 +1,13 @@
 import { path } from "@tauri-apps/api";
 import { readDir, readTextFile } from "@tauri-apps/plugin-fs";
+import { enumerate, ListStore } from "campfire.js";
 import { basename, ensureDir, icon } from "./utils/methods.ts";
+import { CyblogConfig } from "./utils/types.ts";
 import cf, { Store, callbackify } from "campfire.js";
-import { confirm, fatal } from "cf-alert";
+import { fatal } from "cf-alert";
 import { InkEditor } from "ink-editor";
 import { createWatcher } from "./utils/watcher.ts";
+
 export interface PostItem {
     path: string,
     name: string,
@@ -16,19 +19,20 @@ const Workspace = ({ posts, path: wkPath, currentPost }: {
     currentPost: Store<string>,
     path: string
 }) => {
-    const post = (p: PostItem, i: number) =>
-        cf.html`<div class=post-item data-idx="${i}" data-path="${p.path}">${basename(p.name)}</div>`
+    const post = (p: PostItem, i: number, selected = false) =>
+        cf.html`<div class="post-item${selected ? " selected" : ""}" data-idx="${i.toString()}" data-path="${p.path}">${basename(p.name)}</div>`
 
     const list = cf.nu('.post-list')
-        .deps({ posts })
-        .html(({ posts }) => posts.length ? posts.map(post).join('\n') : 'No posts found.'
+        .deps({ posts, currentPost })
+        .html(({ posts }) => posts.length ? posts.map((item, i) =>
+            post(item, i, currentPost.value === item.path)
+        ).join('\n') : 'No posts found.'
         ).on('click', async (e) => {
             const target = e.target as HTMLElement;
-            if (!target?.classList.contains('post-item')) return;
-            const attr = cf.unescape(target.getAttribute('data-name') || '');
+            if (!target?.closest('.post-item')) return;
+            const attr = cf.unescape(target.getAttribute('data-path') || '');
             if (!attr) return;
-            const p = await path.join(wkPath, attr);
-            currentPost.update(p);
+            currentPost.update(attr);
         })
         .ref();
 
@@ -77,7 +81,7 @@ const createEditor = async (posts: ListStore<PostItem>, path: string) => {
         }
     }
 
-    const root = cf.nu('.editor-root').ref();
+    const root = cf.nu('.editor-root.compact').ref();
     const editor = new InkEditor(root, {
         defaultContents: '',
         placeholder: 'A new post! How exciting.',
@@ -118,27 +122,29 @@ const init = async (config: CyblogConfig) => {
     ));
 
     const handleCurrentPostChange = callbackify(async ({ value }: { value: string }) => {
-        for (const [post, i] of posts.value.map((item, i) => [item, i] as const)) {
+        console.log(`Current post set to: ${value}`);
+
+        for (const [i, post] of enumerate(posts.value)) {
             if (post.path !== value) {
                 if (post.editor) post.editor.parent.style.display = 'none';
-                return;
+                continue;
             }
-            if (post.editor) {
-                post.editor.parent.style.display = 'unset';
-            }
-            else {
+
+            if (!post.editor) {
                 const [elt, editor] = await createEditor(posts, value);
                 cf.insert(elt, { into: wrapper });
                 posts.set(i, { ...post, editor });
             }
+            else {
+                post.editor.parent.style.display = 'flex';
+            }
         }
     });
 
-    currentPost.on('update', async (evt) => {
-        handleCurrentPostChange((err) => {
-            if (err) fatal(`Error: could not set up editor for file ${evt.value}: ${err}`)
-        }, evt);
-    })
+    currentPost.on('update', (evt) => handleCurrentPostChange((err) => {
+        if (err) fatal(`Error: could not set up editor for file ${evt.value}: ${err}`);
+        console.log(evt);
+    }, evt))
 
     const close = () => {
         stopWatching();

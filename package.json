@@ -16,7 +16,7 @@
     "campfire.js": "4.0.0-rc13",
     "cf-alert": "^0.4.1",
     "feather-icons": "^4.29.2",
-    "ink-editor": "^2.0.2"
+    "ink-editor": "^2.0.5"
   },
   "devDependencies": {
     "@tauri-apps/cli": "^2",
