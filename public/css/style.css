@@ -21,10 +21,14 @@ body,
     gap: 0.5rem;
     background-color: #202020;
     color: white;
-    height: 5ch;
+    height: 3ch;
 }
 
-.workspace-header-bar>.icon {
+.workspace-header-bar button {
+    color: inherit;
+}
+
+.workspace-header-bar .icon {
     color: white;
 }
 
@@ -34,7 +38,6 @@ body,
 
 #workspace-title {
     font-weight: bold;
-    padding: 0.4rem;
 }
 
 button {
@@ -46,11 +49,15 @@ button {
     background-color: #fafafa;
     border: none;
     color: black;
-    padding: 0.6rem;
+    padding: 0.4rem;
     cursor: pointer;
-    margin: 0;
     transition-duration: 0.2s;
     font-family: inherit !important;
+}
+
+span.icon {
+    display: flex;
+    align-items: center;
 }
 
 button:not(.icon):hover {
@@ -65,12 +72,10 @@ button.icon {
 
 #new-post {
     background-color: #007cdf;
-    color: white;
 }
 
 #publish-site {
     background-color: #1d9200;
-    color: white;
 }
 
 .work-area {
@@ -112,8 +117,19 @@ button.icon {
     height: 100%;
 }
 
-button.icon {
+button.icon-btn {
     background-color: transparent;
+    padding: 0;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.icon-sm>svg {
+    width: 1rem;
+}
+
+.icon {
+    color: inherit;
 }
 
 #landscape-warning {
