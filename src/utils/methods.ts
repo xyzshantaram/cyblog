@@ -3,6 +3,7 @@ import { message } from "cf-alert";
 import feather from "feather-icons";
 import { Store as TauriStore } from "@tauri-apps/plugin-store";
 import * as dialog from "@tauri-apps/plugin-dialog"
+import { invoke } from "@tauri-apps/api/core";
 
 export const getWorkspaceDir = async (settings: TauriStore): Promise<string> => {
     const selection = await dialog.open({
@@ -22,7 +23,22 @@ export const getWorkspaceDir = async (settings: TauriStore): Promise<string> => 
     }
 }
 
+export const ensureDir = (path: string) => {
+    return invoke<void>('ensure_dir', { path });
+}
 
-export const icon = (name: feather.FeatherIconNames) => {
-    return r(feather.icons[name].toSvg());
+export const getParentDir = (path: string) => {
+    return invoke<string>('parent_dir', { path });
+}
+
+export const writeAtomic = (path: string, contents: string) => {
+    return invoke<void>('atomic_write', { target: path, contents });
+}
+
+
+
+export const icon = (name: feather.FeatherIconNames, className?: string) => {
+    return r(
+        `<span class="icon${' ' + className || ""}">${feather.icons[name].toSvg()}</span>`
+    );
 }
