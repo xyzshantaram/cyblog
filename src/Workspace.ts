@@ -152,7 +152,8 @@ const createEditor = async (posts: ListStore<PostItem>, path: string) => {
         placeholder: 'A new post! How exciting.',
         height: "100%",
         fontFamily: "Sono",
-        autosaveDelayMs: 5 * 60 * 1000
+        autosaveDelayMs: 5 * 60 * 1000,
+        width: '100%'
     })
 
     editor.setContents(contents);

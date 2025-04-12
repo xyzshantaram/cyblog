@@ -112,9 +112,11 @@ button.icon {
     background-color: white;
 }
 
-.editor-root {
+.editors {
     width: calc(100% - 30ch);
     height: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 button.icon-btn {
