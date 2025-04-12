@@ -35,10 +35,12 @@ export const writeAtomic = (path: string, contents: string) => {
     return invoke<void>('atomic_write', { target: path, contents });
 }
 
-
-
 export const icon = (name: feather.FeatherIconNames, className?: string) => {
     return r(
         `<span class="icon${' ' + className || ""}">${feather.icons[name].toSvg()}</span>`
     );
+}
+
+export const basename = (path: string) => {
+    return path.split(/[\\/]/).pop() || '';
 }
