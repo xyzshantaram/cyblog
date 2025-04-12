@@ -1,5 +1,5 @@
 export interface CyblogConfig {
-    pat: string | null;
+    pat?: string;
     useGithub: boolean;
     workspace: string;
     namespaced: (str: string) => string;
