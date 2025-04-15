@@ -2,11 +2,11 @@
 
 Cybernetically enhanced static site generation.
 
+## Here there be dragons
+
 This is the `next` branch of Cyblog, which is a reimagining of Cyblog as a CMS
 for building static sites locally and hosting them anywhere. The CLI will be
 retained as far as possible but there will be breaking changes as necessary.
-
-Here there be dragons.
 
 ## Guide
 
