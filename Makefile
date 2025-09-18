@@ -1,5 +1,5 @@
 MAKE_OPTIONS = --unstable
-PERMS = --allow-env --allow-read --allow-write --allow-net deno.land:443 # Deno permissions
+PERMS = --allow-env --allow-read --allow-write --allow-net=deno.land:443 # Deno permissions
 ENTRYPOINT = src/main.ts
 DENO_NAME ?= cyblog
 # install with DENO_NAME=foo to install under a different name
