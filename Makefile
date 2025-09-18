@@ -1,9 +1,9 @@
 MAKE_OPTIONS = --unstable
-PERMS = --allow-env --allow-read --allow-write # Deno permissions
+PERMS = --allow-env --allow-read --allow-write --allow-net deno.land:443 # Deno permissions
 ENTRYPOINT = src/main.ts
 DENO_NAME ?= cyblog
 # install with DENO_NAME=foo to install under a different name
-INSTALL_OPTIONS = -f
+INSTALL_OPTIONS = -f --global
 
 # set DENO_MAKE_EXTRA_OPTIONS in environment to supply extra build options.
 OPTIONS = $(MAKE_OPTIONS) $(DENO_MAKE_EXTRA_OPTIONS)
